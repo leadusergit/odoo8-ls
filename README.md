@@ -38,3 +38,5 @@ To fetch odoo merge pull requests refs use this command:
     $ ./odoo.py setup_git_review
 
 # odoo8-ls
+
+# mod 1
