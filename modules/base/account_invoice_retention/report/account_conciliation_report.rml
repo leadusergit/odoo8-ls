@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<document filename="Conciliación bancaria.pdf">
+  <template pageSize="(21.0cm,29.7cm)" title="Test" author="Israel Paredes" allowSplitting="20">
+    <pageTemplate id="first">
+      <pageGraphics>
+        <image x="3.0cm" y="26.8cm" height="2.5cm">[[ company.logo or removeParentNode('image') ]]</image>
+      	<setFont name="Helvetica-Bold" size="10"/>
+      	<drawCentredString x="11.5cm" y="26.8cm">[[ company.name ]]</drawCentredString>
+      	<drawCentredString x="11.5cm" y="28.6cm">[[ company.partner_id.street ]] y [[ company.partner_id.street2 ]] </drawCentredString>
+      	<drawCentredString x="11.5cm" y="28.0cm">[[ company.partner_id.phone ]]  Quito - Ecuador</drawCentredString>
+      	<drawCentredString x="11.5cm" y="27.4cm">[[ company.partner_id.email ]]</drawCentredString>
+      	<setFont name="Helvetica-Bold" size="14"/>
+      	<drawString x="2.0cm" y="25.6cm">Diario: [[ o.journal_id.name ]]</drawString>
+      	<setFont name="Helvetica" size="10"/>
+      	<drawString x="2.0cm" y="25.1cm">Periodo: [[ o.period_id.name ]]</drawString>
+      	<drawString x="2.0cm" y="24.6cm">Fecha de registro: [[ get_date(o.date_to) ]]</drawString>
+      	<!--drawString x="2.0cm" y="24.1cm">Fecha: [[ get_date(o.date) ]]</drawString>
+      	<drawString x="2.0cm" y="23.6cm">[[ o.partner_id and o.partner_id.name or removeParentNode('drawString') ]]</drawString-->
+      	<setFont name="Helvetica" size="8.5"/>
+      	<!--rect x="14.0cm" y="23.7cm" width="5.0cm" height="2.5cm" fill="no" stroke="yes" round="0.5cm"/>
+      	<drawCentredString x="16.5cm" y="25.6cm">Conciliación Bancaria No.</drawCentredString>
+      	<lines>14.0cm 25.2cm 19.0cm 25.2cm</lines>
+      	<setFont name="Helvetica-Bold" size="16"/>
+      	<drawCentredString x="16.5cm" y="24.35cm">[[ o.name ]]</drawCentredString-->
+		
+      	<!--lines>4.2cm 2.0cm 8.4cm 2.0cm</lines>
+      	<lines>12.6cm 2.0cm 16.8cm 2.0cm</lines>
+      	<setFont name="Helvetica-Bold" size="8"/>
+      	<drawCentredString x="6.3cm" y="1.65cm">Elaborado por:</drawCentredString>
+      	<drawCentredString x="6.3cm" y="1.32cm">[[ user() ]]</drawCentredString>
+      	<drawCentredString x="14.7cm" y="1.65cm">Revisado por:</drawCentredString-->
+      	
+      	<setFont name="Helvetica" size="8"/>
+		<!--drawRightString x="19.5cm" y="1cm">Pag. <pageNumber/> / <pageCount/></drawRightString-->
+      	
+	  </pageGraphics>
+	  <frame id="first" x1="2.0cm" y1="5.0cm" width="17.75cm" height="18.5cm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="tbl_header">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,0" stop="-1,-1"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="tbl_amout">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P2" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="P5" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="LEFT"/>
+  </stylesheet>
+  <story>
+	[[repeatIn(objects,'o')]]
+    <blockTable colWidths="15.0cm,3.0cm" style="tbl_amout">
+      <tr>
+        <td><para style="P5">SALDO EN LIBROS</para></td>
+        <td><para style="P5" alignment="RIGHT">[[ '%.2f' %  o.balance_journal]]</para></td>
+      </tr>
+    </blockTable>
+	
+	<para spaceAfter="0.2cm"></para>
+    <blockTable colWidths="15.0cm,3.0cm" style="tbl_amout">
+      <tr>
+        <td><para style="P5" leftIndent="0.5cm">(-) DEPOSITOS EN TRANSITO</para></td>
+        <td><para style="P5" alignment="RIGHT">[[o.deposit_transit or '0.00']]</para></td>
+      </tr>
+    </blockTable>
+    <para spaceAfter="0.05cm"></para>
+    
+    <blockTable colWidths="1.0cm,3.0cm,3.0cm,3.0cm,3.0cm,3.0cm,2.0cm" style="tbl_header">
+      <tr>
+        <td><para style="P2" alignment="CENTER"> </para></td>
+        <td><para style="P2" alignment="CENTER"># Movimiento</para></td>
+        <td><para style="P2" alignment="CENTER">Descripción</para></td>
+        <td><para style="P2" alignment="CENTER">Beneficiario</para></td>
+        <td><para style="P2" alignment="CENTER"># Documento</para></td>
+        <td><para style="P2" alignment="CENTER">Fecha</para></td>
+        <td><para style="P2" alignment="CENTER">Valor</para></td>
+      </tr>
+      <tr>
+      	[[repeatIn([aux for aux in o.conciliation_ids if aux.conciliado==False and aux.name=='IN'],'lineas')]]
+      	<td><para style="P2"> </para></td>
+		<td><para style="P2">[[lineas.aml_id.move_id.id]]</para></td>
+		<td><para style="P2">[[lineas.aml_id.move_id.no_comp]]</para></td>
+		<td><para style="P2">[[lineas.beneficiario]]</para></td>
+		<td><para style="P2">[[lineas.ref]]</para></td>
+		<td><para style="P2">[[lineas.date]]</para></td>
+		<td><para style="P2" alignment="RIGHT">[[ '%.2f' % lineas.debit or '0.00']]</para></td>
+      </tr>
+    </blockTable>
+	
+	<para spaceAfter="0.2cm"></para>
+    <blockTable colWidths="15.0cm,3.0cm" style="tbl_amout">
+      <tr>
+        <td><para style="P5" leftIndent="0.5cm">(+) CHEQUES GIRADOS Y NO COBRADOS</para></td>
+        <td><para style="P5" alignment="RIGHT">[[o.uncashed_checks]]</para></td>
+      </tr>
+    </blockTable>
+    <para spaceAfter="0.05cm"></para>
+    <blockTable colWidths="1.0cm,3.0cm,3.0cm,3.0cm,3.0cm,3.0cm,2.0cm" style="tbl_header">
+      <tr>
+        <td><para style="P2" alignment="CENTER"> </para></td>
+        <td><para style="P2" alignment="CENTER">#Cheque</para></td>
+        <td><para style="P2" alignment="CENTER"># Movimiento</para></td>
+        <td><para style="P2" alignment="CENTER">Beneficiario</para></td>
+        <td><para style="P2" alignment="CENTER"># Documento</para></td>
+        <td><para style="P2" alignment="CENTER">Fecha</para></td>
+        <td><para style="P2" alignment="CENTER">Valor</para></td>
+      </tr>
+      <tr>
+      	[[repeatIn([aux for aux in o.conciliation_ids if aux.conciliado==False and aux.name=='EG'],'lineas')]]
+      	<td><para style="P2"> </para></td>
+      	<td><para style="P2">[[lineas.nro or '' ]]</para></td>
+	    <td><para style="P2">[[lineas.aml_id.move_id.no_comp]]</para></td>
+	    <td><para style="P2">[[lineas.beneficiario]]</para></td>
+	    <td><para style="P2">[[lineas.ref]]</para></td>
+	    <td><para style="P2">[[lineas.date]]</para></td>
+	    <td><para style="P2" alignment="RIGHT">[[ '%.2f' % lineas.credit or '0.00' ]]</para></td>
+      </tr>
+    </blockTable>
+	
+	<para spaceAfter="0.2cm"></para>
+    <blockTable colWidths="15.0cm, 3.0cm" style="tbl_amout">
+	    <tr>
+	      <td><para style="P5">TOTAL SALDO BANCOS</para></td>
+	      <td><para style="P5" alignment="RIGHT">[['%.2f' % (o.balance_journal - o.deposit_transit + o.uncashed_checks)]]</para></td>
+	    </tr>
+	</blockTable>
+	<blockTable colWidths="2.0cm,6.0cm,2.0cm,6.0cm,2.0cm" style="tbl_amout">
+	     <tr>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	    </tr>
+	     <tr>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	    </tr>
+	     <tr>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	    </tr>
+	    <tr>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5" alignment="CENTER">Elaborado por:</para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	      <td><para style="P5" alignment="CENTER">Revisado por:</para></td>
+	      <td><para style="P5"><font color="white"> </font></para></td>
+	    </tr>
+	</blockTable>	
+  </story>
+</document>

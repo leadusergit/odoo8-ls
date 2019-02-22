@@ -1,0 +1,3 @@
+import hr_decimos_payments_wizard
+import wizard_provision_pay
+import wizard_generated_decimos

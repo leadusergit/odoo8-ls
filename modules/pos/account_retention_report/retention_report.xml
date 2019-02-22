@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report auto="False" id="retention" model="account.invoice.retention"
+			name="retention_report" rml="account_retention_report/report/print_retention.rml"
+			usage="default" string="Comprobante Retencion" header="False" report_type="pdf" />
+    </data>
+</openerp>

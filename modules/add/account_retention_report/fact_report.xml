@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<openerp>
+    <data>     
+       <!-- <report 
+            id="invoice_reporte"
+            model="account.invoice"
+            string="Factura Teocoa"
+            report_type="qweb-pdf"
+            name="account_retention_report.facturatc_reporte"
+            file="account_retention_report.facturatc_reporte"
+        />  
+         <report 
+            id="retention_reporte"
+            model="account.invoice.retention"
+            string="Comprobante Retencion Teocoa"
+            report_type="qweb-pdf"
+            name="account_retention_report.retentiontc_reporte"
+            file="account_retention_report.retentiontc_reporte"
+        />   -->
+          <report 
+            id="voucher_reporte"
+            model="account.voucher"
+            string="Comprobante Ingreso/Egreso"
+            report_type="qweb-pdf"
+            name="account_retention_report.vouchertc_reporte"
+            file="account_retention_report.vouchertc_reporte"
+        />  
+        
+          <report 
+            id="account_move_reporte"
+            model="account.move"
+            string="Comprobante de Diario"
+            report_type="qweb-pdf"
+            name="account_retention_report.move_reporte"
+            file="account_retention_report.move_reporte"
+        /> 
+
+    </data>
+</openerp>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<record id="view_hr_contract_estado" model="ir.ui.view">
+			<field name="name">hr.contract.estado</field>
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+			<xpath expr="//field[@name='type_id']" position="after">				
+				<field name="state"/>
+			</xpath>
+			</field>
+		</record>
+		
+		
+		
+		<record id="view_hr_contract_state" model="ir.ui.view">
+			<field name="name">hr.contract.state</field>
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+			<field name="arch" type="xml">
+			<tree>			
+				<field name="state"/>
+			</tree>
+			</field>
+		</record>
+		
+		
+		<record id="hr_contract_state_search_view" model="ir.ui.view">
+            <field name="name">hr.contract.search</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>            
+            <field name="arch" type="xml">
+                <search>
+                    <group expand="0" string="Group By">
+                        <filter string="Estado" domain="[]"
+                            name="estado_id" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+		
+		
+	</data>
+</openerp>

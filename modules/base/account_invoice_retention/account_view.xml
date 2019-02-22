@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <!-- 
+	  	********************************************************************************************
+		herencia banco y aumento campo
+		********************************************************************************************
+	-->
+
+	<record id="view_account_deposit_form_modbs2" model="ir.ui.view">                                                                 
+	    <field name="name">view.account.deposit.form.modbs2</field>               
+	    <field name="model">res.partner</field>
+	    <field name="inherit_id" ref="base.view_partner_form"/>
+	    <field name="arch" type="xml">
+	       <field name= "acc_number" position="after" >
+	     	    <field name="acc_type" required="1"/>
+	     </field>
+	    </field>   
+  	</record>
+  
+	<!-- 
+		********************************************************************************************
+		herencia extracto bancario y aumento campos para registro del deposito bancario
+		********************************************************************************************
+	-->
+	<!--<record id="action_bank_statement_supplier_form" model="ir.actions.act_window.view">
+      <field eval="2" name="sequence"/>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="account.view_bank_statement_form"/>
+      <field name="act_window_id" ref="account.action_bank_statement_tree2"/>
+    </record>-->
+
+	<record id="view_account_deposit_form_modbs2" model="ir.ui.view">                                                                 
+	    <field name="name">view.account.deposit.form.modbs2</field>               
+	    <field name="model">account.bank.statement</field>
+	    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+	    <field name="arch" type="xml">
+	       <field name= "period_id" position="after" >
+	     	    <group col="6" colspan="2">
+	     	    	<field name="has_deposit"/>
+	     	    	<group col="2" colspan="2">
+	                   <field name="tipo_comprobante" required="1" />
+	                </group>
+	     	    </group>
+	     	    
+	     </field>
+	     <xpath expr="//field[@name='line_ids']/tree/field[@name='ref']" position="attributes">
+	     	<attribute name="string">Factura</attribute>
+	     </xpath>
+	    </field>   
+  	</record>
+  	
+  	<!-- Aumento El numero de comprante de ingreso de caja -->
+  	
+  	<record id="view_account_voucher_sequence" model="ir.ui.view">                                                                 
+	    <field name="name">view.account.voucher.sequence</field>               
+	    <field name="model">account.bank.statement</field>
+	    <field name="inherit_id" ref="account.view_bank_statement_tree"/>
+	    <field name="arch" type="xml">
+	       <field name= "name" position="after" >
+	           <field name="no_comp_rel" select='1'/>
+	           <!--Use este campo para actualizar la sequencia con el numero del extracto bancario esto es temporal una vez actulizado ya no es necesario 
+	           <field name="get_sequence" invisible='1'/> -->
+	           <field name="has_deposit" invisible='1' select="2" string="Registro Deposito"/>
+	     </field>
+	    </field>   
+  	</record>
+  
+ 	<record id="view_account_deposit_form_modbs" model="ir.ui.view">                                                                            
+	    <field name="name">view.account.deposit.form.modbs</field>               
+	    <field name="model">account.bank.statement</field>
+	    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+	    <field name="arch" type="xml">
+	    <notebook position="inside" >
+	        <page string="Registro Deposito" attrs="{'invisible':[('has_deposit','=',0)]}">
+	       		<field name="num_deposit" attrs="{'required':[('has_deposit','=',1)]}"/>	 
+		  		<field name="date_deposit" attrs="{'required':[('has_deposit','=',1)]}"/>
+		  		<newline/>
+		  		<field name="amount_deposit" attrs="{'required':[('has_deposit','=',1)]}"/>	 
+		  		<field name="acc_deposit_id" attrs="{'required':[('has_deposit','=',1)]}"/>
+		  		<newline/>
+		  		<field name="payments" attrs="{'required':[('has_deposit','=',1)]}"/>
+		  		<!--field name="sequence" readonly="1"/-->
+		  	    <group attrs="{'invisible':[('payments','=','trans')]}" colspan="4">
+		  		  <separator string="Cheque del Cliente" colspan ="4"/>
+		  		  <field name="bank_deposits" attrs="{'required':[('has_deposit','=',1)]}" nolabel="1" select="2" colspan ="4">
+  					<form string="Cheque del Cliente">
+                           <field name="bank" select="2"/>
+                           <field name="account" select="1"/>
+                           <field name="number" select="1"/>
+                           <field name="partner_id"/>
+                           <field name="amount"/>
+                           <field name="date_income" string="Fecha de Transferencia"/>
+                       </form>
+                       <tree editable="bottom" string="Cheque Detalles">
+                           <field name="bank" />
+                           <field name="account"/>
+                           <field name="number"/>
+                           <field name="partner_id"/>
+                           <field name= "amount"/>
+                           <field name="date_income" string="Fecha de Cheque"/>
+                       </tree>
+	              </field>
+	            </group>
+	            <newline/>
+                <group attrs="{'invisible':[('payments','=','depo')]}" colspan="4">
+		  		  <separator string="Transferencia del Cliente" colspan ="4"/>
+		  		  <field name="bank_transfers_ids" attrs="{'required':[('has_deposit','=',1)]}" nolabel="1" select="2" colspan ="4">
+  					<form string="Transferencia del Cliente">
+                           <field name="bank" select="2"/>
+                           <field name="account" select="1"/>
+                           <field name="number" select="1"/>
+                           <field name="partner_id"/>
+                           <field name="amount"/>
+                           <field name="date_income" string="Fecha de Transferencia"/>
+                       </form>
+                       <tree editable="bottom" string="Transferencias">
+                           <field name="bank" />
+                           <field name="account"/>
+                           <field name="partner_id"/>
+                           <field name= "amount"/>
+                           <field name="date_income" string="Fecha de Transferencia"/>
+                       </tree>
+	              </field>
+              </group>
+		    </page>
+	    </notebook>
+    	</field>   
+  	</record>
+  
+  
+  <record id="view_account_ind_codigo" model="ir.ui.view">                                                                            
+    <field name="name">view.account.ind.codigo</field>               
+    <field name="model">account.bank.statement</field>
+    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+    <field name="arch" type="xml">
+    <notebook position="inside" >
+        <page string="Registro Deposito" attrs="{'invisible':[('has_deposit','=',0)]}">
+       		<field name="num_deposit" attrs="{'required':[('has_deposit','=',1)]}"/>	 
+	  		<field name="date_deposit" attrs="{'required':[('has_deposit','=',1)]}"/>
+	  		<field name="amount_deposit" attrs="{'required':[('has_deposit','=',1)]}"/>	 
+	  		<field name="acc_deposit_id" attrs="{'required':[('has_deposit','=',1)]}"/>
+	    </page>
+      </notebook>
+    </field>   
+  </record>
+  
+  <record id="view_partner_bank_tree_inherit" model="ir.ui.view">
+     <field name="name">res.partner.bank.tree</field>
+     <field name="model">res.partner.bank</field>
+     <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+     <field name="arch" type="xml">
+       <field name= "acc_number" position="before" >
+           <field name="bank" select = "1"/>
+       </field>
+	 </field>   
+  </record>
+
+  <record id="view_partner_bank_form_inherit" model="ir.ui.view">
+     <field name="name">res.partner.bank.form</field>
+     <field name="model">res.partner.bank</field>
+     <field name="inherit_id" ref="base.view_partner_bank_form"/>
+     <field name="arch" type="xml">
+       <field name="acc_number" position="after">
+           <field name="acc_type"/>
+       </field>
+     </field>   
+  </record>
+  
+  <!--
+    Aumentar el codigo del casillero del formulario 101 en las cuentas contables y de la cuenta resultado
+  -->
+  
+  <record id="view_account_formu_101" model="ir.ui.view">
+       <field name="name">account.formu.101</field>
+       <field name="model">account.account</field>
+       <field name="inherit_id" ref="account.view_account_form"/>
+       <field name="arch" type="xml">
+	       <xpath expr="/form/group/group/field[@name='user_type']" position="after">
+			       <field name="casillero" />
+		    	   <field name="cuenta_resultado" />
+	       </xpath>
+	   </field>   
+  	 </record>
+  
+  
+  <!-- Agregar un on_change para validar que no se repita el codigo de una cuenta analitica -->
+   <record id="view_account_analytic_code" model="ir.ui.view">                                                                 
+	    <field name="name">view.account.analytic.code.form</field>               
+	    <field name="model">account.analytic.account</field>
+	    <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+	    <field name="arch" type="xml">
+	       <field name= "code" position="replace" >
+	     	    <field name="code" on_change="onchange_code(code)" required="1"/>
+	     </field>
+	    </field>   
+  	</record>
+  	
+ <!-- AGREGAR UN CAMPO OTRA INFORMACION EN LA VISTA FORM DE ASIENTOS CONTABLES -->
+  	<record model="ir.ui.view" id="account_bank_statement_concepto">
+        	<field name="name">account.move.form1</field>
+        	<field name="model">account.move</field>
+        	<field name="type">form</field>
+        	<field name="inherit_id" ref="account.view_move_form"/>
+        	<field name="arch" type="xml">
+        		<notebook position="inside">
+        			<page string="Otra Informacion">
+        				<field name="other_info"/>
+        			</page>
+        		</notebook>
+        	</field>
+    </record>
+    
+    <!-- Aumentar el campo concepto para los documentos del extracto bancario -->
+	<record model="ir.ui.view" id="account_bank_statement_concepto">
+        	<field name="name">account.bank.statement.form1</field>
+        	<field name="model">account.bank.statement</field>
+        	<field name="type">form</field>
+        	<field name="inherit_id" ref="account.view_bank_statement_form"/>
+        	<field name="arch" type="xml">
+        		<notebook position="inside">
+        			<page string="Informacion Adicional">
+        			    <field name="no_comp_rel"/>			  
+        				<field name="concepto" colspan="4" />
+        			</page>
+        		</notebook>
+        	</field>
+    </record>
+    
+</data>
+</openerp>

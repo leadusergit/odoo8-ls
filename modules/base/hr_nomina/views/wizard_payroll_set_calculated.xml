@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<!--
+	=========================================================================================================
+	CAMBIAR A CALCULADOS LOS ROLES DE PAGOS
+	=========================================================================================================
+ -->
+	 <record id="wizard_payroll_set_validate_view" model="ir.ui.view">
+      	<field name="name">wizard.payroll.set.calculated</field>
+      	<field name="model">wizard.payroll.set.calculated</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Romper el asiento contable de el/los Rol(es)">
+				<!-- Form 1 -->
+				<field name="state" invisible="1"/>
+				<div attrs="{'invisible':[('state','!=','draft')]}">
+					<separator colspan="4" string="Romper el asiento contable de el/los Rol(es) de Pago"/>
+					<label align="0.0" string="El sistema cambiara el/los rol(es) que esten en estado:validado, eliminando los asientos contables generados al validarlos." colspan="4"/>
+					<separator colspan="4" string="Observaciones:"/>
+					<label align="0.0" string="Afectará a los roles que el usuario seleccione de la lista, por defecto el sistema elige todos los que estan en la lista." colspan="4"/>
+					<separator colspan="4" string="Este proceso puede tardar varios minutos esto dependera del número de roles que selecciono!"/>
+				</div>
+				<div attrs="{'invisible':[('state','=','draft')]}">
+					<h3><label for="observation"/></h3>
+					<field name="observation"/>
+				</div>
+				<footer>
+					<button name="action_set_calculated" string="Cambiar a Calculado Rol/Roles"
+						type="object" class="oe_highlight" states="draft"/>
+					ó
+					<button special="cancel" string="Cerrar" class="oe_link"/>
+				</footer>
+			</form>
+		</field>
+	 </record>
+		
+	<record id="action_wizard_payroll_set_calculated" model="ir.actions.act_window">
+		<field name="name">Romper contabiliación de Rol/Roles</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.payroll.set.calculated</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payroll_set_validate_view"/>
+		<field name="target">new</field>
+	</record>
+	
+	<record model="ir.values" id="payroll_set_calculated_values">
+            <field name="model_id" ref="hr_nomina.model_hr_payroll" />
+            <field name="object" eval="1" />
+            <field name="name">Cambiar a Calculado</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_payroll_set_calculated'))" />
+            <field name="key">action</field>
+            <field name="model">hr.payroll</field>
+    </record>
+
+</data>
+</openerp>

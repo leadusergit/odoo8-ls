@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    <!-- 
+    ====================
+    Nivel Uno  
+    ====================
+    -->
+        
+        <menuitem id="hr.menu_hr_configuration" parent="hr.menu_hr_root" groups="base.group_hr_manager,account.group_account_manager,account.group_account_user"/>
+    	<menuitem id="hr_nomina.hr_provisions_remuneration_menu" parent="hr_nomina.payroll_configuration_menu" groups="base.group_hr_user,account.group_account_manager,account.group_account_user"/>
+ 	 	<menuitem id="hr_nomina.hr_incomes_administration_menu" parent="hr_nomina.payroll_configuration_menu" groups="account.group_account_manager,account.group_account_user,base.group_hr_user,base.group_hr_manager"/>
+ 	 	<menuitem id="hr_nomina.hr_expense_type_menu" parent="hr_nomina.hr_provisions_remuneration_menu" groups="base.group_hr_user,account.group_account_manager,account.group_account_user"/>
+		<menuitem id="hr_nomina.hr_provision_type_menu" parent="hr_nomina.hr_provisions_remuneration_menu" groups="base.group_hr_user,account.group_account_manager,account.group_account_user"/>
+ 	 	<menuitem id="hr_nomina.menu_hr_adm_incomes" parent="hr_nomina.hr_incomes_administration_menu" groups="account.group_account_manager,account.group_account_user,base.group_hr_user,base.group_hr_manager"/>
+    
+    </data>
+</openerp>

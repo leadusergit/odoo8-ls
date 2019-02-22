@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- Compania -->
+		<record id="view_res_company_einvoice_form" model="ir.ui.view">
+			<field name="name">account.res.company.einvoice.form</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<notebook position="inside">
+					<page string="Configuración Facturación Electónica" >
+						<groups>
+							<!-- Habilitar Facturacion Electrónica Offline -->
+						   <group>
+						   </group> 
+							<group>
+								<field name="recepcion_online"  attrs="{'invisible':[('is_offline', '=', True)]}"/>
+								<field name="autorizacion_online" attrs="{'invisible':[('is_offline', '=', True)]}"/>	
+								<field name="recepcion_pruebas_online" attrs="{'invisible':[('is_offline', '=', True)]}"/>															
+								<field name="autorizacion_pruebas_online" attrs="{'invisible':[('is_offline', '=', True)]}"/>
+							</group>
+							<group>
+								<field name="is_offline" string="Facturación Electrónica Offline"/>
+								<field name="recepcion_offline" attrs="{'invisible':[('is_offline', '=', False)]}"/>
+								<field name="autorizacion_offline" attrs="{'invisible':[('is_offline', '=', False)]}"/>				
+								<field name="recepcion_pruebas_offline" attrs="{'invisible':[('is_offline', '=', False)]}"/>
+								<field name="autorizacion_pruebas_offline" attrs="{'invisible':[('is_offline', '=',False)]}"/>
+						   </group>
+						</groups>
+					</page>
+				</notebook>
+			</field>
+		</record>
+	</data>
+</openerp>

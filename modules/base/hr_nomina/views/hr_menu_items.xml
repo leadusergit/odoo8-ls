@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<menuitem id="remuneration_menu" name="Remuneraciones" parent="hr.menu_hr_root" groups="base.group_hr_manager,base.group_hr_user" sequence="30"/>
+
+    	<!--
+    ==============
+    CONFIGURACION 
+    ==============
+-->
+    	<menuitem id="payroll_configuration_menu" name="Nómina de Empleados" parent="hr.menu_hr_configuration" sequence="30"/>
+
+    	<menuitem id="hr_incomes_administration_menu" name="Administración de Ingresos" parent="payroll_configuration_menu" sequence="5"/>
+    	<menuitem id="hr_provisions_remuneration_menu" name="Administración de Egresos, Décimos y Remuneraciones" parent="payroll_configuration_menu" sequence="10"/>
+ 	 	<!-- CONFIGURACION/RECURSOS HUMANOS/EMPLEADOS -->
+		<!--menuitem action="action_hr_level_tree_view" id="hr_level_menu" name="Niveles"/-->
+		<!-- CONFIGURACION/RECURSOS HUMANOS/CONTRATO -->
+		<menuitem action="action_hr_notification_mail_settings_tree_view" id="hr_notification_mail_settings_menu" parent="hr_contract.next_id_56"/>
+ 	 	<!-- CONFIGURACION/NOMINA DE EMPLEADOS/INGRESOS -->
+ 	 	<menuitem action="action_hr_adm_incomes" name="Administracion de Ingresos" id="menu_hr_adm_incomes" parent="hr_incomes_administration_menu" sequence="1"/>
+		<menuitem action="action_hr_method" id="menu_hr_method" parent="hr_incomes_administration_menu" sequence="2"/>
+		<menuitem action="action_hr_formula" id="menu_hr_formula" parent="hr_incomes_administration_menu" sequence="3"/>
+		<!-- CONFIGURACION/NOMINA DE EMPLEADOS/EGRESOS -->
+ 	 	<menuitem action="action_hr_expense_type_tree_view" id="hr_expense_type_menu" name="Configuración de Egresos" parent="hr_provisions_remuneration_menu" sequence="1"/>
+ 	 	<menuitem action="action_hr_provision_type_tree_view" id="hr_provision_type_menu" name="Configuración de Provisiones" parent="hr_provisions_remuneration_menu" sequence="2"/>
+ 	 	
+ 	 	<!--
+    ===============
+    REMUNERACIONES 
+    ===============
+-->
+ 	 	<!--<menuitem action="action_hr_payroll" id="hr_menu_payroll" parent="remuneration_menu" sequence="5"/>
+ 	 	-->
+ 	 	<menuitem id="ingre_egre_menu" name="Registro Ingresos/Egresos" parent="remuneration_menu" sequence="20"/>
+ 	 	<!-- REMUNERACIONES/INGRESOS Y EGRESOS -->
+		<menuitem action="action_hr_employee_income" id="hr_menu_employee_income" parent="ingre_egre_menu" sequence="1"/>
+		<menuitem action="action_hr_expense" id="hr_menu_expense" parent="ingre_egre_menu" sequence="2"/>
+		<menuitem action="action_wizard_import_csv_archivo" id="menu_wizard_import_csv_archivo" parent="ingre_egre_menu" groups="base.group_hr_manager" sequence="3"/>
+		
+		<!--
+    =========
+    REPORTES 
+    =========
+-->
+		<menuitem name="Nómina de empleados" action="action_wizard_payroll" id="menu_wizard_payroll" parent="hr.menu_hr_reporting" groups="base.group_hr_manager" sequence="1"/>
+		
+    </data>
+</openerp>

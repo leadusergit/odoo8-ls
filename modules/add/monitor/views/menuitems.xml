@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Definicion solo de menus Padres,  los menus items definidos en la propias vistas del modelo -->
+
+        <!-- Monitor -->
+        <menuitem name="Monitor" id="m_monitor"/>
+
+        <!-- GENERAL -->
+        <menuitem name="General" parent="m_monitor" id="m_general" sequence="1" />
+
+        <!-- INFORME -->
+        <menuitem name="Informes" parent="m_monitor" id="m_inform" sequence="2"/>
+
+        <!-- CONFIGURATION -->
+        <menuitem name="Configuración" parent="m_monitor" id="m_configuration" sequence="3"/>
+
+    </data>
+</openerp>

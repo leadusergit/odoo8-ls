@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="wizard_patrimonio_form" model="ir.ui.view">
+			<field name="name">wizard.patrimonio.form</field>
+			<field name="model">evolution.patrimony</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Estado Evolución Patrimonio">
+					<group colspan="2" col="2">
+						<!-- field name="year_id" required="1" / -->
+						<field name="period_ini" />
+						<!-- field name="year_end" required="1" / -->
+						<field name="period_fin" />
+						<field name="file" filename="file_name" readonly="1" />
+						<field name="file_name" readonly="1" />
+					</group>
+					<group colspan="4" col="4">
+						<label colspan="2" string=""/>
+						<button type="object" name="evolucion_patrimonio" string="Generar Reporte"
+							icon="gtk-ok" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="wizard_patrimonio_action" model="ir.actions.act_window">
+			<field name="name">Estado Evolución Patrimonio</field>
+			<field name="res_model">evolution.patrimony</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+			<field name="view_id" ref="wizard_patrimonio_form" />
+			<field name="target">new</field>
+		</record>
+
+		<!--menuitem action="wizard_patrimonio_action" id="menu_wizard_report_evolucion_patrimonio"
+			icon="STOCK_PRINT" parent="account.final_accounting_reports"/-->
+
+	</data>
+</openerp>

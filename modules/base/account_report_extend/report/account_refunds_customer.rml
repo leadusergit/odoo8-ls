@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="NC" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="57.0" y1="0" width="481" height="728"/>
+      <pageGraphics>
+		<setFont name="Helvetica-Bold" size="10"/>
+	    <drawCentredString x="10.5cm" y="28.7cm">[[ company.partner_id.name ]]</drawCentredString>
+	    <setFont name="Helvetica" size="8"/>
+        <drawCentredString x="10.5cm" y="28.2cm">Dirección: [[ company.partner_id.address and company.partner_id.address[0].street or  '' ]] Y [[ company.partner_id.address and company.partner_id.address[0].street2 or  '' ]]</drawCentredString>
+        <drawCentredString x="10.5cm" y="27.7cm">RUC:[[ company.partner_id.ident_num ]]</drawCentredString>
+        <setFont name="Helvetica-Bold" size="10"/>
+        <drawCentredString x="10.5cm" y="27.2cm">REPORTE DE FACTURAS</drawCentredString>
+        <setFont name="Helvetica" size="8"/>
+        <drawRightString x="6.15cm" y="26.7cm">[[ time.strftime('%d de %B del %Y').upper() ]]  Hora:  [[ time.strftime('%H:%M:%S') ]]</drawRightString>
+        <setFont name="Helvetica-Bold" size="8"/>
+        <drawCentredString x="10.5cm" y="26.7cm">[[ get_date(data['form']) ]]</drawCentredString>
+        <setFont name="Helvetica" size="8"/>
+        <drawRightString x="20,2cm" y="26.7cm">Pág. <pageNumber/> / <pageCount/></drawRightString>
+        <place x="0.3cm" y="16,3cm" width="25cm" height="10cm">
+          <blockTable colWidths="55,55,30,40,210,30,50,40,40,30" style="header">
+		    <tr>
+		      <td><para style="P2">Fecha Fac.</para></td>
+		      <td><para style="P2">Fecha Ven.</para></td>
+		      <td><para style="P2">Tipo</para></td>
+		      <td><para style="P2">Factura</para></td>
+		      <td><para style="P2">Cliente</para></td>
+		      <td><para style="P2">Suman</para></td>
+		      <td><para style="P2">Descuento</para></td>
+		      <td><para style="P2">Iva</para></td>
+		      <td><para style="P2">Total</para></td>
+		      <td><para style="P2">Estado</para></td>
+		    </tr>
+		  </blockTable>
+        </place>
+	  </pageGraphics>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    
+    <blockTableStyle id="Totales">
+      <blockAlignment value="LEFT"/>
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,0" stop="7,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="header">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="3,0" stop="3,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="4,0" stop="4,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,0" stop="4,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,-1" stop="4,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="5,0" stop="5,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="5,0" stop="5,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="5,-1" stop="5,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="6,0" stop="6,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="6,0" stop="6,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="6,0" stop="6,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,-1" stop="6,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="7,0" stop="7,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="7,0" stop="7,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="7,0" stop="7,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="7,-1" stop="7,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="8,0" stop="8,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="8,0" stop="8,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="8,0" stop="8,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="8,-1" stop="8,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="9,0" stop="9,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="9,0" stop="9,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="9,0" stop="9,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="9,-1" stop="9,-1"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="table_content">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    
+    <paraStyle name="P1" fontName="Helvetica" fontSize="8" leading="10" alignment="CENTER"/>
+    <paraStyle name="P2" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0" alignment="CENTER"/>
+
+    <paraStyle name="P3" fontName="Helvetica" fontSize="6.5" leading="8" alignment="RIGHT"/>
+    <paraStyle name="P3L" fontName="Helvetica" fontSize="6.5" leading="8" alignment="LEFT"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="6.5" leading="8" alignment="RIGHT"/>
+    
+    <paraStyle name="P2R" fontName="Helvetica-Bold" fontSize="7" leading="8" alignment="RIGHT"/>
+    
+    <paraStyle name="P4" fontName="Helvetica" fontSize="9.0" leading="8" spaceBefore="0.0" spaceAfter="6.0" alignment="LEFT"/>
+    
+    <paraStyle name="P5N" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P6" fontName="Helvetica" alignment="LEFT"/>
+    <paraStyle name="P6C" fontName="Helvetica" fontSize="9.0" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P10" fontName="Helvetica-Bold" fontSize="7" alignment="LEFT" leading="8"/>
+    <paraStyle name="P10C" fontName="Helvetica-Bold" fontSize="12.0" alignment="CENTER" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+  </stylesheet>
+<story>
+  <section>
+    <para>[[ repeatIn(customers(data['form']), 'o') ]]</para>
+    <blockTable colWidths="400,190" style="table_content">
+      <tr>
+        <td><para style="P10">Vendedor:[[ (o['case']=='1' or o['case']=='3') and removeParentNode('blockTable') or '' ]] [[ o['seller'] ]] </para></td>
+        <td> <para style="P3"><font color="white"> </font></para></td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="400,190" style="table_content">
+      <tr>
+        <td><para style="P10">Cliente: [[ (o['case']=='2' or o['case']=='3') and removeParentNode('blockTable') or '']] [[ o['customer'] ]]</para></td>
+        <td> <para style="P3"><font color="white"> </font></para></td>
+      </tr>
+    </blockTable>
+	  <section>
+	    <blockTable colWidths="1,55,55,30,40,210,30,50,40,40,30" style="table_content">
+	      <tr>
+	        <td><para style="P3">[[ repeatIn(refunds(o['parameter'],data['form']), 'refund') ]]</para></td>
+		    <td><para style="P3">[[ refund['emision'] ]]</para></td>
+		    <td><para style="P3">[[ refund['vencimiento'] ]]</para></td>
+		    <td><para style="P3">[[ refund['tipo'] ]]</para></td>
+		    <td><para style="P5">[[ refund['nro'] ]]</para></td>
+		    <td><para style="P3L">[[ refund['partner'] ]]</para></td>
+		    <td><para style="P5">[[ separador(refund['suman']) ]]</para></td>
+		    <td><para style="P5">[[ separador(refund['descuento']) ]]</para></td>
+		    <td><para style="P5">[[ separador(refund['iva']) ]]</para></td>
+		    <td><para style="P5">[[ separador(refund['total']) ]]</para></td>
+		    <td><para style="P5">[[ refund['estado'] ]]</para></td>
+	      </tr>
+	    </blockTable>
+		<section>
+		  <blockTable colWidths="205,45,63.0,80.0,30,50,40,40,30" style="Totales">
+		    <tr>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		      <td><para style="P2R"></para></td>
+		      <td><para style="P2R">[[ separador(subtotal()[0]) ]]</para></td>
+		      <td><para style="P2R">[[ separador(subtotal()[1]) ]]</para></td>
+		      <td><para style="P2R">[[ separador(subtotal()[2]) ]]</para></td>
+		      <td><para style="P2R">[[ separador(subtotal()[3]) ]]</para></td>
+		      <td><para style="P1">[[ (o['case']=='3') and removeParentNode('blockTable') or '' ]]</para></td>
+		    </tr>
+		  </blockTable>
+	    </section>
+	  </section>
+	</section>
+	  <spacer length="10"/>
+	  <blockTable colWidths="195,45,63.0,80,40,50,40,40,30" style="Totales">
+		    <tr>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		      <td><para style="P2R">Total:</para></td>
+		      <td><para style="P2R">[[ separador(total()[0]) ]]</para></td>
+		      <td><para style="P2R">[[ separador(total()[1]) ]]</para></td>
+		      <td><para style="P2R">[[ separador(total()[2]) ]]</para></td>
+		      <td><para style="P2R">[[ separador(total()[3]) ]]</para></td>
+		      <td><para style="P1"><font color="white"> </font></para></td>
+		    </tr>
+	  </blockTable>
+	  <spacer length="10"/>
+	  <blockTable colWidths="150,440" style="Totales">
+	    <tr>
+	        <td><para style="P4"><font face="Helvetica-Bold">Total Notas de Credito: </font> [[ (total()[5]) or 0]]</para></td>
+	         <td><para style="P1"><font color="white"> </font></para></td>
+	    </tr>
+	    <tr>
+	    	<td><para style="P4"><font face="Helvetica-Bold">Anuladas: </font>[[ (total()[7]) or 0 ]]</para></td>
+	         <td><para style="P1"><font color="white"> </font></para></td>
+	    </tr>
+	  </blockTable>
+	
+  </story>
+</document>
+

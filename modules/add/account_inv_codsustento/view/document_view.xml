@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="view_account_ats_sustento_tree" model="ir.ui.view">
+      <field name="name">account.ats.sustento.tree</field>
+      <field name="model">account.ats.sustento</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+	<tree string="Sustento del Comprobante">
+          <field name="code" select="1"/>
+	  <field name="type"/>
+	</tree>
+      </field>
+    </record>
+
+    <record id="view_account_ats_sustent_form" model="ir.ui.view">
+      <field name="name">account.ats.sustento.form</field>
+      <field name="model">account.ats.sustento</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+	<form string="Sustento del Comprobante">
+          <group col="4" colspan="4">
+            <field name="code" required="1"/>
+	    <field name="type"/>
+          </group>
+	</form>
+      </field>
+    </record>
+
+    <record id="action_account_ats_sustent" model="ir.actions.act_window">
+      <field name="name">Sustento del Comprobante</field>
+      <field name="res_model">account.ats.sustento</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem action="action_account_ats_sustent" id="menu_action_account_ats_sustento" parent="account.next_id_27"/>  
+    
+   <!-- Account Tax -->
+		<record id="view_account_tax_add_form" model="ir.ui.view">
+			<field name="name">account.tax.add.form</field>
+			<field name="model">account.tax</field>
+			<field name="inherit_id" ref="account.view_tax_form" />
+			<field name="arch" type="xml">
+			<!-- <xpath expr="//page[@string='Ecuadorian Settings']" position="inside">
+			</xpath> -->
+			 <xpath expr="//field[@name='description']" position="after">
+				<field name="cod_sustento"/>
+			</xpath>
+		  </field>
+		</record>
+		
+  <!--Partner-->
+		<record id="view_partner_add_form" model="ir.ui.view">
+			<field name="name">res.partner.add.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+			 <xpath expr="//field[@name='property_account_position']" position="after">
+				<field name="tax_id"/>
+			</xpath>
+		  </field>
+		</record>
+
+  </data>
+</openerp>

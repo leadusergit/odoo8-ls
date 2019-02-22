@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+    <!--
+      ***********
+      Aumentar un boton de opciones para reversar los pagos
+      ***********
+    -->
+  	<record id="account_view_bank_statement_225" model="ir.ui.view">                                                                 
+	    <field name="name">account.view.bank.statement.225</field>               
+	    <field name="model">account.bank.statement</field>
+	    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+	    <field name="arch" type="xml">
+	        <data>
+	    		<button name="button_cancel" position="after" >
+	    		    <button name="%(payments.action_wizard_payment_statement_form)d" states="confirm,open" string="Opciones" type="action"  icon="terp-camera_test" />
+	    		</button>
+	    	</data>
+	    </field>   
+  	</record>
+  	
+  	</data>
+</openerp>

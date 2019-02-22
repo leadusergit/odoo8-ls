@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- RES.PARTNER -->
+		<!-- form supplier -->
+        <record id="account_invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+                <field name="partner_id" position="before" >
+                    <field name="x_id_liquidation" invisible="1" />
+                    <field name="x_is_liquidation" invisible="1" />
+                </field>
+
+            </field>
+        </record>
+    </data>
+</openerp>

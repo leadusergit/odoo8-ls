@@ -1,0 +1,12 @@
+id,code,type
+1,00, No aplica
+2,01, Crédito Tributario para declaración de IVA (servicios y bienes distintos de inventarios y activos fijos)
+3,02, Costo o Gasto para declaración de IR (servicios y bienes distintos de inventarios y activos fijos)
+4,03, Activo Fijo - Crédito Tributario para declaración de IVA
+5,04, Activo Fijo - Costo o Gasto para declaración de IR
+6,05," Liquidación Gastos de Viaje, hospedaje y alimentación Gastos IR (a nombre de empleados y no de la empresa)"
+7,06, Inventario - Crédito Tributario para declaración de IVA
+8,07, Inventario - Costo o Gasto para declaración de IR
+9,08, Valor pagado para solicitar Reembolso de Gasto (intermediario)
+10,09, Reembolso por Siniestros
+11,10,"Distribución de Dividendos,Beneficios o Utilidades"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+ 
+    	 <record id="account_invoice_anticipo_view" model="ir.ui.view">
+         <field name="name">account.invoice.anticipo.view</field>
+         <field name="model">account.invoice</field>
+         <field name="inherit_id" ref="account_invoice_retention.invoice_anticipo_form"/>
+         <field eval="1" name="priority"/>
+         <field name="arch" type="xml">
+		 <xpath expr="//field[@name='invoice_line']" position="replace">
+			<field colspan="4"
+				default_get="{'check_total': check_total, 'invoice_line': invoice_line, 'address_invoice_id': address_invoice_id, 'partner_id': partner_id, 'price_type': 'price_type' in dir() and price_type or False}"
+				name="invoice_line" nolabel="1">
+			<tree string="Invoice lines" editable="top">
+				<field name="product_id"
+					on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit)"/>
+				<field
+					domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]"
+					name="account_id" on_change="onchange_account_id(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id)" />
+				<field name="invoice_line_tax_id" view_mode="2"
+					 context="{'type':parent.type}" domain="[('parent_id','=',False)]" />
+				<field
+					domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]"
+					name="account_analytic_id" required="0" />
+				<field name="quantity"/>
+				<field name="price_unit"/>
+				<field name="price_subtotal"/>
+				<field name="name"/>
+				<field invisible="1" name="uos_id" />
+			</tree>
+		   </field>
+		</xpath>	
+		 			
+		</field>
+        </record>
+
+    </data>
+</openerp>

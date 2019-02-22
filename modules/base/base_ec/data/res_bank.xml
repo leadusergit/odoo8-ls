@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="True">
+    
+    	<record model="res.bank" id="res_bank1">
+            <field name="name">AMAZONAS</field>
+            <field name="active" eval="True"/>
+            <field name="code">1002</field>
+            <field name="bic">1002</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank2">
+            <field name="name">AUSTRO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1004</field>
+            <field name="bic">1004</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank3">
+            <field name="name">BANCO CENTRAL DEL ECUADOR</field>
+            <field name="active" eval="True"/>
+            <field name="code">1050</field>
+            <field name="bic">1050</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank4">
+            <field name="name">BANCO DEL ESTADO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1051</field>
+            <field name="bic">1051</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank5">
+            <field name="name">BANCO DEL IESS</field>
+            <field name="active" eval="True"/>
+            <field name="code">3927</field>
+            <field name="bic">3927</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank6">
+            <field name="name">BANCO ECUATORIANO DE LA VIVIENDA</field>
+            <field name="active" eval="True"/>
+            <field name="code">1052</field>
+            <field name="bic">1052</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank7">
+            <field name="name">BANCO NACIONAL DE FOMENTO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1053</field>
+            <field name="bic">1053</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank8">
+            <field name="name">BOLIVARIANO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1007</field>
+            <field name="bic">1007</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank9">
+            <field name="name">CAPITAL</field>
+            <field name="active" eval="True"/>
+            <field name="code">1151</field>
+            <field name="bic">1151</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank10">
+            <field name="name">CENTRO MUNDO</field>
+            <field name="active" eval="False"/>
+            <field name="code">1008</field>
+            <field name="bic">1008</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank11">
+            <field name="name">CITIBANK</field>
+            <field name="active" eval="True"/>
+            <field name="code">1009</field>
+            <field name="bic">1009</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank12">
+            <field name="name">COFIEC</field>
+            <field name="active" eval="True"/>
+            <field name="code">1010</field>
+            <field name="bic">1010</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank13">
+            <field name="name">COMERCIAL DE MANABI</field>
+            <field name="active" eval="True"/>
+            <field name="code">1011</field>
+            <field name="bic">1011</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank14">
+            <field name="name">COOPNACIONAL</field>
+            <field name="active" eval="True"/>
+            <field name="code">1134</field>
+            <field name="bic">1134</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank15">
+            <field name="name">D-MIRO S.A.</field>
+            <field name="active" eval="True"/>
+            <field name="code">3960</field>
+            <field name="bic">3960</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank16">
+            <field name="name">DELBANK</field>
+            <field name="active" eval="True"/>
+            <field name="code">1422</field>
+            <field name="bic">1422</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank17">
+            <field name="name">FINCA</field>
+            <field name="active" eval="True"/>
+            <field name="code">1165</field>
+            <field name="bic">1165</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank18">
+            <field name="name">GENERAL RUMIÑAHUI</field>
+            <field name="active" eval="True"/>
+            <field name="code">1020</field>
+            <field name="bic">1020</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank19">
+            <field name="name">GUAYAQUIL</field>
+            <field name="active" eval="True"/>
+            <field name="code">1006</field>
+            <field name="bic">1006</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank20">
+            <field name="name">INTERNACIONAL</field>
+            <field name="active" eval="True"/>
+            <field name="code">1023</field>
+            <field name="bic">1023</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank21">
+            <field name="name">LITORAL</field>
+            <field name="active" eval="True"/>
+            <field name="code">1014</field>
+            <field name="bic">1014</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank22">
+            <field name="name">LOJA</field>
+            <field name="active" eval="True"/>
+            <field name="code">1025</field>
+            <field name="bic">1025</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank23">
+            <field name="name">MACHALA</field>
+            <field name="active" eval="True"/>
+            <field name="code">1026</field>
+            <field name="bic">1026</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank24">
+            <field name="name">PACIFICO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1028</field>
+            <field name="bic">1028</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank25">
+            <field name="name">PICHINCHA</field>
+            <field name="active" eval="True"/>
+            <field name="code">1029</field>
+            <field name="bic">1029</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank26">
+            <field name="name">PROCREDIT</field>
+            <field name="active" eval="True"/>
+            <field name="code">1148</field>
+            <field name="bic">1148</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank27">
+            <field name="name">PRODUBANCO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1033</field>
+            <field name="bic">1033</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank28">
+            <field name="name">PROMERICA</field>
+            <field name="active" eval="True"/>
+            <field name="code">1418</field>
+            <field name="bic">1418</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank29">
+            <field name="name">SOLIDARIO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1037</field>
+            <field name="bic">1037</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank30">
+            <field name="name">SUDAMERICANO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1038</field>
+            <field name="bic">1038</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank31">
+            <field name="name">TERRITORIAL</field>
+            <field name="active" eval="False"/>
+            <field name="code">1039</field>
+            <field name="bic">1039</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+        <record model="res.bank" id="res_bank32">
+            <field name="name">UNIBANCO</field>
+            <field name="active" eval="True"/>
+            <field name="code">1041</field>
+            <field name="bic">1041</field>
+            <field name="country" ref="base.ec"/>
+        </record>
+        
+    </data>
+</openerp>

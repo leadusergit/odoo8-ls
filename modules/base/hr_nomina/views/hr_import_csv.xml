@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+     <record id="view_wizard_import_csv_form" model="ir.ui.view">
+		<field name="name">view.wizard.import.csv.form</field>
+		<field name="model">wizard.load.csv</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		    <form string="Importar Archivo de Egresos">
+    			<label string="Eliga en tipo de Egreso (Pago Coop, Pago Comida, Prestamo IESS, General)" colspan="4"/>
+    			<label string="Si va a cargar un egreso de otro tipo eliga Egreso General, revise Otro Tipo e ingrese en el campo inferior" colspan="4"/>
+    			<label string="El archivo debe poseer un formato CSV delimitado por ',' y los campos identification_id y value." colspan="4"/>
+    			<label string="Si el valor es un decimal, utilizar el caracter '.' como separador de decimales." colspan="4"/>
+    			<field name="state" readonly="1" nolabel="1" invisible="1"/>
+    			<group colspan="4" col="4" states="init">
+	        		<separator string="Importar Archivo" colspan="4"/>
+	        		<field name="date"/>
+	        		<field name="period_id"/>
+	        		<field name="tipo"/>
+	        		<field name="data"/>
+    			</group>
+    			<group colspan="4" col="4" states="done">
+					<label string="El archivo se ha cargado en el sistema" colspan="4"/>
+					<field name='num_registros' string="Registros cargados" colspan='4'/>
+					<label string="Si existen errores se mostraran en la parte inferior." colspan="4"/>
+					<separator string='Errores encontrados'/>
+					<field name='wrong_values' nolabel='1' colspan='4'/>
+    			</group>
+				<footer>
+					<button class="oe_highlight" name="load_csv_aaa" string="Importar" type="object" states="init"/>
+					ó
+					<button special="cancel" string="Cerrar" class="oe_link"/>
+				</footer>
+			</form>
+		</field>
+	</record>			
+
+
+		<!-- Actions -->
+		<record id="action_wizard_import_csv_archivo" model="ir.actions.act_window">
+			<field name="name">Importar Archivos de Egresos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.load.csv</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_wizard_import_csv_form"/>
+			<field name="target">new</field>
+		</record>
+		
+	</data>
+</openerp>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- eRetention Offline Form -->
+		<record id="view_account_eretention_offline_form" model="ir.ui.view">
+			<field name="name">account.eretention.offline.form</field>
+			<field name="model">account.invoice.retention</field>
+			<field name="inherit_id" ref="account_invoice_retention.view_invoice_retention_obj_form"/>
+			<field name="arch" type="xml">
+				<button name="action_generate_eretention" position="replace">
+					<button name="action_generate_eretention" type="object" string="Enviar SRI" class="oe_highlight" groups="base.group_user"
+					attrs="{'invisible':['|',('is_offline','=',True),('authorization_sri','=',True)]}"
+					help="Genera factura online y la envía al SRI"/>
+				</button>
+				<button name="action_authorization_sri" position="replace">
+					<button name="action_authorization_sri" type="object" string="Autorización SRI" class="oe_highlight" groups="base.group_user" 
+					attrs="{'invisible':['|',('is_offline','=',True),('authorization_sri','=',True)]}"
+					help="Solicita autorización al SRI"/>
+				</button>
+				<button name="action_authorization_sri" position="before">
+					<button name="action_generate_eretention_offline" type="object" string="Generar Comprobante(Offline)" class="oe_highlight" groups="base.group_user"
+					attrs="{'invisible':['|',('is_offline','=',False),('authorization_sri','=',True)]}"
+					help="Genera comprobante de retención offline con clave de acceso igual numeró de autorización,esta factura puede ser enviado al cliente"/>
+					<button name="action_authorization_offline" type="object" string="Autorización(Offline)" class="oe_highlight" groups="base.group_user"
+					attrs="{'invisible':['|',('is_offline','=',False),('authorization_sri','=',True)]}"
+					help="Envía comprobante de retención offline para que sea recibido y autorizado por el SRI"/>				
+				</button>
+				<xpath expr="//field[@name='authorization_number']" position="replace">
+					<field name="authorization_number" attrs="{'invisible':[('state', 'in', ('draft','early','paid','cancel')),('is_offline','=',True)]}"/>
+				</xpath>
+			  	<xpath expr="//field[@name='authorization_date']" position="after">
+					<field name="is_offline" invisible="1"/>
+					<field name="authorization_number_offline" attrs="{'invisible':[('state', 'in', ('draft','early','paid','cancel')),('is_offline','=',False)]}"/>
+			 	</xpath>	
+			</field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+    	<record id="proceso_actualizar_estados_contratos" model="ir.cron">
+    		<field name="name">Update Contract States</field>
+    		<field name="interval_type">days</field>
+    		<field name="user_id">1</field>
+    		<field name="args">()</field>
+    		<field name="numbercall">-1</field>
+    		<field name="priority">5</field>
+    		<field name="doall">FALSE</field>
+    		<field name="interval_number">1</field>
+    		<field name="model">hr.contract</field>
+    		<field name="function">update_states</field>
+    	</record>    
+    </data>
+</openerp>

@@ -1,0 +1,9 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_payment_transfer_payment","payment_transfer_payment_invoice","model_payment_transfer_payment","account.group_account_invoice",1,1,1,1
+"access_invoice_line_trasfer","invoice_line_transfer","model_invoice_line_transfer","account.group_account_invoice",1,1,1,1
+"access_payment_cheque","payment_cheque","model_payment_cheque","account.group_account_invoice",1,1,1,1
+"access_payment_cheque_detail","payment_cheque_detail","model_payment_cheque_detail","account.group_account_invoice",1,1,1,1
+"access_account_deposit_bank_statement_line","account_deposit_bank_statement_line","account_invoice_retention.model_account_deposit_bank_statement_line","account.group_account_invoice",1,1,1,1
+"access_payment_transfer","payment_transfer","model_payment_transfer","account.group_account_invoice",1,1,1,1
+"access_payment_transfer_line","payment_transfer_line","model_payment_transfer_line","account.group_account_invoice",1,1,1,1
+"access_payment_cash_management_account_invoice","payment.cash.management.account.invoice","model_payment_cash_management","account.group_account_invoice",1,1,1,1

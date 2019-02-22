@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        
+        <!-- Wizard -->
+        <record id="wizard_payment_cancel_view" model="ir.ui.view">
+            <field name="name">wizard.payment.cancel.view</field>
+            <field name="model">wizard.generar.cash.banco</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generar Cash transferencia">
+                   <group colspan="4" col="6">
+                        <group colspan="1">
+                            <field name="config_logo" widget="image" width="220" height="130" nolabel="1" colspan="1"/>
+                            <newline/>
+                            <label colspan="4" width="220" string="Este asistente le ayudara a generar pagos por transferencia."/>
+                            <label colspan="4" width="220"/>
+                            <label colspan="4" width="220" string=""/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                        <separator orientation="vertical" rowspan="12" colspan="1"/>
+                        <group colspan="4">
+                            <field colspan="4" name="n_transfer_id" states="init" attrs="{'invisible': [('state','in',['done'])]}"/>
+                            <field name="data" states="done" attrs="{'invisible': [('state','in',['init'])]}"/>
+                            <field name="name" states="done" attrs="{'invisible': [('state','in',['init'])]}"/>
+                        </group>
+                     </group>
+                    <separator string="" colspan="4"/>
+                    <group colspan="6" col="8" states="init">
+                        <label colspan="6" width="220"/>
+                        <button special="cancel" string="_Cancelar" icon="gtk-cancel" colspan="1"/>
+                        <button name="generar_excel" string="_Generar Reporte" type="object" icon="gtk-apply" colspan="1"/>
+                    </group>
+                    <group colspan="6" col="8" states="done">
+                        <label colspan="6" width="220"/>
+                        <button special="cancel" string="_Cerrar" icon="gtk-ok"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_payment_cancel" model="ir.actions.act_window">
+            <field name="name">Generar Cash Banco</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.generar.cash.banco</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_payment_cancel_view"/>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- Menu -->
+        <menuitem id="menu_generate_cash2" name="Generar Cash Banco Guayaquil" action="action_payment_cancel" parent="menu_action_payment_transfer" sequence="3"/>
+        
+    </data>
+</openerp>

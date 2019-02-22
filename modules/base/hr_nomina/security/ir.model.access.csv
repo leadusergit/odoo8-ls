@@ -1,0 +1,39 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_hr_contract","hr.contract","hr_contract.model_hr_contract","base.group_hr_manager",1,1,1,0
+"access_hr_contract_manager","acess_hr_contract_manager","hr_contract.model_hr_contract","base.group_hr_manager",1,0,0,0
+"access_hr_adm_incomes_manager","access_model_hr_adm_incomes_admin","model_hr_adm_incomes","base.group_hr_manager",1,1,1,1
+"access_hr_contract_type","hr.contract.type","model_hr_contract_type","base.group_hr_manager",1,1,1,0
+"access_hr_contract_wage","hr.contract.wage","model_hr_contract_wage","base.group_hr_manager",1,1,1,0
+"access_hr_employee_bank","hr_employee_bank manager","model_hr_employee_bank","base.group_hr_manager",1,1,1,0
+"access_model_hr_expense_admin","access_model_hr_expense_admin","model_hr_expense","base.group_hr_manager",1,1,1,1
+"access_hr_expense_type","hr_expense_type","model_hr_expense_type","base.group_hr_manager",1,0,0,0
+"access_hr_expense_type_manager","hr.expense.type.manager","model_hr_expense_type","base.group_hr_manager",1,1,1,0
+"access_hr_family_item","hr.family.item","model_hr_family_item","base.group_hr_manager",1,1,1,0
+"access_hr_formula","hr.formula","model_hr_formula","base.group_hr_manager",1,1,1,0
+"access_hr_history_department","hr.history.department","model_hr_history_department","base.group_hr_manager",1,1,1,0
+"access_model_hr_income_admin","access_model_hr_income_admin","model_hr_income","base.group_hr_manager",1,1,1,1
+"access_model_hr_level_admin","access_model_hr_level_admin","model_hr_level","base.group_hr_manager",1,1,1,1
+"access_model_hr_method_admin","access_model_hr_method_admin","model_hr_method","base.group_hr_manager",1,1,1,1
+"access_hr_notification_mail_settings_manager","hr.notification.mail.settings.manager","model_hr_notification_mail_settings","base.group_hr_manager",1,1,1,1
+"access_model_hr_payroll_admin","access_model_hr_payroll_admin","model_hr_payroll","base.group_hr_manager",1,1,1,1
+"access_model_hr_provision_admin","access_model_hr_provision_admin","model_hr_provision","base.group_hr_manager",1,1,1,1
+"access_model_hr_provision_type_admin","access_model_hr_provision_type_admin","model_hr_provision_type","base.group_hr_manager",1,1,1,1
+"access_hr_contract_user","hr.contract_user","hr_contract.model_hr_contract","base.group_hr_user",1,1,1,0
+"access_model_hr_adm_incomes_user","access_model_hr_adm_incomes_user","model_hr_adm_incomes","base.group_hr_user",1,0,0,0
+"access_hr_contract_type_user","hr.contract.type user","model_hr_contract_type","base.group_hr_user",1,0,0,0
+"access_hr_contract_wage_user","hr.contract.wage user ","model_hr_contract_wage","base.group_hr_user",1,1,1,0
+"access_hr_employee_bank_user","hr_employee_bank user","model_hr_employee_bank","base.group_hr_user",1,1,1,0
+"access_model_hr_expense_user","access_model_hr_expense_user","model_hr_expense","base.group_hr_user",1,0,0,0
+"access_model_hr_expense_type_user","access_model_hr_expense_type_user","model_hr_expense_type","base.group_hr_user",1,0,0,0
+"access_hr_expense_type_user","hr.expense.type.user","model_hr_expense_type","base.group_hr_user",1,1,1,0
+"access_hr_family_item_user","hr.family.item user","model_hr_family_item","base.group_hr_user",1,0,0,0
+"access_hr_history_department_user","hr.history.department_user","model_hr_history_department","base.group_hr_user",1,1,1,0
+"access_model_hr_income_user","access_model_hr_income_user","model_hr_income","base.group_hr_user",1,0,0,0
+"access_model_hr_level_user","access_model_hr_level_user","model_hr_level","base.group_hr_user",1,0,0,0
+"access_model_hr_method_user","access_model_hr_method_user","model_hr_method","base.group_hr_user",1,0,0,0
+"access_model_hr_payroll_user","access_model_hr_payroll_user","model_hr_payroll","base.group_hr_user",1,0,0,0
+"access_model_hr_provision_user","access_model_hr_provision_user","model_hr_provision","base.group_hr_user",1,0,0,0
+"access_model_hr_provision_type_user","access_model_hr_provision_type_user","model_hr_provision_type","base.group_hr_user",1,0,0,0
+"access_hr_contract_type","access_hr.contract.type","model_hr_contract_type","hr_ec.group_hr_coordinador",1,1,0,0
+"access_model_hr_level_admin","access_model_hr_level","model_hr_level","hr_ec.group_hr_coordinador",1,1,1,1
+"access_model_hr_level_user","access_model_hr_level","model_hr_level","hr_ec.group_hr_coordinador",1,0,0,0

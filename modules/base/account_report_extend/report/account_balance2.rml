@@ -1,0 +1,448 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="57.0" y1="57.0" width="481" height="728"/>
+	  <pageGraphics>
+			<setFont name="Helvetica-Bold" size="9"/>
+				<!--COL 1-->
+				<drawString x="1.0cm" y="28.1cm">[[ company.name ]]</drawString>
+				<drawString x="16.2cm" y="28.1cm">Balance Comprobacion - [[ company.currency_id.name ]]</drawString>
+				<!--COL 2-->
+				<setFont name="Helvetica" size="9"/>
+				<drawString x="1.0cm" y="1cm"> [[ formatLang(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),date_time = True) ]]</drawString>
+				<drawString x="19.0cm" y="1cm">Pagina <pageNumber/></drawString>
+			    <lineMode width="0.7"/>
+				<lines>1cm 27.7cm 20cm 27.7cm</lines>
+				<setFont name="Helvetica" size="8"/>
+	</pageGraphics>
+
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Standard_Outline">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <blockBackground colorName="#e6e6e6" start="0,0" stop="0,-1"/>
+      <blockBackground colorName="#e6e6e6" start="1,0" stop="1,-1"/>
+      <blockBackground colorName="#e6e6e6" start="2,0" stop="2,-1"/>
+      <blockBackground colorName="#e6e6e6" start="0,1" stop="0,-1"/>
+      <blockBackground colorName="#e6e6e6" start="1,1" stop="1,-1"/>
+      <blockBackground colorName="#e6e6e6" start="2,1" stop="2,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table6">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="3,0" stop="3,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table2">
+      <blockValign value="TOP"/>
+      <blockAlignment value="RIGHT"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
+	  <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="-1,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table3">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table4">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBEFORE" colorName="#FFFFFF" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#FFFFFF" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#FFFFFF" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#FFFFFF" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#FFFFFF" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#FFFFFF" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#FFFFFF" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#FFFFFF" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#FFFFFF" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#FFFFFF" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#FFFFFF" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#FFFFFF" start="3,0" stop="3,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#FFFFFF" start="3,-1" stop="3,-1"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P1" fontName="Helvetica-Bold" fontSize="20.0" leading="25" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P2" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P3" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P10" fontName="Helvetica-Bold" fontSize="8.0" leading="14" spaceBefore="0.0" spaceAfter="6.0" alignment="RIGHT"/>
+   <paraStyle name="P9" fontName="Helvetica-Bold" alignment="CENTER" fontSize="14.5" leftIndent="-5.0"/>
+    <paraStyle name="P9a" fontName="Helvetica-Bold" fontSize="9" leftIndent="0.0" alignment="LEFT"/>
+    <paraStyle name="P9b" fontName="Helvetica" fontSize="9" leftIndent="0.0" alignment="LEFT"/>
+    <paraStyle name="P9b" fontName="Helvetica" fontSize="8" leftIndent="-5.0" alignment="LEFT"/>
+    <paraStyle name="P12" fontName="Helvetica-Bold" fontSize="8.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P12a" fontName="Helvetica-Bold" fontSize="8.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P12b" fontName="Helvetica-Bold" fontSize="8.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P14" rightIndent="17.0" leftIndent="-0.0" fontName="Helvetica-Bold" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+
+
+    <blockTableStyle id="TrLevel">
+      <blockLeftPadding length="0" start="1,0" stop="1,0"/>
+    </blockTableStyle>
+    <blockTableStyle id="TrLevel2">
+      <blockLeftPadding length="0" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#777777" start="1,0" stop="1,0"/>
+      <blockTopPadding length="13" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="2" start="0,0" stop="-1,0"/>
+	  <blockFont name="Times-Bold" start="0,0" stop="-1,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="TrLevel1">
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
+      <blockLeftPadding length="0" start="1,0" stop="1,0"/>
+      <blockTopPadding length="26" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="2" start="0,0" stop="-1,0"/>
+	  <blockFont name="Times-Bold" start="0,0" stop="-1,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla1">
+      <blockTopPadding value="0"/>
+      <blockBottomPadding value="0"/>
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+
+   <paraStyle
+		name="Level"
+		fontName="Helvetica"
+		fontSize="8.0" />
+    <paraStyle
+		name="Level2"
+		fontName="Helvetica-Bold"
+		fontSize="8.0" />
+    <paraStyle name="Level1"
+		fontSize="8.0"
+		fontName="Helvetica-Bold"
+		/>
+    <paraStyle name="Caption" fontName="Helvetica" fontSize="10.0" leading="13" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+  </stylesheet>
+<images>
+ <image name="100000000000008700000027CF777900.jpg">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
+</image>
+  </images>
+  <story>
+<para style="P2">
+<font color="white"> </font>
+</para>
+<para style="P2">
+<font color="white"> </font>
+</para>
+<blockTable colWidths="130.0,420.0" style="Table4">
+  <tr>
+    <td>
+      <illustration height="35.0" width="119.0">
+        <image x="0" y="0" file="100000000000008700000027CF777900.jpg" height="35.0" width="119.0"/>
+      </illustration>
+    </td>
+    <td>
+      <para style="P9b">PRINCIPAL CUENCA: Av. Octavio Chacón 2-141 PARQUE INDUSTRIAL – Telf: 2806-828 – FAX: 2805-135</para>
+      <para style="P9b">SUCURSAL QUITO: <font face="Times-Roman">Calle París 41-43 y Av. de los Granados(Jipijapa) – Telf: 2246-218 – FAX: 2248-253</font></para>
+      <para style="P9b">SUCURSAL MACHALA: <font face="Times-Roman">Av. Paquisha s/n y Sin Nombre Km. 4.5 – Telf: 2983-200 – Cel: 093184134</font></para>
+      <para style="P9b">SUCURSAL GUAYAQUIL: <font face="Times-Roman">Av. del Ejército 118 y Piedrahita – Telefax: 2288307 – Telf: 2291559 – FAX: 2288047</font></para>
+    </td>
+  </tr>
+</blockTable>
+
+<blockTable colWidths="527.00" style="Table4" repeatRows="1">
+  <tr>
+    <td>
+      <para style="P1">BALANCE DE COMPROBACION</para>
+      <para style="P9a">Año Fiscal : [[ get_fiscalyear(data['form']) or removeParentNode('para') ]]:</para>
+      <para style="P9b"><i>Periodos: [[ get_periods(data['form']) or removeParentNode('para') ]]</i></para>
+    </td>
+  </tr>
+</blockTable>
+
+<para style="P2">
+<font color="white"> </font>
+</para>
+    <blockTable colWidths="67,264.0,55,55,55,55" style="Table2" repeatRows="1">
+      <tr noRowsplits="1">
+        <td><para style="P12a">Código</para></td>
+        <td><para style="P12a">Cuenta</para></td>
+        <td><para style="P10">Debe</para></td>
+        <td><para style="P10">Haber</para></td>
+        <td><para style="P10">Saldo al Debe</para></td>
+	<td><para style="P10">Saldo al Haber</para></td>	
+      </tr>
+      <tr>
+		<td><para style="P14">[[ repeatIn(lines(data['form']), 'a') ]]<font>[[ a['level']&gt;2 and setTag('para','para',{'fontName':"Helvetica"}) ]]</font><i>[[ a['code'] or removeParentNode('tr')  ]]</i></para></td>
+        <td><para style="P14"><font>[[ a['level']&gt;2 and setTag('para','para',{'fontName':"Helvetica"}) ]]</font><font color="white">[[ '..'*(a['level']-1) ]]</font><font>[[ a['name'] ]]</font></para></td>
+        <td><para style="P3"><font>[[ a['level']&gt;2 and setTag('para','para',{'fontName':"Helvetica"}) ]]</font><font>[[ a['type']=='view' and removeParentNode('font') ]][[ formatLang(a['debit']) ]]</font><font>[[ a['type']&lt;&gt;'view' and removeParentNode('font') ]] [[formatLang(a['debit']) ]]</font></para></td>
+        <td><para style="P3"><font>[[ a['level']&gt;2 and setTag('para','para',{'fontName':"Helvetica"}) ]]</font><font>[[ a['type']=='view' and removeParentNode('font') ]][[ formatLang(a['credit']) ]]</font><font>[[ a['type']&lt;&gt;'view' and removeParentNode('font') ]] [[ formatLang(a['credit']) ]]</font></para></td>
+        <td><para style="P3"><font>[[ a['level']&gt;2 and setTag('para','para',{'fontName':"Helvetica"}) ]]</font><font>[[ a['type']=='view' and removeParentNode('font') ]][[ formatLang(a['balance_d']) ]]</font><font>[[ a['type']&lt;&gt;'view' and removeParentNode('font') ]] [[ formatLang(a['balance_d'])  ]]</font></para></td>
+	 <td><para style="P3"><font>[[ a['level']&gt;2 and setTag('para','para',{'fontName':"Helvetica"}) ]]</font><font>[[ a['type']=='view' and removeParentNode('font') ]][[ formatLang(a['balance_d']) ]]</font><font>[[ a['type']&lt;&gt;'view' and removeParentNode('font') ]] [[ formatLang(a['balance_h'])  ]]</font></para></td>
+      </tr>
+    </blockTable>
+<section>
+   <blockTable colWidths="67,264.0,55,55,55,55" style="Table2">
+      <tr>
+        <td>
+          <para style="P14"></para>
+        </td>
+        <td>
+          <para style="P2">TOTAL</para>
+        </td>
+        <td>
+          <para style="P3">[[ sum_debit(data['form']) ]]</para>
+        </td>
+	 <td>
+          <para style="P3">[[ sum_credit(data['form']) ]]</para>
+        </td>
+        <td>
+          <para style="P3">[[ sum_balance_debe(data['form']) ]]</para>
+        </td>
+	<td>
+          <para style="P3">[[ sum_balance_haber(data['form']) ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+</section>
+<para style="P2"><font color="white"> </font></para>
+<section>
+  <blockTable colWidths="183,0,183,0,183" style="Table4">
+	<tr>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+	<td>
+          <para style="P3"></para>
+        </td>
+	<td>
+          <para style="P3"></para>
+        </td>
+      </tr>
+	<tr>
+        <td>
+          <para style="P3">____________________</para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3">____________________</para>
+        </td>
+	<td>
+          <para style="P3"></para>
+        </td>
+	<td>
+          <para style="P3">____________________</para>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+	<td>
+          <para style="P3"></para>
+        </td>
+	<td>
+          <para style="P3"></para>
+        </td>
+      </tr>
+	      <tr>
+        <td>
+          <para style="P3">GERENTE GENERAL</para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3">CONTADOR GENERAL</para>
+        </td>
+	<td>
+          <para style="P3"></para>
+        </td>
+	<td>
+          <para style="P3">DIRECTOR FINANCIERO</para>
+        </td>
+      </tr>
+	</blockTable>
+</section> 
+   
+
+
+  </story>
+</document>

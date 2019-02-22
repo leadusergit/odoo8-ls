@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Israel Paredes" allowSplitting="20" showBoundary="0">
+    <pageTemplate id="first">
+      <pageGraphics>
+  	  	<place x="1.46cm" y="2.92cm" width="18.4cm" height="20.0cm">
+      	  <blockTable colWidths="260,160,90">
+      		<tr>
+        	  <td><para style="Standard">Fecha: [[ get_date(o) ]]</para></td>
+        	  <!--<td><para style="Standard">Monto: [[ '%.2f' % sum_debit(o, data) ]]</para></td>-->
+        	  <td> </td>
+        	  <td><para style="Standard">Asiento: [[ o.no_comp ]]</para></td>
+      		</tr>
+    	  </blockTable>
+      	</place>
+      	<place x="1.25cm" y="3.25cm" width="18.4cm" height="17.0cm">
+    	  <para style="Heading">EMPRESA PROVINCIAL DE VIVIENDA [[ o.date.split('-')[0] ]]</para>
+      	</place>
+      	<place x="1.46cm" y="3.34cm" width="18.4cm" height="11.5cm">
+      	  <para style="Text body">[[ o.other_info ]]</para>
+      	</place>
+  	  	<!--place x="1.25cm" y="3.2cm" width="18.4cm" height="0.7cm">
+  		  <blockTable colWidths="12.5cm,2.9cm,3.0cm">
+      		<tr>
+      		  <td><para style="Standard"><font color="white"></font></para></td>
+	          <td><para style="Decimal"><b>[[ '%.2f' % sum_debit(o, data) ]]</b></para></td>
+	          <td><para style="Decimal"><b>[[ '%.2f' % sum_credit(o, data)]]</b></para></td>
+      		</tr>
+    	  </blockTable>
+		</place-->
+	  </pageGraphics>
+	  <frame id="first" x1="1.25cm" y1="2.85cm" width="18.4cm" height="9.45cm"/>
+	  <frame id="second" x1="1.25cm" y1="2.45cm" width="18.4cm" height="1.1cm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <paraStyle name="Heading" fontName="Courier-Bold" alignment="CENTER" fontSize="14.0" leading="17" spaceBefore="2.0cm" spaceAfter="2.0cm"/>
+    <paraStyle name="Standard" fontName="Helvetica" fontSize="8.0"/>
+    <paraStyle name="Text body" fontName="Helvetica" alignment="JUSTIFY" fontSize="8.0" leftIndent="1.0cm" rightIndent="1.0cm" firstLineIndent="2.5cm"/>
+    <paraStyle name="Decimal" fontName="Helvetica" fontSize="8.0" alignment="RIGHT"/>
+    <images/>
+  </stylesheet>
+  <story>
+    [[ repeatIn(objects,'o') ]]
+    <blockTable colWidths="3.0cm,1.05cm,6.45cm,2.0cm,2.9cm,3.0cm">
+      <tr>
+        [[ repeatIn(lines(o.line_id),'move') ]]
+        <td><para style="Standard">[[ move.account_id.code ]]</para></td>
+        <td><para style="Standard" fontSize="6.50">[[ fundsname(move.funds_certificate_id.name) ]]</para></td>
+        <td><para style="Standard">[[ move.account_id.name ]]</para></td>
+        <td><para style="Standard" fontSize="6.50">[[ move.preproject_id.abbreviation or move.analytic_account_id.abbreviation ]]</para></td>
+        <!--<td><para style="Standard">[[ detalle(move,'linea') ]]</para></td>-->
+        <td><para style="Decimal">[[ '%.2f' % move.debit or '.00']]</para></td>
+        <td><para style="Decimal">[[ '%.2f' % move.credit or '.00']]</para></td>
+      </tr>
+    </blockTable>
+    <nextFrame name="second"/>
+    <blockTable colWidths="15.4cm,3.0cm">
+	  <tr>
+      	<td><para style="Decimal"><b>[[ '%.2f' % sum_debit(o, data) ]]</b></para></td>
+      	<td><para style="Decimal"><b>[[ '%.2f' % sum_credit(o, data)]]</b></para></td>
+	  </tr>
+  	</blockTable>
+  </story>
+</document>

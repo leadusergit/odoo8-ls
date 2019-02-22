@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	
+		<record id="view_wizard_report_balance_resultados_form" model="ir.ui.view">
+			<field name="name">wizard.report.balance.resultados.form</field>
+			<field name="model">wizard.report.balance.resultados</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Reporte del Balance Pérdidas y Ganancias">
+					<group col="4" states="ini" colspan="4">
+						<separator string="Filtros" colspan="4"/>
+						<field name="fiscalyear_id" on_change="onchange_fiscalyear_id(fiscalyear_id)"/>
+						<field name="code"/>
+						<separator colspan="4" string="Selecionar el o los periodos"/>
+						<field name="periods" colspan="4"/>
+					</group>
+					<group col="2" states="res" colspan="4">
+						<field name="data" filename="name"/>
+						<field name="name"/>
+					</group>
+					<footer>
+						<field name="state" readonly="1" nolabel="1" invisible="1"/>
+						<button type="object" name="generate_report" string="Generar" states="ini" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cerrar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>			
+
+
+		<!-- Actions -->
+		<record id="action_wizard_report_balance_resultado" model="ir.actions.act_window">
+			<field name="name">Reporte Balance Resultados</field>
+			<field name="type">ir.actions.act_window</field>
+				<field name="res_model">wizard.report.balance.resultados</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">form</field>
+				<field name="view_id" ref="view_wizard_report_balance_resultados_form"/>
+				<field name="target">new</field>
+		</record>
+		
+		<!--record model="ir.values" id="report_balance_values" -->
+		        <!--  field name="model_id" ref="account_reporting.model_account_report_bs" /  -->
+		        <!-- field name="object" eval="1" /  -->
+		        <!-- field name="name"></field  -->
+		        <!-- field name="key2">client_action_multi</field  -->
+		        <!-- field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_report_balance_resultado'))" /  -->
+		        <!-- field name="key">action</field  -->
+		        <!-- field name="model">account.report.bs</field -->
+		<!-- /record -->
+		
+		<!-- Menu -->
+            
+		<menuitem action="action_wizard_report_balance_resultado" id="menu_wizard_report_balance_result" icon="STOCK_PRINT"  
+				  parent="account.final_accounting_reports" groups="account.group_account_manager,account.group_account_user"/>
+
+	</data>
+</openerp>

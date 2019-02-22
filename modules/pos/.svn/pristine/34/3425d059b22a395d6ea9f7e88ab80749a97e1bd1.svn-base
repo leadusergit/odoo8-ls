@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+	<!-- account_voucher.view_vendor_receipt_dialog_form -->
+
+        <record model="ir.ui.view" id="view_voucher_form_tarjeta">
+            <field name="name">account.voucher.form.tarjeta</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+		<field name="name" position="after">
+			<field name="is_credit_card" invisible="1" />
+			<field name="tipo_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="nro_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="cant_cuotas" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+		</field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_voucher_dialog_form_tarjeta">
+            <field name="name">account.voucher.dialog.form.tarjeta</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form"/>
+            <field name="arch" type="xml">
+		<field name="name" position="after">
+			<field name="is_credit_card" invisible="1" />
+			<field name="tipo_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="nro_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="cant_cuotas" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+		</field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_journal_form_tarjeta">
+            <field name="name">account.journal.form.tarjeta</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+		<field name="sequence_id" position="after">
+			<field name="is_credit_card" />
+		</field>
+            </field>
+        </record>
+
+
+        <record id="tipo_tarjeta_tree_view" model="ir.ui.view">
+            <field name="name">account.tipo.tarjeta.tree</field>
+            <field name="model">account.tipo.tarjeta</field>
+            <field name="arch" type="xml">
+		<tree string="Tipo de Tarjeta" >
+			<field name="name" />
+		</tree>
+	    </field>
+	</record>
+
+        <record id="action_tipo_tarjeta" model="ir.actions.act_window">
+            <field name="name">Tipos de Tarjeta</field>
+            <field name="res_model">account.tipo.tarjeta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_tipo_tarjeta" id="menu_tipo_tarjeta" 
+		parent="account.menu_configuration_misc" sequence="3" />
+
+        <record id="view_pagos_tarjeta_tree" model="ir.ui.view">
+            <field name="name">view.pagos.tarjeta.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+		<tree string="Pagos con tarjeta" >
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="reference"/>
+                    <field name="partner_id"/>
+		    <field name="tipo_tarjeta" />
+		    <field name="nro_tarjeta" />
+		    <field name="nro_cupon" />
+		    <field name="cant_cuotas" />
+                    <field name="journal_id" groups="account.group_account_user"/>
+                    <field name="period_id" invisible="context.get('visible', True)"/>
+                    <field name="type" invisible="context.get('visible', True)"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="audit" invisible="1"/>
+                    <field name="state"/>
+		</tree>
+	    </field>
+	</record>
+
+        <record id="view_pagos_tarjeta_search" model="ir.ui.view">
+            <field name="name">view.pagos.tarjeta.search</field>
+            <field name="model">account.voucher</field>
+	    <field name="inherit_id" ref="account_voucher.view_voucher_filter" />
+            <field name="arch" type="xml">
+		<search string="Search Vouchers">
+                     <field name="nro_tarjeta" string="Nro Tarjeta"/>
+                     <field name="tipo_tarjeta" string="Tipo Tarjeta"/>
+                     <field name="nro_cupon" string="Cupon"/>
+		</search>
+	    </field>
+	</record>
+
+        <record id="action_view_pagos_tarjeta" model="ir.actions.act_window">
+            <field name="name">Pagos con Tarjeta</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+	    <field name="view_id" ref="view_pagos_tarjeta_tree" />
+	    <field name="domain">[('nro_tarjeta','!=','')]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem action="action_view_pagos_tarjeta" id="menu_pagos_tarjeta_credito"
+            parent="account.menu_finance_bank_and_cash"/>
+
+
+    </data>
+</openerp>

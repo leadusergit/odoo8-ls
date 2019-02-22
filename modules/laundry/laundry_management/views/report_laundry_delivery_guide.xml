@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_laundry_delivery_guide">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td><span t-field="o.company_id.logo"  t-field-options='{"widget": "image"}'/></td>
+                    </tr>
+                    </table>
+                    <h2>Guía de Entrega <span t-field="o.codigo_auto"/></h2>
+                    <table class="table table-condensed">
+                        <tr>
+                            <td><strong>Origen:</strong></td>
+                    		<td><strong><span t-field="o.company_id"/></strong></td>
+                    		<td><strong>Planta Destino:</strong></td>
+                    		<td><strong><span t-field="o.planta_id"/></strong></td>
+                        </tr>
+                        <tr>
+                        	<td><strong>Responsable:</strong></td>
+                        	<td><span t-field="o.user_id"/></td>                        	
+                       </tr>
+                        <tr>
+                        	<td><strong>Nº Prendas:</strong></td>
+                        	<td><span t-field="o.num_prendas_ge"/></td>                        	
+                        	<td><strong>Transportista:</strong></td>
+                            <td><span t-field="o.partner_id"/></td>
+                       </tr>
+                       <tr>
+                            <td><strong>Fecha:</strong></td>
+                            <td><span t-field="o.fecha_recepcion"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr class="border-black">
+                                <th>Orden de Servicio</th>
+                                <th>Prendas</th>
+                                <th>Valor</th>
+				<th>Observación</th>                                
+				<th>Reclamo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-black" t-foreach="get_laundry_ge_lines(o.guia_lines)" t-as="p">
+                            	<td><span class="text-right" t-field="p.service_order_id.tag_asignado"/></td>
+                            	<td><span class="text-right" t-field="p.num_prendas"/></td>
+                            	<td><span class="text-right" t-field="p.total"/></td>
+                            	<td><span class="text-right" t-field="p.observacion"/></td>
+				<td><span class="text-right" t-field="p.service_claim_id.codigo_orden_reclamo"/></td>                            	                            	
+                            </tr>
+                        </tbody>
+                    </table>	
+                   	<table class="table table-condensed text-center">
+                        <tr class="border-black">
+                    		<td></td>  
+                    		<td><strong>Entrega</strong></td>
+                    		<td></td>                    	
+							<td><strong>Recibe</strong></td> 
+							<td></td>                   	                   	             	                   	                  			
+                    	</tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

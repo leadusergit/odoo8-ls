@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+    	<!--
+    	===========================
+    	WIZARD RDEP XML
+    	===========================
+    	-->
+    	<record id='wizard_generate_rdep_form' model='ir.ui.view'>
+    		<field name='name'>wizard.generate.rdep.form</field>
+    		<field name='model'>wizard.generate.rdep</field>
+    		<field name='type'>form</field>
+    		<field name='arch' type='xml'>
+    			<form>
+    				<label string="Asistente para generar el formulario RDEP en formato XML." colspan="4"/>
+					<group colspan="4" col="4" string="Filtros">
+	    				<group colspan="2" col="2">
+			    			<field name="employee_id" widget="many2many_tags"/>
+							<field name='fiscalyear_id'/>
+
+		    			</group>
+	    			</group>
+					<footer>
+						<button type="object" name="generar_rdep_xml" string="Generar XML" class="oe_highlight"/>
+						ó
+						<button string="Close" special="cancel" class="oe_link"/>
+					</footer>
+    			</form>
+    		</field>
+    	</record>
+
+    	<!-- Acción -->
+    	<record id='action_wizard_generate_rdep' model='ir.actions.act_window'>
+    		<field name='name'>Generar Formulario RDEP</field>
+    		<field name='type'>ir.actions.act_window</field>
+    		<field name='res_model'>wizard.generate.rdep</field>
+    		<field name='view_type'>form</field>
+    		<field name='view_mode'>form</field>
+    		<field name='view_id' ref='wizard_generate_rdep_form'></field>
+    		<field name='target'>new</field>
+    	</record>
+
+	</data>
+</openerp>

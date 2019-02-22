@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="conciliation_bank_search" model="ir.ui.view">
+            <field name="name">conciliation.bank.search</field>
+            <field name="model">account.conciliation</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string='Concilacion Bancaria'>
+                	<filter string="En proceso" name='f_inprocess' domain="[('state','in',['draft','read'])]"/>
+                	<filter string="Confirmados" domain="[('state','=','confirm')]"/>
+                	<field name="journal_id"/>
+                    <field name="date_to"/>
+                    <field name="state"/>        	
+                </search>
+            </field>
+        </record>
+    	<record id="conciliation_bank_form" model="ir.ui.view">
+            <field name="name">conciliation.bank.form</field>
+            <field name="model">account.conciliation</field>
+            <field name="type">form</field>
+            <field name="priority" eval="2" />
+			<field name="arch" type="xml">
+                <form string="Conciliacion Bancaria">
+                	<header>
+               			<!--button name="calcular_conciliacion" states="read" string="Calcular" type="object"/-->
+                    	<button name="procesar_conciliacion" states="read" string="Procesar" type="object" class="oe_highlight"/>
+                    	<button name="abrir_conciliacion" states="confirm" string="Abrir" type="object"/>
+	                    <field name="state" widget="statusbar" statusbar_visible="draft,read,confirm" statusbar_colors="{'draft':'blue','read':'blue','confirm':'blue'}"/>
+	                </header>
+                	<sheet string="Conciliacion Bancaria">
+                		<div class="oe_title">
+	                		<label for="journal_id"/>
+	                		<field name="journal_id"/>
+	                		<label for="date_to"/>
+	                		<field name="date_to" required="1"/>
+                		</div>
+		                <!--group col="6" colspan="4">
+	                        <field name="journal_id" on_change="onchange_journal_id(journal_id, period_id)"/>
+	                        <field name="period_id" on_change="onchange_journal_id(journal_id, period_id)"/>
+	                        <field name="filters"/>
+                          	<field name="date_from" attrs="{'invisible':[('filters','=','byperiod')],'required':[('filters','=','bydate')]}"/>
+                          	<field name="date_to" attrs="{'invisible':[('filters','=','byperiod')],'required':[('filters','=','bydate')]}"/>
+                        	<field name="period_to" attrs="{'invisible':[('filters','=','bydate')],'required':[('filters','=','byperiod')]}"/>
+	                    </group-->
+                    	<notebook>
+                    		<page string="Líneas de conciliación">
+		                      	<group col="1">
+		                      		<group col="10">
+			                        	<label string="" colspan="7"/>
+			                        	<button name="cargar_conciliacion" states="draft,read" string="Buscar" icon="gtk-find" type="object"/>
+			                        	<button name="uncheck_all" states="draft,read" string="Desmarcar" icon="gtk-media-stop" type="object"/>
+			                        	<button name="check_all" states="draft,read" string="Marcar" icon="gtk-media-record" type="object"/>
+			                    	</group>
+		                    		<field name="conciliation_ids" nolabel="1" readonly="1" mode="tree"><!-- attrs="{'readonly':[('state','in',['confirm'])]}"-->
+			                    	   	<tree string="Lineas" editable="top">
+			                    	   		<field name="period_id" />
+			                    	   		<field name="date" />
+			                    	   		<field name="name" string="Tipo" width="40"/>
+								            <field name="numero_orden"/>
+			                    	   		<field name="nro" width="40"/>
+			                    	   		<field name="partner_id" />
+											<field name="ref" />
+											<field name="state" />	                    	   		
+			                    	   		<field name="debit" sum="Total"/>
+			                    	   		<field name="credit" sum="Total"/>
+			                    	   		<field name="conciliado" nolabel="1" readonly="1"/>
+			                    	   		<button type="object" name="un_check" string="Marcar" icon="terp-camera_test"
+			                    	   			attrs="{'invisible':['|',('state','=','confirm'),('conciliado','=',True)]}"/>
+			                    	   		<button type="object" name="un_check" string="Desmarcar" icon="terp-dialog-close"
+			                    	   			attrs="{'invisible':['|',('state','=','confirm'),('conciliado','=',False)]}" context="{'check':False}"/>
+			                    		</tree>
+			                    	</field>                 		
+		                      	</group>
+	                      	</page>
+	                      	<page string="Miscelanea">
+	                      		<group colspan="4" col="4">
+	                      			<field name="date"/>
+	                      			<field name="company_id" groups="base.group_multi_company" readonly="1"/>
+	                      		</group>
+	                      	</page>
+	                    </notebook>
+	                    <group class="oe_subtotal_footer oe_right">
+	                    	<div>
+	                    		<label for="balance_start" class="oe_inline"/>
+	                    		<button type="object" name="dummy_button" string="(Actualizar)" states="draft,read" class="oe_inline oe_link"/>
+	                    	</div>
+                    		<field name="balance_start" nolabel="1"/>
+	                       	<field name="balance_journal"/>
+	                        <field name="deposit_transit"/>
+	                        <field name="uncashed_checks"/>
+	                        <field name="balance_end_real" class="oe_subtotal_footer_separator"/>
+                        </group>
+                      	<div class="oe_clear">
+                            <label for="notes"/>
+                        </div>
+                        <field name="notes"/>
+                    </sheet>                 	
+                </form>
+            </field>
+        </record>
+		<record id="conciliation_bank_tree" model="ir.ui.view">
+            <field name="name">conciliation.bank.tree</field>
+            <field name="model">account.conciliation</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Concilacion Bancaria' colors="gray:state=='confirm';blue:state=='draft'">
+                	<field name="journal_id" select="1" string='Banco'/>
+                    <field name="date_to" select="1"/>
+                    <field name="balance_start"/>     
+                    <field name="balance_end_real" string="Saldo Final"/>   
+                    <field name="deposit_transit" string="Depositos en Trans."/>
+                    <field name="uncashed_checks" string="Cheque Girados y No Cobr."/>                    
+                    <field name="state"/>        	
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="conciliation_action">
+			<field name="name">Conciliacion Bancaria</field>
+			<field name="res_model">account.conciliation</field>
+			<field name="view_type">form</field>
+   			<field name="view_mode">tree,form</field>
+   			<!-- <field name="domain">[('origin','!=','req')]</field> -->
+   			 <field name="context">{'search_default_f_inprocess':'True'}</field> 
+		</record>
+
+		<record id="conciliation_action_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="conciliation_bank_form" />
+			<field name="act_window_id" ref="conciliation_action" />
+		</record>
+
+		<record id="conciliation_action_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="conciliation_bank_tree" />
+			<field name="act_window_id" ref="conciliation_action" />
+		</record>
+		
+
+   <report auto="False"
+           id="conciliaciones_report"
+           model="account.conciliation"
+           name="account.conciliation.report"
+           rml="account_invoice_retention/report/account_conciliation_report.rml"
+           string="Conciliación bancaria"
+           header="False"
+      />
+     
+ 	<menuitem action="conciliation_action" id="menu_conciliation_bank_action" parent="account.periodical_processing_reconciliation" groups="account.group_account_manager,account.group_account_user"  />
+<!--
+		<record id="purchase_view_report_tree" model="ir.ui.view">
+            <field name="name">purchase.view.report.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Lineas de Pedido">
+                    <field name="partner_id.ident_num" />
+                    <field name="partner_id.name"/>
+                    <field name="tipo_factura"/>
+                    <field name="date_invoice"/>
+                    <field name="date_due"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+	 Reporte de Factura de compras y retenciones 
+        <record model="ir.actions.act_window" id="view_purchase_report_action">
+			<field name="name">Reporte de Compras</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+   			<field name="view_mode">tree</field>
+		</record>
+
+
+		<record id="purchase_report_action_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="purchase_view_report_tree" />
+			<field name="act_window_id" ref="view_purchase_report_action" />
+		</record>
+		
+
+		
+ 		<menuitem action="view_purchase_report_action" id="menu_view_purchase_report_action" parent="account.next_id_30" />
+--> 
+
+		<!-- Adicion del numero de formulario -->
+        <record id="view_tax_code_formulario_form" model="ir.ui.view">
+            <field name="name">view.tax.code.formulario.form.inherit</field>
+            <field name="model">account.tax.code</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_tax_code_form"/>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+            <field name="company_id" position = "after">
+    	        	<field name="formulario"/>
+			</field>            
+            </field>
+        </record>   
+        
+        <!-- record id="view_tax_code_formulario_tree" model="ir.ui.view">
+            <field name="name">view.tax.code.formulario.tree.inherit</field>
+            <field name="model">account.tax.code</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="account.view_tax_code_tree"/>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+            <field name="company_id" position = "after">
+    	        	<field name="formulario"/>
+			</field>            
+            </field>
+        </record--> 
+        
+	
+    </data>
+</openerp>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record model="res.groups" id="invoice_report_gen">
+            <field name="name">Invoice / Reportes Invoice General</field>
+        </record>
+        
+	</data>
+	<data noupdate="1">
+	
+        <record model="ir.rule" id="account_invoice_retention_rule">
+	        <field name="name">Account invoice retention rule</field>
+	        <field name="model_id" ref="model_account_invoice_retention"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+        
+        <record model="ir.rule" id="account_conciliation_rule">
+	        <field name="name">Account conciliation rule</field>
+	        <field name="model_id" ref="model_account_conciliation"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<!-- Sequences for hr payroll permission-->
+		<record id="seq_nomina_permission" model="ir.sequence.type">
+			<field name="name">Nomina Permission Seq</field>
+			<field name="code">nomina.permission.sequence</field>
+		</record>
+		<record id="seq_permission" model="ir.sequence">
+			<field name="name">Nomina Permission Seq</field>
+			<field name="code">nomina.permission.sequence</field>
+			<field name="padding">3</field>
+			<field name="prefix">%(year)s</field>
+		</record>
+	</data>
+</openerp>

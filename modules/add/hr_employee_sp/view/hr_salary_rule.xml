@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+	<record id="view_salary_rule_tag" model="ir.ui.view">
+		<field name="name">view.salary.rule.tag</field>
+		<field name="model">hr.salary.rule</field>
+		<field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+		<field name="arch" type="xml">
+			<data>
+				<xpath expr="//field[@name='company_id']" position="after">
+						<field name="tag_impresion"/>
+				</xpath>
+			</data>
+		</field>
+	</record>
+		
+	</data>
+</openerp>

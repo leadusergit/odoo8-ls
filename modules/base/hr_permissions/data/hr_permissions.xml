@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="True">
+
+		<!-- ======== EGRESOS ======== -->
+		<record model="hr.expense.type" id="expense_1">
+			<field name="code">SUBIE</field>
+			<field name="description">Descuento por valor subsidiado por el IESS</field>
+			<field name="name">Subsidio IESS</field>
+		</record>
+
+		<record model="hr.expense.type" id="expense_2">
+			<field name="code">PEPAR</field>
+			<field name="description">Descuento por permisos particulares</field>
+			<field name="name">Permisos</field>
+		</record>
+
+		<record model="hr.expense.type" id="expense_3">
+			<field name="code">SUBMA</field>
+			<field name="description">Descuento por valor subsidiado por el IESS en
+				Maternidad
+			</field>
+			<field name="name">Subsidio IESS Maternidad</field>
+		</record>
+
+
+	</data>
+</openerp>

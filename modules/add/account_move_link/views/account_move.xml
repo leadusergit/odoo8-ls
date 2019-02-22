@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+	<record id="view_accountmove_add_form" model="ir.ui.view">
+		<field name="name">accountmove.add.form</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form" />
+		<field name="arch" type="xml">
+		 <notebook position="inside">
+			 <page string="Documento Origen">
+			<!-- <xpath expr="//field[@name='other_info']" position="after"> --> 
+			  <group colspan="4">
+				<field name="payslip_ref" string="Nomina"/>
+				<field name="inv_ref" string="Factura Clte/Prov"/>
+				<field name="ret_ref" string="Retencion Cliente"/>	
+				<field name="vchr_ref" string="Pago"/>
+			  </group>						
+			<!-- </xpath> -->
+		   </page>
+		  </notebook>	
+		 </field>
+	</record>	
+</data>
+</openerp>

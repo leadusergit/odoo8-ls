@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_plantilla">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h2>Plantilla Contable</h2>
+                    <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td>
+                        <span t-field="o.period_id.company_id.logo"  t-field-options='{"widget": "image"}'/>
+                        </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                           <td><strong>Año</strong></td>
+                           <td><span t-field="o.fiscalyear_id.code"/></td>
+                           <td><strong>Periodo</strong></td>
+                           <td><span t-field="o.period_id.code"/></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Sueldos(A pagar)</strong></td>
+                           <td><span t-field="o.wage"/></td>
+                           <td><strong>Descuentos</strong></td>
+                           <td><span t-field="o.expenses_amount"/></td>
+                       </tr>
+                     </table>
+                     <table class="table table-condensed table-bordered">
+                     <tbody>
+                     <tr  class="border-black">
+                     <td><strong>Descripción Gasto</strong></td>
+                     <td><strong>Valor</strong></td>
+                     <td><strong>Descripción Retención</strong></td>
+                     <td><strong>Valor</strong></td>
+                     </tr>
+                     <tr> 
+                     <t t-foreach="docs" t-as="o">
+                      <p>
+                       <t t-set="amount" t-value="run_sql('select pl.rule_namer descret,sum(pl.amountr) rvalor, pl.rule_name descgasto,sum(pl.amount) gvalor FROM hr_employee_plantilla_line pl where pl.fiscalyear_id=%s and pl.period_id=%s  group by pl.rule_name, pl.rule_namer order by 2 desc,4 desc',o.fiscalyear_id.id,o.period_id.id)"/>                        
+                       
+                       <t t-foreach="amount" t-as="part">         	
+                       <tr>
+                       <td><p><span t-esc="part['descgasto']"/></p></td>
+                       <td><p><span t-esc="part['gvalor']"/></p></td>
+                       <td><p><span t-esc="part['descret']"/></p></td>
+                       <td><p><span t-esc="part['rvalor']"/></p></td>                         
+                      </tr>
+                     </t>
+                     </p>
+                     </t>
+                     </tr>
+                     <tr style="font-size:16px">
+                        <td><strong>Total Gasto Personal</strong></td>                          
+                        <td><strong><span t-field="o.incomes_amount"/></strong></td>
+                        <td><strong>Total Retenciones</strong></td>
+                        <td><strong><span t-field="o.retenciones"/></strong></td>
+                   	</tr>
+                     </tbody>
+                     </table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

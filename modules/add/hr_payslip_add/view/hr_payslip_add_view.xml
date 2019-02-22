@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_hr_payslip_add" model="ir.ui.view">
+			<field name="name">hr.payslip.add</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//field[@name='input_line_ids']" position="after">
+						<button type="object" name="load_info" string="Cargar Datos" icon="gtk-execute" attrs="{'invisible':[('state','=','done')]}"
+						help="Carga de variables y valores ,usar los códigos de las reglas salariales:TRANSPORTE,PRESTEMP,ALIMENTACION,ANTI,
+						      DESAHUCIO,MAT,HORA_EXTRA_REGULAR,
+						      HORA_EXTRA_EXTRAORDINARIA etc"/>
+					</xpath>
+					<xpath expr="//field[@name='credit_note']" position="after">
+						<!-- <field name="num_dias"/>  -->
+						<field name="time_in"/>
+						<!-- <field name="nomina_type"/>-->
+					</xpath>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>

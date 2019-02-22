@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+ 		<!-- Añade campo al final de la lista en la vista tree Documentos Cliente/Proveedor-->
+    	 <!-- <record id="account_invoice_treeview_ruc" model="ir.ui.view">
+         <field name="name">account.invoice.treeview</field>
+         <field name="model">account.invoice</field>
+         <field name="inherit_id" ref="account_invoice_retention.invoice_anticipo_tree"/>
+         <field eval="1" name="priority"/>
+         <field name="arch" type="xml">
+		 <tree>
+            <field name="ident_partner_num"/>
+		 </tree>
+		 </field>
+         </record> -->
+         
+        <!--Busca campo partner_id y añade campo en la ubicacion requerida en la vista tree Documentos Cliente/Proveedor --> 
+       <record model="ir.ui.view" id="account_invoice_treeview_ruc">
+       <field name="name">account.invoice.treeview</field>
+       <field name="model">account.invoice</field>
+       <field name="type">tree</field>
+       <field name="inherit_id" ref="account_invoice_retention.invoice_anticipo_tree"/>
+       <field name="arch" type="xml">
+         <xpath expr="/tree/field[@name='partner_id']" position="before">
+                   <field name="ident_partner_num" />
+         </xpath>
+       </field>
+  	   </record>
+        
+        
+        <!-- Modifica campo origin a requerido en vista Factura cliente--> 
+        <!--<record id="view_account_invoice_rf" model="ir.ui.view">
+		<field name="name">account.invoice.rf</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="arch" type="xml">
+			<data>
+				<xpath expr="//field[@name='origin']" position="replace">
+					<field name="origin" required="1"/>
+				</xpath>
+			</data>
+		</field>
+		</record>--> 
+		
+		
+		<!-- Se crea vista de objeto account.invoice.tax para generar reporte de impuestos Informes/Administracion Financiera -->
+		<record id="account_invoice_tax_tree_view" model="ir.ui.view">
+		<field name="name">account.invoice.tax.tree.view</field>
+		<field name="model">account.invoice.tax</field>
+		<field name= "arch" type = "xml">
+			<tree string="Impuestos Documentos" create="false" on_write="on_create_write" delete="false">
+				<field name="create_date" invisible="1"/>
+				<field name="date_invoice" invisible="1"/>
+				<field name="name"/>
+				<field name="tax_group"/>				
+				<field name="invoice_id"/>
+		 		<field name="ret_id"/>
+		 		<field name="base"/>
+		 		<field name="percent"/>
+		 		<field name="tax_amount"/>
+			</tree>
+		</field>
+		</record>
+		
+		<record id="account_invoice_tax_graph" model="ir.ui.view">
+            <field name="name">account.invoice.tax.graph</field>
+            <field name="model">account.invoice.tax</field>
+            <field name="arch" type="xml">
+                <graph string="Estadisticas" type="bar" stacked="True">
+                   	<field name="date_invoice" type="row" />
+                    <field name="name" type="col"/> 
+                    <field name="tax_amount" operator="+"/>
+                </graph>
+            </field>
+    	 </record>
+    	 
+    	 <!-- <record id="account_invoice_tax_kanban" model="ir.ui.view">
+            <field name="name">account.invoice.tax.kanban</field>
+            <field name="model">account.invoice.tax</field>
+            <field name="arch" type="xml">
+             <kanban>
+               	<field name = "date_invoice"/>             
+             	<field name = "name"/>
+             	<field name = "base"/>
+                <field name = "tax_amount"/>
+           		 <templates>
+               		 <t t-name="kanban-box">
+                   		 <div>
+                        	 <table border="1" width="100%">
+                   				 <tr>
+                        			<td rowspan="2"><t t-esc="record.name.value"/>-<t t-esc="record.date_invoice.value"/></td>
+                        			<td>Base</td>
+                        			<td>Valor</td>
+                    			</tr>
+                    			<tr>
+                    			 <td><t t-esc="record.base.value"/></td>
+                       			 <td><t t-esc="record.tax_amount.value"/></td>
+                    			</tr>
+               				 </table>
+                    	</div>
+                	</t>
+            	</templates>
+            </kanban>
+            </field>
+    	 </record> -->
+    
+    		<record id="view_account_invoice_tax_search" model="ir.ui.view">
+            <field name="name">Detalle de Impuestos</field>
+            <field name="model">account.invoice.tax</field>
+            <field name="arch" type="xml">
+                <search string="Search Items">
+                    <filter icon="terp-camera_test" string="IVA12" domain="[('tax_group','=','vat'),('state_fact','!=','cancel')]"/>
+                    <filter icon="terp-camera_test" string="IVA0" domain="[('tax_group','=','vat0'),('state_fact','!=','cancel')]"/> 
+                    <filter icon="terp-camera_test" string="RIR" domain="[('tax_group','=','ret_ir'),('state_fact','!=','cancel')]"/>
+                    <filter icon="terp-camera_test" string="RIVA" domain="[('tax_group','=','ret_vat'),('state_fact','!=','cancel')]"/>                      	                
+                  	<field  name="create_date"/>
+                  	
+                  <group expand="0" string="Group By">
+                    <filter name="filter_periodo" string="Periodo" icon="terp-folder-orange" domain="[('state_fact','!=','cancel')]" context="{'group_by':'date_invoice'}"/>                    
+                    <filter name="filter_name" string="Desc.Impuesto"  icon="terp-folder-green" context="{'group_by':'name'}"/>
+                    <filter name="filter_grupo" string="Grupo Impuesto"  icon="terp-folder-green" domain="[('state_fact','!=','cancel')]" context="{'group_by':'tax_group'}"/>
+                </group>
+                </search>
+            </field>
+    </record>
+
+    
+	<record id="action_account_invoice_tax_a" model="ir.actions.act_window">
+            <field name="name">Detalle de Impuestos Documentos</field>
+            <field name="res_model">account.invoice.tax</field>
+            <field name="view_id" ref="account_invoice_tax_tree_view"/>
+            <field name="search_view_id" ref="view_account_invoice_tax_search"/>
+            <field name="view_mode">tree,graph</field>
+            <field name="context">{"search_default_filter_periodo":1,"search_default_filter_name":1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Seleccione  los filtros que se requieran.
+              </p><p>
+                Use esta vista
+              </p>
+            </field>
+     </record>
+      
+     <menuitem action="action_account_invoice_tax_a" id="menu_account_invoice_tax" name="Detalle Impuestos" parent="account.menu_finance_reporting" sequence="30"/>
+        
+     <record id="action_account_invoice_tax_tree" model="ir.actions.act_window">
+         <field name="name">Detalle Impuestos Doc</field>
+         <field name="res_model">account.invoice.tax</field>
+         <field name="view_id" ref="account_invoice_tax_tree_view"/>
+         <field name="search_view_id" ref="view_account_invoice_tax_search"/>
+     </record>
+ 
+    </data>
+</openerp>

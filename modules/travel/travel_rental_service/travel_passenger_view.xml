@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- Views -->
+    <record model="ir.ui.view" id="travel_passenger_form_view">
+      <field name="name">Travel Passenger Form View</field>
+      <field name="model">travel.passenger</field>
+      <field name="inherit_id" ref="travel.travel_passenger_form_view"/>
+      <field name="priority" eval="4.0"/>
+      <field name="arch" type="xml">
+        <notebook name="Info" position="inside">
+          <page string="Travel - Other services">
+            <field name="rental_service_ids"  context="{'default_start': context.get('default_date_start', False), 'default_end': context.get('default_date_stop', False)}">
+              <tree name="PassengerRentalTree" version="7.0">
+                <field name="location" domain="[('is_rental_service', '=', True)]"
+                       context="{'default_is_rental_service': True, 'default_is_company': True}"/>
+                <field name="city_id"/>
+                <field name="start"/>
+                <field name="end"/>
+                <field name="capacity"/>
+              </tree>
+            </field>
+            <center>
+              <!-- Import from other passengers with widget TODO: filter by state='draft'? -->
+              <button string="Copy Other Services from other Passengers"
+                      name="travel_rental_service.action_travel_rental_service_import"
+                      type="action"
+                      context="{'default_travel_id': travel_id, 'default_cur_passenger_id': id}"/>
+            </center>
+          </page>
+        </notebook>
+      </field>
+    </record>
+  </data>
+</openerp>

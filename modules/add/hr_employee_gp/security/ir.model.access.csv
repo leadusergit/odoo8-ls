@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_income_tax_table_hr_manager,hr.income.tax.table.hr.manager,model_hr_income_tax_table,base.group_hr_manager,1,1,1,1
+access_hr_contract_employee,hr.contract.employee,hr_contract.model_hr_contract,base.group_user,1,0,0,0
+access_hr_fiscalyear_employee,hr.fiscalyear.employee,hr_ec.model_hr_fiscalyear,base.group_user,1,0,0,0
+access_hr_contract_period_employee,hr.contract.period.employee,hr_ec.model_hr_contract_period,base.group_user,1,0,0,0
+access_hr_income_tax_table_employee,hr.income.tax.table.employee,model_hr_income_tax_table,base.group_user,1,0,0,0
+access_hr_payroll_employee,hr.payroll.employee,hr_nomina.model_hr_payroll,base.group_user,1,0,0,0
+access_hr_income_employee,hr.income.employee,hr_nomina.model_hr_income,base.group_user,1,0,0,0
+access_hr_expense_employee,hr.expense.employee,hr_nomina.model_hr_expense,base.group_user,1,0,0,0

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem action="account.action_invoice_tree" id="account.menu_finance_invoice" parent="account.menu_finance"/>
+        <!-- 
+        vista guillermo
+         -->
+        <!--record id="invoice_tree_group_taxes_totals" model="ir.ui.view">
+			<field name="name">account.invoice.tree.group_taxes_totals</field>
+			<field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+				<tree >
+					<field name="partner_id"  string="Proveedor" width="50"/>
+					<field name="type"/>
+					<field name="tipo_factura" string="Tipo Comp"/>
+					<field name="date_invoice" string="Fec.Emisión"/>
+					<field name="factura" string="No.Comp" />
+					<field name="t_bi_iva" sum="Tot. BI IVA" />
+					<field name="t_iva" sum="Tot. IVA" />
+					<field name="t_b_excenta_iva" sum="Total Base excenta de IVA" />
+					<field name="t_ret_iva" sum="Tot. Ret. IVA" />
+					<field name="t_bi_ir" sum="Tot. BI IR" />
+					<field name="t_ret_ir" sum="Tot. Ret. IR" />
+					<field name="t_b_excenta_ret_ir" sum="Tot. Base excenta de Ret. IR" />
+					<field name="amount_untaxed" sum="Untaxed amount" />
+					<field name="amount_total" sum="Total amount" />
+					<field name="residual" />
+					<field name="state" />
+					<field name="origin" invisible="1"/>
+					<field name="num_retention" invisible="1"/>
+					<field name="date_due" invisible="1"/> 
+					<field name="order_total_billing" invisible="1"/>
+					<field name="amount_discount" invisible="1"/>
+					<field name="invoice_line" invisible="1"/>
+					<field name="saleer" invisible="1"/>
+				</tree>
+			</field>
+		</record-->
+
+		<!--
+			Accion que presenta un listado de los documentos proveedores y
+			clientes con detalle de impuestos
+		-->
+		
+		<!-- Documentos de Proveedor -->
+		 <record id="action_invoice_tree_group_taxes_totals" model="ir.actions.act_window">
+			<field name="name">Documentos proveedor/cliente</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','in',['paid','open'])]></field>
+		</record>
+		<menuitem id="menu_invoice_tree_group_taxes_totals" action="action_invoice_tree_group_taxes_totals" parent="account.menu_finance_invoice" />
+		 
+		<record model="ir.actions.act_window" id="action_document_supplier">
+			<field name="name">Documentos de Proveedor con detalle de impuestos</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state','in',['open', 'paid']), ('type','in',['in_invoice', 'in_refund']), ('tipo_factura','not in',['anticipo'])]</field>
+		</record>
+		<menuitem id="menu_document_supplier" parent="account.menu_finance_invoice" action="action_document_supplier"/>
+		 
+        <!-- Documentos de Clientes -->
+		<record model="ir.actions.act_window" id="action_document_client">
+			<field name="name">Documentos de Clientes con detalle de impuestos</field>
+			<field name="res_model">account.invoice</field>
+			<field name="domain">[('state','in',['open', 'paid']), ('type','in',['out_invoice', 'out_refund'])]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem id="menu_document_client" parent="account.menu_finance_invoice" action="action_document_client"/>
+		
+		<!--
+		=================================================================================================
+		 MIGRACION DE DATOS DE FACTURAS
+		=================================================================================================
+		 -->
+		
+		<!--record id="invoice_migration_tree" model="ir.ui.view">
+            <field name="name">account.invoice.migration.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='draft'" string="Invoice">
+                    <field name="name" select="1" />
+                    <field name="origin" select="1"/>
+                    <field name="number" invisible = "1"/>
+                    <field name="number_inv_supplier" />
+                    <field name="partner_id" />
+                    <field name="type" />
+                    <field name="amount_untaxed" sum="Untaxed amount"/>
+                    <field name="amount_total" sum="Total amount"/>
+                    <field name="currency_id"/>
+                    <field name="date_invoice" select="1"/>
+                    <field name="date_due" select="1"/>
+                    <field name="residual"/>
+                    <field name="state" select="1" />
+                    <field name="auth_inv_id" invisible="1" />
+                </tree>
+            </field>
+        </record-->
+        
+         <!--record id="action_invoices_migration" model="ir.actions.act_window">
+            <field name="name">Migrar Facturas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','in_invoice')]</field>
+           	<field name="context">{'type':'in_invoice'}</field>
+            <field name="view_id" ref="invoice_migration_tree"/>
+        </record-->
+        
+<!--         <menuitem action="action_invoices_migration" id="menu_action_invoices_migration" parent="account.menu_finance_invoice" groups="group_account_no_option"/> -->
+       
+        <record id="invoice_line_migration_tree" model="ir.ui.view">
+            <field name="name">account.invoice.line.migration.tree</field>
+            <field name="model">account.invoice.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Line">
+                    <field name="invoice_id" />
+                    <field name="name" />
+                    <field name="account_id" />
+                    <field name="quantity"/>
+                    <field name="uos_id"/>
+                    <field name="price_unit"/>
+                    <field name="discount"/>
+                    <field name="price_subtotal"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_invoices_line_migration" model="ir.actions.act_window">
+            <field name="name">Migrar Lineas de Facturas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.invoice.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="invoice_line_migration_tree"/>
+        </record>
+       
+        <menuitem action="action_invoices_line_migration" id="menu_action_invoices_line_migration" parent="account.menu_finance_invoice" groups="group_account_no_option"/>	
+        
+        <!-- ACCION PARA LAS LIQUIDACIONES DE COMPRAS EN EL MENU PROVEEDORES -->
+        <record model="ir.actions.act_window" id="action_purchase_liq">
+			<field name="name">Liquidaciones de compras</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('type','in',['in_invoice', 'in_refund']), ('tipo_factura','in',['purchase_liq'])]</field>
+		</record>
+		<menuitem id="menu_purchase_liq" parent="account.menu_finance_payables" action="action_purchase_liq" />
+		
+    </data>
+</openerp>

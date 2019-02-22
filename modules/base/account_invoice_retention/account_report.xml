@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <report auto="False"
+	    id="account_retention"
+	    groups="invoice_report_gen"
+	    model="account.invoice"
+	    name="account.retention"
+	    rml="account_invoice_retention/report/account_retention.rml"
+	    string="Comprobante de Retencion"
+	    header="False"
+       />
+       
+      <report auto="True"
+	    id="account_invoices_ind"
+	    groups="invoice_report_gen"
+        model="account.invoice"
+        name="account.invoice.ind"
+        rml="addons/account_invoice_retention/report/invoice_ind.rml"
+        string="Facturas Ventas"
+        header="True"
+        />
+        
+        <report auto="False"
+	    id="account_invoice_resume"
+	    groups="invoice_report_gen"
+        model="account.invoice"
+        name="account.invoice.resume"
+        rml="addons/account_invoice_retention/report/invoice_resume.rml"
+        string="Facturas Ventas Resumido"
+        header="False"
+        />
+        
+        
+        <report auto="False"
+	    id="purchase_liq_report"
+	    groups="invoice_report_gen"
+        model="account.invoice"
+        name="purchase.liq.report"
+        rml="addons/account_invoice_retention/report/purchase_liq_report.rml"
+        string="Liquidacion de Compras"
+        header="False"
+        />
+	    
+ 	<report auto="False"
+	    id="voucher_ret_daily"
+	    model="account.invoice.retention.voucher"
+	    name="account.invoice.retention.voucher"
+	    rml="account_invoice_retention/report/voucher_ret_daily.rml"
+	    string="Comprobante de Diario"
+	    header="False"
+       />
+       
+    <report auto="False"
+	    id="invoice_move"
+	    groups="invoice_report_gen"
+	    model="account.invoice"
+	    name="invoice.move"
+	    rml="account_invoice_retention/report/invoice_move.rml"
+	    string="Factura-Movimiento"
+	    header="False"
+	    />
+
+    <!--report auto="False"
+	    id="account_move"
+	    model="account.move"
+	    name="account.move"
+	    rml="account_invoice_retention/report/account_move.rml"
+	    string="Movimiento - Ingreso Caja"
+	    header="False"	
+	    /-->
+
+     <report auto="False"
+	    id="account_move_diario"
+	    groups="invoice_report_gen"
+	    model="account.move"
+	    name="account.move.diario"
+	    rml="account_invoice_retention/report/account_move_diario.rml"
+	    string="Movimiento - Comprobante Diario"
+	    header="False"	
+	    />
+	 
+	 <!--report auto="False"
+	    id="pay_order_move"
+	    groups="invoice_report_gen"
+	    model="account.move"
+	    name="pay.order.move"
+	    rml="account_invoice_retention/report/pay_order_move.rml"
+	    string="Movimiento - Orden de Pago"
+	    header="False"	
+	    /-->
+	    
+	 <report auto="False"
+	    id="credit_note"
+	    groups="invoice_report_gen"
+	    model="account.invoice"
+	    name="credit.note"
+	    rml="account_invoice_retention/report/credit_note.rml"
+	    string="Nota de Credito"
+	    header="False"
+        />
+        
+      <!--report auto="False"
+	    id="account_impago"
+	    groups="invoice_report_gen"
+	    model="account.invoice"
+	    name="account.impago"
+	    rml="account_invoice_retention/report/account_impago.rml"
+	    string="Facturas de Proveedores Impago"
+	    header="False"
+       /-->
+
+	  <!--report auto="False"
+        id="pay_order_invoice"
+        groups="invoice_report_gen"
+        model="account.invoice"        
+        name="pay.order.invoice"
+        rml="account_invoice_retention/report/pay_order_invoice.rml"
+        string="Factura-Orden de Pago" 
+        header="False"
+        /-->
+      <report 
+            id="account.account_invoices"
+            model="account.invoice"
+            string="Invoices"
+            report_type="qweb-pdf"
+            name="account.report_invoice"
+            file="account.report_invoice"
+            attachment_use="True"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+        />  
+            
+  </data>
+</openerp>

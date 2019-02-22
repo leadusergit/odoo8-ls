@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>         
+         <report 
+         	id="laundry_order"
+            model="laundry.management" 
+            string="Orden Servicio Lavanderia"
+            report_type="qweb-pdf"
+            name="laundry_management.report_laundry_order" 
+            file="laundry_management.report_laundry_order"
+  
+        />
+         <report 
+         	id="laundry_order_chofer"
+            model="laundry.management" 
+            string="Orden Servicio Lavanderia (Reporte Transporte)"
+            report_type="qweb-pdf"
+            name="laundry_management.report_laundry_order_chofer" 
+            file="laundry_management.report_laundry_order_chofer"
+        />
+        
+        <report 
+         	id="laundry_ge"
+            model="laundry.delivery.guide" 
+            string="Guia de Entrega"
+            report_type="qweb-pdf"
+            name="laundry_management.report_laundry_delivery_guide" 
+            file="laundry_management.report_laundry_delivery_guide"
+        />
+        
+        <report 
+         	id="laundry_gd"
+            model="laundry.dispatch.guide" 
+            string="Guia de Despacho"
+            report_type="qweb-pdf"
+            name="laundry_management.report_laundry_dispatch_guide" 
+            file="laundry_management.report_laundry_dispatch_guide"
+        />
+        
+         <report 
+         	id="laundry_claim_report"
+            model="laundry.claim" 
+            string="Reclamo"
+            report_type="qweb-pdf"
+            name="laundry_management.report_laundry_claim" 
+            file="laundry_management.report_laundry_claim"
+        />
+        
+        
+        <record id="paperformat_laundryorder" model="report.paperformat">
+    		<field name="name">FA</field>
+    		<field name="default" eval="True" />
+   		 	<field name="format">A6</field>
+   		 	<field name="page_height">0</field>
+    		<field name="page_width">0</field>
+    		<field name="orientation">Portrait</field>
+    		<field name="margin_top">4</field>
+    		<field name="margin_bottom">4</field>
+    		<field name="margin_left">4</field>
+   			<field name="margin_right">4</field>
+    		<field name="header_line" eval="False" />
+    		<field name="header_spacing">0</field>
+    		<field name="dpi">80</field>
+		</record>
+		<record id="laundry_management.laundry_order" model="ir.actions.report.xml">
+    <field name="paperformat_laundryorder" ref="laundry_management.paperformat_laundryorder" />
+    
+</record>
+    </data>
+</openerp>

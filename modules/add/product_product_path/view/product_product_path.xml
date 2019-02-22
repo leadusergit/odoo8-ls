@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	       <record id="imagen_product_form" model="ir.ui.view">
+            <field name="name">imagen.product.form</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+            <data>
+				<xpath expr="//field[@name='company_id']" position="before">
+                    <field name="imagen_path"/>
+                </xpath>
+				</data>
+            </field>
+        </record>  
+		
+	</data>
+</openerp>

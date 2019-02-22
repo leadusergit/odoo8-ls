@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+	===============
+	Provision Type
+	===============
+	 -->
+            
+            <record model="ir.ui.view" id="hr_provision_type_tree_view">
+                <field name="name">hr.provision.type.tree</field>
+                <field name="model">hr.provision.type</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Tipos Provisiones">
+                        <field name="name"/>
+                        <field name="field_name"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="hr_provision_type_form_view">
+                <field name="name">hr.provision.type.form</field>
+                <field name="model">hr.provision.type</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Tipo de Provision">
+                    	<group colspan="4" col="4">
+	                        <field name="name" select="1" colspan="4" required="1"/>
+	                        <field name="description" select="1" colspan="4" widget="char" size="2000"/>
+	                        <field name="field_name" select="1" domain="[('model', '=', 'hr.provision')]" required="1"/>
+	                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+	                    </group>
+                    </form>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_hr_provision_type_tree_view">
+                <field name="name">Tipos de Provisiones</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">hr.provision.type</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="hr_provision_type_tree_view"/>
+            </record>
+		
+		<!--
+	==============
+	Expense Type
+	============== 
+	 -->
+
+		<record model="ir.ui.view" id="hr_expense_type_tree_view">
+			<field name="name">hr.expense.type.tree</field>
+			<field name="model">hr.expense.type</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Egresos">
+					<field name="name" />
+					<field name="description" />
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="hr_expense_type_form_view">
+			<field name="name">hr.expense.type.form</field>
+			<field name="model">hr.expense.type</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Egreso">
+					<group colspan="4" col="2">
+						<field name="name" select="1" required="1" />
+						<field name="description" />
+						<field name="code" />
+						<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_expense_type_tree_view">
+			<field name="name">Egresos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.expense.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="hr_expense_type_tree_view" />
+		</record>
+
+		<!--
+	=================
+	 Control Hours
+	=================
+	-->
+
+		<!--record model="ir.ui.view" id="view_hr_payroll_hours_form">
+			<field name="name">hr.payroll.hours.view.form</field>
+			<field name="model">hr.payroll.hours</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Reporte Semanal Horas Extras">
+					<separator string="Generalidades" />
+					<field name="category_id" on_change="onchange_categories(category_id)"
+						select="1" />
+					<field name="date_start" select="1" />
+					<field name="date_end" select="1" />
+					<separator />
+				</form>
+			</field>
+		</record-->
+
+		<!--
+  =================
+   HR Income Admin
+  =================
+  -->
+		<!--form-->
+
+		<record model="ir.ui.view" id="view_hr_adm_incomes_form">
+			<field name="name">hr.adm.incomes.form</field>
+			<field name="model">hr.adm.incomes</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Administrador de Ingresos al Rol">
+					<group colspan="4" col="4">
+						<field name="name" select="1"/>
+						<field name="code" select="1"/>
+						<field name="payroll_label" />
+						<field name="type" select="1"/>
+						<field name="orden" string="Orden en el Rol"/>
+						<field name="company_id" groups="base.group_multi_company" widget="selection"/>
+					</group>
+					<notebook colspan="4">
+						<page string="Generalidades">
+							<group colspan="4" col="3">
+								<group colspan="1" col="2" string="Impuestos">
+									<field name="aporte_iess" />
+									<field name="impuesto_renta" />
+									<field name="fondo_reserva" />
+									<field name="date_proportional" />
+								</group>
+								<group colspan="2" col="4" string="Forma de cálculo">
+									<field name="default_value"
+										attrs="{'required':[('type', 'in', ['variable_bonus', 'static_value'])]}" />
+									<field name="done_percent" attrs="{'required':[('type','=','variable_bonus')]}" />
+									<field name="obtain_method"
+										attrs="{'required':[('type', 'in', ['variable_bonus', 'obtained_value', 'proportional'])]}" />
+									<group colspan="4"
+										attrs="{'invisible':[('obtain_method','!=','method_func')]}">
+										<field name="method_id"
+											attrs="{'required':[('obtain_method','=','method_func')]}" />
+									</group>
+									<group colspan="4" col="4"
+										attrs="{'invisible':[('obtain_method','!=','func_formula')]}">
+										<field name="formula_id" on_change="get_formula_resume(formula_id)"
+											attrs="{'required':[('obtain_method','=','func_formula')]}" />
+										<field name="formula"
+											attrs="{'required':[('obtain_method','=','func_formula')]}" />
+									</group>
+								</group>
+							</group>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+
+		<!--tree-->
+		<record model="ir.ui.view" id="view_hr_adm_incomes_tree">
+			<field name="name">hr.adm.incomes.tree</field>
+			<field name="model">hr.adm.incomes</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Administrador de Ingresos al Rol">
+					<field name="name" select="1"/>
+					<field name="code" select="1"/>
+					<field name="orden" string="Orden en el Rol"/>
+					<field name="type" select="1"/>
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+
+		<!--
+  =================
+   HR Method
+  =================
+  -->
+		<!--form-->
+		<record model="ir.ui.view" id="view_hr_method_form">
+			<field name="name">hr.method.form</field>
+			<field name="model">hr.method</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Administrador de Metodos">
+					<group colspan="4" col="4">
+						<field name="name" />
+						<field name="code" />
+						<newline />
+						<field name="object_id" />
+						<field name="reference" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<!--tree-->
+		<record model="ir.ui.view" id="view_hr_method_tree">
+			<field name="name">hr.method.tree</field>
+			<field name="model">hr.method</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Administrador de Metodos">
+					<field name="name" />
+					<field name="code" />
+				</tree>
+			</field>
+		</record>
+
+		<!--
+  =================
+   HR Formula
+  =================
+  -->
+		<!--form-->
+		<record model="ir.ui.view" id="view_hr_formula_form">
+			<field name="name">hr.formula.form</field>
+			<field name="model">hr.formula</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Administrador de Formulas">
+					<group colspan="4" col="4">
+						<field name="name" />
+						<newline />
+						<field name="code" />
+						<newline />
+						<notebook colspan="4">
+							<page string="Ingresos">
+								<separator string="Ingresos" colspan="3" />
+								<field name="adm_incomes_ids" colspan="4" select="1"
+									nolabel="1" />
+							</page>
+							<page string="Metodos">
+								<separator string="Metodos" colspan="3" />
+								<field name="method_ids" colspan="4" select="1" nolabel="1" />
+							</page>
+						</notebook>
+						<field name="resume" colspan="3" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<!--tree-->
+		<record model="ir.ui.view" id="view_hr_formula_tree">
+			<field name="name">hr.formula.tree</field>
+			<field name="model">hr.formula</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Administrador de Formulas">
+					<field name="name" />
+					<field name="code" />
+				</tree>
+			</field>
+		</record>
+		
+		<!--
+	=========
+	Ingresos
+	=========
+-->
+		<record model="ir.ui.view" id="view_hr_income_employee_search">
+			<field name="name">hr.income.employee.search</field>
+			<field name="model">hr.income</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Ingresos de Empleado">
+					<filter name="open" string="Abiertos" icon="gtk-edit" domain="[('payroll_id', '=', None)]"/>
+					<filter string="Archivados" icon="gtk-open" domain="[('payroll_id', '!=', None)]"/>
+					<field name="name" string="Ingreso"/>
+					<field name="employee_id">
+						<filter string="Mis ingresos" icon="terp-personal" domain="[('employee_id.user_id', '=', uid)]"/>
+					</field>
+					<field name="period_id"/>
+					<newline/>
+					<group string="Agrupar por...">
+						<filter string="Ingreso" icon="terp-stock_symbol-selection" context="{'group_by': 'adm_id'}"/>
+						<filter string="Empleado" icon="terp-personal" context="{'group_by': 'employee_id'}"/>
+						<filter string="Periodo" icon="terp-go-month" context="{'group_by': 'period_id'}"/>
+						<filter string="Compañia" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_hr_income_employee_tree">
+			<field name="name">hr.income.employee.tree</field>
+			<field name="model">hr.income</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Ingresos de Empleado" colors="gray:payroll_id != False"> 
+					<field name="adm_id"/>
+					<field name="employee_id"/>
+					<field name="period_id"/>
+					<field name="payroll_id" invisible="1"/>
+					<field name="value" sum="Total"/>
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_hr_income_employee_form">
+			<field name="name">hr.income.employee.form</field>
+			<field name="model">hr.income</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Ingreso de Empleado">
+					<group colspan="4" col="4">
+						<field name="adm_id" domain="[('type', '=', 'static_value')]" on_change="onchange_adm_id(adm_id)"/>
+						<field name="name"/>
+						<field name="employee_id" on_change="onchange_employee_id(employee_id)"/>
+						<field name="contract_id" domain="[('employee_id','=',employee_id)]"/>
+						<field name="period_id"/>
+						<field name="value"/>
+						<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_hr_employee_income" model="ir.actions.act_window">
+			<field name="name">Ingresos en Borrador</field>
+			<field name="res_model">hr.income</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('auto','=',False)]</field>
+			<field name="context">{'search_default_open': True}</field>
+		</record>
+
+		<!--
+	=================
+	 Payroll Expense
+	=================
+-->
+		<record model="ir.ui.view" id="view_hr_expense_search">
+			<field name="name">hr.expense.view.search</field>
+			<field name="model">hr.expense</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Egresos de Empleado">
+					<filter name="open" string="Abiertos" icon="gtk-edit" domain="[('payroll_id', '=', None)]"/>
+					<filter string="Archivados" icon="gtk-open" domain="[('payroll_id', '!=', None)]"/>
+					<field name="name" string="Egreso"/>
+					<field name="employee_id">
+						<filter string="Mis ingresos" icon="terp-personal" domain="[('employee_id.user_id', '=', uid)]"/>
+					</field>
+					<field name="period_id"/>
+					<newline/>
+					<group string="Agrupar por...">
+						<filter string="Egresos" icon="terp-stock_symbol-selection" context="{'group_by': 'expense_type_id'}"/>
+						<filter string="Empleado" icon="terp-personal" context="{'group_by': 'employee_id'}"/>
+						<filter string="Periodo" icon="terp-go-month" context="{'group_by': 'period_id'}"/>
+						<filter string="Compañia" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_hr_expense_tree">
+			<field name="name">hr.expense.view.tree</field>
+			<field name="model">hr.expense</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Egresos de Empleado" colors="gray:payroll_id != False">
+					<field name="expense_type_id"/>
+					<field name="employee_id"/>
+					<field name="period_id"/>
+					<field name="payroll_id" invisible="1"/>
+					<field name="value" sum="Total"/>
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_hr_expense_form">
+			<field name="name">hr.expense.view.form</field>
+			<field name="model">hr.expense</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Egreso de Empleado">
+					<group colspan="4" col="4">
+						<field name="expense_type_id" domain="[('code', '=', False)]" on_change="onchange_expense_type(expense_type_id)"/>
+						<field name="name"/>
+						<field name="employee_id" on_change="onchange_employee_id(employee_id)"/>
+						<field name="contract_id" domain="[('employee_id','=',employee_id)]" />
+						<field name="period_id"/>
+						<field name="value"/>
+						<field name="company_id" widget="selection" groups="base.group_multi_company"/>
+						<field name="comment" colspan="4"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_hr_expense" model="ir.actions.act_window">
+			<field name="name">Egresos en Borrador</field>
+			<field name="res_model">hr.expense</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('auto','=',False)]</field>
+			<field name="context">{'search_default_open': True}</field>
+		</record>
+
+		<!--
+	=================
+	 Payroll
+	=================
+ -->
+		 <record model="ir.ui.view" id="view_hr_payroll_search">
+			<field name="name">hr.payroll.view.search</field>
+			<field name="model">hr.payroll</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Nómina de los empleados">
+					<filter string="Borrador" icon="gtk-new" domain="[('state', '=', 'draft')]"/>
+					<filter string="Calculado" icon="terp-hr" domain="[('state', '=', 'calculated')]"/>
+					<filter string="Validado" icon="terp-camera_test" domain="[('state', '=', 'validate')]"/>
+					<field name="employee">
+						<filter string="Mis Roles" icon="terp-personal" domain="[('employee_id.user_id', '=', uid)]"/>
+					</field>
+					<field name="period_id"/>
+					<field name="forma_pago"/>
+					<newline/>
+					<group string="Agrupar por...">
+						<filter string="Empleado" icon="terp-personal" context="{'group_by': 'employee'}"/>
+						<filter string="Periodo" icon="terp-go-month" context="{'group_by': 'period_id'}"/>
+						<filter string="Forma de pago" icon="terp-dolar" context="{'group_by': 'forma_pago'}"/>
+						<filter string="Compañia" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_hr_payroll_tree">
+			<field name="name">hr.payroll.view.tree</field>
+			<field name="model">hr.payroll</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Nómina de empleados" colors="blue:state=='draft';gray:state=='validate'">
+					<field name="employee"/>
+					<field name="contract_id"/>
+					<field name="period_id"/>
+					<field name="total" sum="Total"/>
+					<field name="state"/>
+					<field name="forma_pago"/>
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_hr_payroll_form">
+			<field name="name">hr.payroll.view.form</field>
+			<field name="model">hr.payroll</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Rol de pagos">
+					<header string="Acciones" col="3" colspan="2">
+						<button type="object" name="compute_values" string="Calcular" states="draft" class="oe_highlight"/>
+						<button type="object" name="validar_registro" string="Validar" states="calculated" class="oe_highlight"/>
+						<button name="from_validated_to" string="Cambiar a Calculado" type="object" states="validate"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group string="Información" col="6" colspan="4">
+							<field name="employee_id" on_change="onchange_contract(period_id, employee_id)"/>
+							<field name="contract_id" on_change="onchange_period(period_id, employee_id, contract_id)"
+								domain="[('employee_id','=',employee_id)]" />
+							<field name="period_id" on_change="onchange_period(period_id, employee_id, contract_id)"/>
+							<field name="total_fondo" readonly="1" string="Base Fondo Reserva"/>
+							<field name="num_dias" string="Días trabajados"/>
+						</group>
+						<div class="oe_button_box oe_right">
+							<button type="object" name="load_info" states="draft,calculated"
+								string="Cargar Datos" icon="gtk-execute"/>
+							<button type="object" name="dummy" string="Calcular Ajuste" icon="terp-stock_format-scientific" states="draft,calculated"/>
+						</div>
+						<notebook colspan="4">
+							<page string="Ingresos">
+								<field name="incomes_ids" colspan="4" nolabel="1"
+									context="{'default_employee_id':employee_id, 'default_contract_id':contract_id, 'default_period_id':period_id}">
+									<tree string="Ingresos del Empleado">
+										<field name="name"/>
+										<field name="value" />
+									</tree>
+								</field>
+							</page>
+							<page string="Egresos">
+								<field name="expenses_ids" colspan="4" nolabel="1"
+									context="{'default_employee_id':employee_id, 'default_contract_id':contract_id, 'default_period_id':period_id, 'default_descontar_en':'payrol'}">
+									<tree string="Egresos del Empleado">
+										<field name="name"/>
+										<field name="value"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Provisiones">
+								<field name="provisiones_id" nolabel="1" colspan="4" mode="tree">
+									<tree string="Provisiones" editable="top">
+										<field name="decimo3ro" />
+										<field name="decimo4to" />
+										<field name="vacaciones" />
+										<field name="fondo_reserva" />
+										<field name="aporte_patronal" />
+										<field name="secap" />
+										<field name="iece" />
+										<field name="total" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+						<group class="oe_subtotal_footer oe_right">
+							<field name="total_ingresos"/>
+							<field name="total_egresos"/>
+							<field name="total" class="oe_subtotal_footer_separator" widget="monetary"/>
+						</group>
+						<group string="Validación" col="6" colspan="4">
+							<field name="create_uid"/>
+							<field name="create_date"/>
+							<field name="company_id" groups="base.group_multi_company" widget="selection"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		 <!-- <record id="action_hr_payroll" model="ir.actions.act_window">
+			<field name="name">Nómina de empleados</field>
+			<field name="res_model">hr.payroll</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record> -->
+
+		<!--
+			===================== Action hr.adm.incomes =====================
+		-->
+
+		<record id="action_hr_adm_incomes" model="ir.actions.act_window">
+			<field name="name">Administracion de Ingresos al Rol de Pagos</field>
+			<field name="res_model">hr.adm.incomes</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!--Metodos -->
+		<record id="action_hr_method" model="ir.actions.act_window">
+			<field name="name">Administracion de Metodos</field>
+			<field name="res_model">hr.method</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!--Formulas -->
+		<record id="action_hr_formula" model="ir.actions.act_window">
+			<field name="name">Administracion de Formulas</field>
+			<field name="res_model">hr.formula</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+	</data>
+</openerp>

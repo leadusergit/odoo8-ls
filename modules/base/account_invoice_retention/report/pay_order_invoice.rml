@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Israel Paredes" allowSplitting="20" showBoundary="0">
+  	<pageTemplate id="first">
+  	  <pageGraphics>
+  	  	<place x="0.56cm" y="7.70cm" width="19.2cm" height="17.70cm">
+  		  <para style="P18">[[ o.date_create_op ]]</para>
+    	  <para style="P18">[[ o.comment ]]</para>
+		</place>
+		<place x="0.56cm" y="7.70cm" width="19.2cm" height="12.5cm">
+  		  <blockTable colWidths="0.5cm,3.7cm,4.8cm,5.7cm,4.0cm">
+		    <tr>
+		      <td> </td>
+		      <td><para style="Standard" fontSize="8.0">[[ o.auth_inv_id.serie_entidad ]]–[[o.auth_inv_id.serie_emision]]–[[ quitar(o.number_inv_supplier).zfill(9) ]]</para></td>
+		      <td><para style="Standard" fontSize="9.0">[[ o.move_id.no_comp ]]</para></td>
+		      <td><para style="Standard">[[ o.ret_id.name ]]</para></td>
+		      <td><para style="Standard">[[ o.amount_total ]]</para></td>
+		    </tr>
+		  </blockTable>
+		</place>
+	  </pageGraphics>
+      <frame id="first" x1="0.20cm" y1="3.05cm" width="19.2cm" height="14.0cm"/>
+      <frame id="second" x1="0.20cm" y1="2.65cm" width="19.2cm" height="1.6cm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="Standard" fontName="Helvetica" fontSize="10.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P18" fontName="Helvetica" fontSize="10.0" leading="0.8cm" alignment="JUSTIFY" firstLineIndent="1.5cm"/>
+    <paraStyle name="Decimal" fontName="Helvetica" fontSize="10.0" leading="8" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
+  </stylesheet>
+  <story>
+    [[repeatIn(objects,'o')]]
+    <blockTable colWidths="2.0cm,1.5cm,2.5cm,7.7cm,2.6cm,2.9cm">
+      <tr>
+      	[[ repeatIn(lines(o.move_id.line_id), 'move') ]]
+        <td><para style="Standard">[[ move.account_id.code ]]</para></td>
+        <td><para style="Standard" fontSize="8.0"> [[ fundsname(move.account_id.id, move.analytic_account_id.id, move.preproject_id.id, o.id) ]]</para></td>
+        <td><para style="Standard" fontSize="7.5">[[ move.preproject_id.abbreviation or move.analytic_account_id.abbreviation ]]</para></td>
+        <td><para style="Standard">[[ move.account_id.name ]]</para></td>
+        <td><para style="Decimal">[[ '%.2f' % move.debit or '.00' ]]</para></td>
+        <td><para style="Decimal">[[ '%.2f' % move.credit or '.00']]</para></td>
+      </tr>
+    </blockTable>
+    <nextFrame name="second"/>
+    <blockTable colWidths="11.0cm,2.7cm,2.6cm,2.9cm">  
+  	  <tr>
+  		<td><para style="Decimal"><font color="white"></font></para></td>
+    	<td><para style="Decimal"><font face="Times-Bold">TOTALES</font></para></td>
+    	<td><para style="Decimal"><font face="Times-Bold">[[ '%.2f' % sum_debit(o, data) or '.00' ]]</font></para></td>
+    	<td><para style="Decimal"><font face="Times-Bold">[[ '%.2f' % sum_credit(o, data) or '.00']]</font></para></td>
+  	  </tr>
+	</blockTable>
+  </story>
+</document>

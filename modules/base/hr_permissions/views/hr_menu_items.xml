@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    <!-- 
+    ====================
+    Nivel Uno  
+    ====================
+    -->
+        
+        <menuitem id="menu_hr_permission_root" name="Permisos y Vacaciones" parent="hr.menu_hr_root" groups="hr_ec.group_hr_employee_jefe,base.group_hr_manager,base.group_hr_user,base.group_user" sequence="6"/>
+    	
+	<!-- 
+    ====================
+    Menus Items Child 
+    ====================
+    -->
+		
+		<!-- Opciones de Permisos -->
+		<!--menuitem action="action_hr_permission_request" name="Nueva Solicitud" id="menu_hr_permission_request" parent="menu_hr_permission_root" sequence="1" /-->
+		<menuitem action="action_hr_permission_todos" name="Solicitudes" id="menu_hr_permission_todos" parent="menu_hr_permission_root" sequence="2"/>
+        
+    </data>
+</openerp>

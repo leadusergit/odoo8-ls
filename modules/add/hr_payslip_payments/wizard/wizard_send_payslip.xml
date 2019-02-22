@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<!-- 
+   	==========================================
+   	Asistente para enviar emails de los roles
+   	==========================================
+-->
+	
+		<record model="ir.ui.view" id="send_payslip_email_form_view">
+			<field name="name">wizard.send.payslip.mail.form</field>
+			<field name="model">wizard.send.payslip.mail</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Enviar el rol de pagos por email al personal">
+					<h4>
+					<p class="oe_grey">
+						Se enviará los roles de pago validados seleccionados al email del empleado.
+						(Es necesario que el empleado tenga configurado una direccion de correo)
+					</p>
+					</h4>
+					<group string="Detalle">
+						<field name="include_dispatched"/>
+					</group>
+					<footer>
+						<button type="object" name="send_email" string="Enviar" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		        
+        <act_window name="Enviar rol de pagos por email"
+            res_model="wizard.send.payslip.mail"
+            src_model="hr.payslip"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="wizard_send_payslip"/>
+	</data>
+</openerp>

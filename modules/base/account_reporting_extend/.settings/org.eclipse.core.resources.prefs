@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//code/account/account_account.py=utf-8
+encoding//code/account/account_cash_flow.py=utf-8
+encoding//code/account/account_detail_cash_relation.py=utf-8
+encoding//code/account_balance.py=utf-8
+encoding//wizard/__init__.py=utf-8
+encoding//wizard/report_general.py=utf-8
+encoding//wizard/wizard_patrimonio.py=utf-8
+encoding//wizard/wizard_report_balance_general.py=utf-8
+encoding//wizard/wizard_report_balance_resultado.py=utf-8
+encoding//wizard/wizard_report_general_ledger.py=utf-8
+encoding/__init__.py=utf-8
+encoding/__openerp__.py=utf-8

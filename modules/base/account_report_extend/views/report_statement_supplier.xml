@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_supplier_statement" model="ir.ui.view">
+			<field name="name">wizard.supplier.statement</field>
+			<field name="model">wizard.supplier.statement</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form col="6" string="Estado de Cuenta de Proveedor">
+					<!-- Form 1 -->
+					<separator colspan="6" string="Reporte Estado de Cuenta de Proveedor" />
+					<field name="change_date" invisible="1"/>
+					<field name="date_start" attrs="{'required':[('change_date','=',True)], 'readonly':[('change_date','=',False)]}" invisible="1"/>
+					<separator string="(Dejar vacio para mostrar todos)" colspan="6" />
+					<field name="partner_id" colspan="4"/>
+					<separator colspan="6" />
+					<field name="date_from" required = "1" on_change="onchange_dates(date_from,date_to)"/>
+					<field name="date_to" required = "1" on_change="onchange_dates(date_from,date_to)"/>
+					<separator colspan="6" />
+					<group col="2" colspan="6">
+						<!--  <button icon="gtk-ok" name="generate_report" string="Imprimir" type="object" />-->
+						<button icon="gtk-ok" name="action_excel" string="Exportar a Excel" type="object" />
+						<button icon="gtk-close" name="act_destroy" special="cancel" string="Salir" type="object" />
+					</group>
+					<field name="name" readonly="1"/>
+					<field name="data" readonly="1"/>
+				</form>
+			</field>
+		</record>
+		<!-- Actions -->
+		<record id="action_wizard_supplier_statement" model="ir.actions.act_window">
+			<field name="name">Estado de Cuenta de Proveedor</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.supplier.statement</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_supplier_statement"/>
+			<field name="target">new</field>
+		</record>
+		<!-- Menu -->
+		<menuitem action="action_wizard_supplier_statement"
+		id="menu_wizard_supplier_statement" icon="STOCK_PRINT"
+		parent="menu_reporte_supplier" />
+	
+  </data>
+</openerp>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record model="res.groups" id="payment_general">
+            <field name="name">Payment / Pagos General</field>
+        </record>
+
+    </data>
+    <data noupdate="1">
+    
+    	<!--
+    =================
+    Reglas de acceso
+    =================
+-->
+		<record id="payment_cheque_rule" model="ir.rule">
+	        <field name="name">Cheque global rule</field>
+	        <field name="model_id" ref="model_payment_cheque"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+	    <record id="payment_transfer_rule" model="ir.rule">
+	        <field name="name">Transfer global rule</field>
+	        <field name="model_id" ref="model_payment_transfer"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+
+    </data>
+</openerp>

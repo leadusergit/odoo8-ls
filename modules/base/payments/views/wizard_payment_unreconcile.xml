@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<!--
+	=========================================================================================================
+	CANCELACION DEL PAGO DEL CHEQUE 
+	=========================================================================================================
+ -->
+	 <record id="wizard_payment_unreconcile_view" model="ir.ui.view">
+      	<field name="name">wizard.payment.unreconcile</field>
+      	<field name="model">wizard.payment.unreconcile</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Cancelar Cheque">
+				<!-- Form 1 -->
+				<separator colspan="4" string="Romper concilacion del Pago"/>
+				<label string="Se Rompera la concilacion bancaria del Pago. ¡Debe volver a Generar el Pago mediante el extracto Bancario.!" colspan="4"/>
+				<separator colspan="4"/>
+				<!-- Buttons -->
+				<separator colspan="4"/>
+				<group col="2" colspan="4" >
+					<button icon="gtk-ok" name="act_unreconcile" string="Anular Pago" type="object" />
+					<button icon="gtk-close" name="act_destroy" special="cancel" string="Salir" type="object" />
+				</group>
+			</form>
+		</field>
+	 </record>
+		
+	<!--
+		Actions 
+		PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+	-->
+	<record id="action_wizard_payment_unreconcile" model="ir.actions.act_window">
+		<field name="name">Anular Cheque</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.payment.unreconcile</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payment_unreconcile_view"/>
+		<field name="target">new</field>
+	</record>
+	
+	<record model="ir.values" id="payment_unreconcile_values">
+            <field name="model_id" ref="payments.model_payment_cheque" />
+            <field name="object" eval="1" />
+            <field name="name">payment_unreconcile_values</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_payment_unreconcile'))" />
+            <field name="key">action</field>
+            <field name="model">payment.cheque</field>
+    </record>
+<!--
+	=========================================================================================================
+	CANCELACION DEL PAGO DE TRANSFERENCIA 
+	=========================================================================================================
+ -->
+    <record id="wizard_transfer_unreconcile_view" model="ir.ui.view">
+      	<field name="name">wizard.transfer.unreconcile</field>
+      	<field name="model">wizard.transfer.unreconcile</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Anular Transferencia">
+				<!-- Form 1 -->
+				<separator colspan="4" string="Romper concilacion del Pago"/>
+				<label string="Se Rompera la concilacion bancaria del Pago. ¡Debe volver a Generar el Pago mediante el extracto Bancario.!" colspan="4"/>
+				<separator colspan="4"/>
+				<!-- Buttons -->
+				<separator colspan="4"/>
+				<group col="2" colspan="4" >
+					<button icon="gtk-ok" name="act_unreconcile" string="Anular Pago" type="object" />
+					<button icon="gtk-close" name="act_destroy" special="cancel" string="Salir" type="object" />
+				</group>
+			</form>
+		</field>
+	 </record>
+	 
+    <!--
+		Actions 
+		PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+	-->
+    <record id="action_wizard_unreconcile_transfer" model="ir.actions.act_window">
+		<field name="name">Anular Transferencia</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.transfer.unreconcile</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_transfer_unreconcile_view"/>
+		<field name="target">new</field>
+	</record>
+	
+    
+    <record model="ir.values" id="payment_transfer_values">
+            <field name="model_id" ref="payments.model_payment_transfer" />
+            <field name="object" eval="1" />
+            <field name="name">payment_transfer_values</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_unreconcile_transfer'))" />
+            <field name="key">action</field>
+            <field name="model">payment.transfer</field>
+    </record>
+
+</data>
+</openerp>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_payslip_totales">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h2>Total Nomina Mensual</h2>
+                    <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td>
+                        <span t-field="o.company_id.logo"  t-field-options='{"widget": "image"}'/>
+                        </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-bordered">
+                       <tr>
+                           <td><strong>Empresa:</strong></td>
+                           <td><span t-field="o.company_id.name"/></td>
+                        </tr>
+                        <tr>
+                           <td><strong>Date From</strong></td>
+                           <td><span t-field="o.date_from"/></td>
+                           <td><strong>Date To</strong></td>
+                           <td><span t-field="o.date_to"/></td>
+                        </tr>
+                    </table>
+                     <table class="table table-condensed table-bordered">
+                     <tbody>
+                     <tr>
+                     <t t-foreach="docs" t-as="o">
+                      <p>
+                       <t t-set="amount" t-value="run_sql('select psl.name Descripcion,SUM(psl.amount)Suma 
+                       									   from hr_payslip ps,hr_payslip_line psl
+														   where ps.id=psl.slip_id and psl.amount >0
+														   and psl.create_date::date between %s and %s
+														   group by psl.name
+														   order by 1',o.date_from,o.date_to)"/>                        
+                       <t t-foreach="amount" t-as="part">         
+                       <tr>
+                       <td><p><span t-esc="part['descripcion']"/></p></td>
+                       <td><p><span t-esc="part['suma']"/></p></td>
+                      </tr>
+                     </t>
+                     </p>
+                     </t>
+                     </tr>
+                     </tbody>
+                     </table>
+                   </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

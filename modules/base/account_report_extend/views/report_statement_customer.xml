@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_statement_customer" model="ir.ui.view">
+			<field name="name">wizard.statement.customer</field>
+			<field name="model">wizard.statement.customer</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Estado de Cuenta de Cliente">
+					<separator colspan="4" string="Estado de Cuenta de Cliente" />
+					<field name="change_date" invisible='1'/>
+					<field name="date_start" attrs="{'required':[('change_date','=',True)], 'readonly':[('change_date','=',False)]}" invisible='1'/>
+					<separator string="(Dejar vacio para mostrar todos)" colspan="4" />
+					<field name="partner_id" colspan="4"/>
+					<separator string="Seleccione la Fecha Desde y Hasta" colspan="4" />
+					<field name="date_from" required = "1" on_change="onchange_dates(date_from,date_to)" />
+					<field name="date_to" required = "1" on_change="onchange_dates(date_from,date_to)" />
+					<separator colspan="4" />
+					<group col="2" colspan="4">
+						<button icon="gtk-goto-bottom" name="action_excel"  string="Excel" type="object" />
+						<!--  <button icon="gtk-yes" name="action_report" string="Imprimir" type="object" />-->
+						<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+					</group>
+					<separator colspan="4" />
+					<field name="name" readonly="1"/>
+					<field name="data" readonly="1"/>
+				</form>
+			</field>
+		</record>
+		<!-- Actions -->
+		<record id="action_wizard_statement_customer" model="ir.actions.act_window">
+			<field name="name">Estado de Cuenta de Cliente</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.statement.customer</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_statement_customer"/>
+			<field name="target">new</field>
+		</record>
+		<!-- Menu -->
+		<menuitem action="action_wizard_statement_customer"
+		  id="menu_action_wizard_statement_customer" icon="STOCK_PRINT"
+		  parent="menu_reporte_sale"/>
+	
+  </data>
+</openerp>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="reporte_move_document">
+    <t t-call="report.external_layout">
+        <div class="page" style="font-size: 12px;">
+            <div>
+                <div  class="row mt32 mb32">
+              	  <div>
+              	    <p t-if="o.journal_id" class="text-center" style="font-size:14px"><strong>Comprobante </strong><span t-field="o.journal_id.name"/></p>          				                	     
+              	  </div>
+				  <div class="col-xs-8">
+              	  	<p t-if="o.date"><strong>Fecha: </strong><span t-field="o.date"/></p>              				  
+              		<p t-if="o.no_comp"><strong>Asiento: </strong><span t-field="o.no_comp"/></p>
+              		<p t-if="o.ref"><strong>Referencia: </strong><span t-field="o.name"/></p>
+              		<p t-if="o.ref"><strong>-</strong><span t-field="o.ref"/></p>            			              		
+              	  </div>
+               </div>
+            </div>  	 
+             
+            <table class="table table-condensed">
+               <thead>
+                   <tr>                        
+                     <th>Cuenta</th>
+                     <th>Nombre Cuenta</th> 
+                     <th>Debito</th>
+                     <th>Credito</th>                                          
+                    </tr>
+                </thead>  
+                	 
+           		<table class="table table-condensed">
+               	  <tbody>
+                    <tr t-foreach="o.line_id" t-as="move">
+                        <td>
+                            <span t-field="move.account_id.code"/>
+                        </td>                                 
+						<td>                          
+                            <span t-field="move.account_id.name"/>
+                        </td> 
+                         <td>
+                            <span t-field="move.debit"/>
+                        </td> 
+                         <td>
+                            <span t-field="move.credit"/>
+                        </td>                          
+                    </tr>
+                </tbody>
+             </table>
+             </table>
+             <div>
+            	<div class="col-xs-6 pull-right">
+            		<table  class="table table-condensed">
+            			<tr>
+            				<td class="text-left">
+							  <strong>Débito : </strong><span t-esc="sum(move.debit for move in o.line_id)"/>
+							</td>
+						</tr>
+						<tr>
+            				<td class="text-left">
+							  <strong>Crédito: </strong><span t-esc="sum(move.credit for move in o.line_id)"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>	
+        </div>
+    </t>
+</template>
+<template id="move_reporte">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'account_retention_report.reporte_move_document')"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

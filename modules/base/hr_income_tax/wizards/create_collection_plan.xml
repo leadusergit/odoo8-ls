@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    =============================
+    Crear un plan de recaudación
+    =============================
+-->
+		<record model="ir.ui.view" id="create_collection_plan_form">
+			<field name="name">create.collection.plan.form</field>
+			<field name="model">create.collection.plan</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="declaration_id" invisible="1"/>
+						<field name="fiscalyear_id" invisible="1"/>
+						<field name="period_start" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+						<field name="period_end" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+					</group>
+					<footer>
+						<button type="object" name="create_plan" string="Crear plan" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+    </data>
+</openerp>

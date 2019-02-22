@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+	<record id="wizard_report_payslip_view" model="ir.ui.view">
+            <field name="name">wizard.report.payslip.form</field>
+            <field name="model">wizard.report.payslip</field>
+            <field name="arch" type="xml">
+                <form string="Total Detalles">
+                <group>
+					<group colspan="1">
+						<field name="date_from"/> - <field name="date_to"/>
+					</group>                  
+                </group>
+                <field name="payslip_ids" invisible="1"/>
+					<footer>
+						<button name="run_sql" string="Generar Reporte(DetalleTotales)" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_report_payslip"
+            multi="True"
+            key2="client_action_multi" name="Generar Reporte Totales"
+            res_model="wizard.report.payslip" src_model="hr.payslip"
+            view_mode="form" target="new" view_type="form" />
+	</data>
+</openerp>

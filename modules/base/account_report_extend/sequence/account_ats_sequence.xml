@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Sequences for account.invoice retention--> 
+        <record id="seq_account_ats_type" model="ir.sequence.type">
+            <field name="name">Anexo ATS</field>
+            <field name="code">account.ats</field>
+        </record>
+        
+        <record id="seq_account_ats" model="ir.sequence">
+            <field name="name">Anexo ATS</field>
+            <field name="code">account.ats</field>
+            <field name="prefix">ATS%(month)s/%(day)s/%(year)s/ </field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</openerp>

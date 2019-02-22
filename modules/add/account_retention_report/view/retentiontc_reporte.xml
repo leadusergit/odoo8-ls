@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="reporte_retention_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="header">
+                <div class="col-xs-5">
+              	 	<p t-if="o.partner_id.name"><strong>Señor(es): </strong><span t-field="o.partner_id.name"/></p>
+              		<p t-if="o.partner_id.ident_num"><strong>RUC/CI: </strong><span t-field="o.partner_id.ident_num"/></p>
+			  		<p t-if="o.partner_id.street2"><strong>Dirección: </strong><span t-field="o.partner_id.street"/></p>  
+			  		<p><span/></p>  			  		
+			  	</div>
+			  	<div class="col-xs-5 col-xs-offset-1">
+			  		  <div class="pull-right"> 			
+              			<p t-if="o.invoice_id.date_invoice"><strong>Fecha: </strong><span t-field="o.invoice_id.date_invoice"/></p> 
+              			<p><strong><strong>Tipo Comprobante: </strong></strong>FACTURA<span/></p>               		
+              			<!-- <p t-if="o.autorization.serie_entidad"><span t-field="o.autorization.serie_entidad"/></p>
+              			<p t-if="o.autorization.serie_emision"><span t-field="o.autorization.serie_emision"/></p>              			
+              			<p t-if="o.invoice_id.factura"><strong>Nº Comprobante: </strong><span t-field="o.invoice_id.factura"/></p>
+              			 -->
+              			<t t-if="o.autorization.serie_entidad">
+              				<strong>Nº Comprobante: </strong>
+              				<span t-field="o.invoice_id.auth_inv_id.serie_entidad"/>
+							<span t-field="o.invoice_id.auth_inv_id.serie_emision"/>
+							<span t-field="o.invoice_id.factura"/>
+						</t>              			              			
+              	   	</div>
+              	</div>
+            </div> 	  	 	 	 
+            <table class="table table-bordered">
+              <thead>
+                   <tr>                        
+
+                     <th>Ejercicio Fiscal</th>
+                     <th>Base Imponible para Retención</th>
+                     <th>Impuesto</th>
+                     <th>Código de Impuesto</th>
+                     <th>% de Retención</th>
+                     <th>Valor Retenido</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <tr t-foreach="o.tax_line" t-as="l">
+                        <td class="text-center">
+                            <span t-field="l.invoice_id.period_id.fiscalyear_id.code"/>
+                        </td>	
+						<td class="text-center">
+							<span t-field="l.base"/>
+					    </td>
+						<td class="text-center">                          
+						    <t t-if="l.tax_group=='ret_ir'"><p>RENTA</p></t>
+						    <t t-if="l.tax_group=='ret_vat'"><p>IVA</p></t>
+						    <t t-if="l.tax_group=='no_ret_ir'"><p>NO RENTA</p></t>						    
+                        </td>
+                        <td class="text-center">
+                            <span t-field="l.tax_code_id.code"/>
+                        </td>
+                        <td class="text-center">
+							<span t-field="l.percent"/>
+					    </td>
+					    <td class="text-center">  
+                           <span t-esc="l.amount * -1"/>
+                        </td>    
+                    </tr>
+                </tbody>
+            </table>            
+            <div>
+            	<div class="col-xs-6 pull-right">
+            		<table  class="table table-condensed">
+            			<tr >
+            				 <td>
+            				 </td>
+                       		 <td>
+					   		 </td>
+					   		 <td>
+					   		 </td>
+            				 <td class="text-right">
+							  <strong> Total USD Retenido :  </strong><span t-esc="sum(line.amount for line in o.tax_line)* -1"/>
+							</td>
+							<td>
+					   		</td>  
+						</tr>
+					</table>
+				</div>
+			</div>			
+        </div>
+    </t>
+</template>
+
+<template id="retentiontc_reporte">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'account_retention_report.reporte_retention_document')"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

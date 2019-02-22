@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Wizard -->
+        <record id="wizard_payment_transfer_excel_view" model="ir.ui.view">
+            <field name="name">wizard.payment.transfer.excel.view</field>
+            <field name="model">wizard.payment.transfer.excel</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generar Archivo">
+                    <group col="4" colspan="4">
+                    	<field name="type" on_change="on_change_tipo(type)"/>
+                        <field name="tipo_cuenta" />                        
+                        <field name="fecha_proceso" />
+                        <field name="fecha_vencimiento" />
+                        <field name="company_id" readonly="1"/>
+                        <field name="nro_cuenta" />
+                        <field name="referencia" />
+                        <field name="name" />
+                    </group>
+                    <separator string="" colspan="4"/>
+                    <field name="group_by" />
+                    <group col="2" colspan="4">
+                        <button special="cancel" string="_Cancelar" icon="gtk-cancel" />
+                        <button name="act_generate_excel_nomina" string="Generar Archivo" type="object" icon="gtk-apply" />
+                    </group>
+					<separator string="" colspan="4"/>                    
+                    <group col="4" colspan="4">
+                        <field name="data" readonly="1"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="action_payment_transfer_excel" model="ir.actions.act_window">
+            <field name="name">Archivo Pagos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.payment.transfer.excel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_payment_transfer_excel_view"/>
+            <field name="target">new</field>
+        </record>
+        
+        
+    </data>
+</openerp>

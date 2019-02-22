@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+	 <!-- vista de la cuenta contable aumentando el campo de clasificacion -->
+	<record id="view_clasificacion_account" model="ir.ui.view">
+        <field name="name">view.clasificacion.account</field>
+        <field name="model">account.account</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <field name="user_type" position="after">
+               <field name="clasificacion_flu_efe" />
+            </field>
+		</field>
+	</record>
+
+</data>
+</openerp>

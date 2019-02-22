@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_laundry_order_chofer">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td><span t-field="o.company_id.logo"  t-field-options='{"widget": "image"}'/></td>
+                    </tr>
+                    </table>
+                    <h2>Orden Servicio <span t-field="o.tag_asignado"/></h2>
+                    <table class="table table-condensed">
+                        <tr>
+                    		<td><strong>Etiqueta</strong></td>
+                    		<td><strong><span t-field="o.codigo_orden_servicio"/></strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Punto de Atención:</strong></td>
+                    		<td><strong><span t-field="o.company_id"/></strong></td>
+                        </tr>
+                        <tr>
+                        	<td><strong>Fecha:</strong></td>
+                        	<td><span t-field="o.clean_start_time"/></td>                        	
+                        </tr>
+                       <tr>
+                            <td><strong>Entrega:</strong></td>
+                            <td><span t-field="o.clean_end_time"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr class="border-black">
+                                <th>Prenda</th>
+                                <th>Color</th>
+                                <th>Tipo</th>
+                                <th>Bandera</th>
+								<th>Cant.</th>                                
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-black" t-foreach="get_laundry_lines(o.service_lines)" t-as="p">
+                            	<td><span class="text-right" t-field="p.name"/></td>
+                            	<td><span class="text-right" t-field="p.color"/></td>
+                            	<td><span class="text-right" t-field="p.method_id"/></td>
+                            	<td><span class="text-right" t-field="p.method_type_id"/></td> 
+                            	<td><span class="text-right" t-field="p.product_uom_qty"/></td>                            	                            	
+                            	<td><span class="text-right" t-field="p.price_subtotal"/></td>
+                            </tr>
+                        </tbody>
+                    </table>	
+                    <div class="row">
+               		 <div class="col-xs-4 pull-right">
+                    	<table class="table table-condensed table-bordered">
+                        <tr class="border-black">
+                    		<td><strong>Base Imponible:</strong></td>
+                    		<td><span class="text-left" t-field="o.amount_untaxed"/></td>                    	
+                   		 </tr>
+						<tr class="border-black">                    	
+							<td><strong>Impuestos:</strong></td> 
+							<td><span class="text-left" t-field="o.amount_tax"/></td>                   	                   	
+                    	</tr>
+                    	<tr class="border-black">
+                    		<td><strong>Total:</strong></td> 
+                    		<td><span class="text-right" t-field="o.amount_total"/></td>                   	                   	                  			
+                    	</tr>
+                    	</table>
+                   	 </div>
+           			</div>  
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

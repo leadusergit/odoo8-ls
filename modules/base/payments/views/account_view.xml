@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+      <record id="account_view_is_advance" model="ir.ui.view">                                                                 
+	    <field name="name">account.view.is.advance</field>               
+	    <field name="model">account.bank.statement</field>
+	    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+	    <field name="arch" type="xml">
+	      <data>
+	          <group col="7" colspan="4" position="replace" >
+	            <group col="8" colspan="4">
+                        <button name="button_dummy" states="draft" string="Compute"/>
+                        <button name="button_confirm" states="draft" string="Confirm" type="object"/>
+                        <button name="button_cancel" states="confirm" string="Cancel" type="object"/>
+                        <button name="%(payments.action_wizard_payment_statement_form)d" states="confirm" string="Opciones" type="action" icon="gtk-execute"/>
+               </group>
+          	  </group>
+	          <field name= "line_ids" position="replace" >
+	     	    <field colspan="4" name="line_ids" nolabel="1">
+                  <tree editable="bottom" string="Statement lines">
+                    <field name="date"/>
+                    <field name="ref"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="partner_id" on_change="onchange_partner_id(partner_id, type, parent.currency)"/>
+                    <field domain="[('journal_id','=',parent.journal_id)]" name="account_id"/>
+                    <field name="amount"/>
+                    <!--<field context="{'partner_id': partner_id, 'amount': amount, 'account_id': account_id, 'currency_id': parent.currency, 'journal_id': parent.journal_id, 'date':date}" name="reconcile_id"/>-->
+                    <field name="statement_type"/>
+                    <field name="seller_id" domain="[('groups_id','in',[21,20])]"/>
+                    <field name="payment_form"/>
+                   <!-- <field invisible="1" name="reconcile_amount"/>-->
+                  </tree>
+                  <form string="Statement lines">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="partner_id" on_change="onchange_partner_id(partner_id, type, parent.currency)"/>
+                    <field domain="[('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]" name="account_id"/>
+                    <field name="amount"/>
+                    <!--<field context="{'partner_id':partner_id,'amount':amount,'account_id':account_id,'currency_id': parent.currency,'journal_id':parent.journal_id, 'date':date}" name="reconcile_id"/>-->
+                    <field name="ref"/>
+                    <separator colspan="4" string="Anticipo de Cliente"/>
+                    <field name="statement_type"/>
+                    <group col='2' colspan='2' attrs="{'invisible':[('statement_type','=','nc')]}">
+                       <field name="seller_id" domain="[('groups_id','in',[21,20])]"/>
+                    </group>
+                    <separator colspan="4" string="Notes"/>
+                    <field colspan="4" name="note" nolabel="1"/>
+                  </form>
+               </field>
+	        </field>
+	       </data>
+	    </field>   
+  	</record>
+  </data>
+</openerp>
+  

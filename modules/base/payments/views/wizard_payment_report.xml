@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+	 <!-- FORM -->
+	 <record id="wizard_payment_report_view" model="ir.ui.view">
+      	<field name="name">wizard.payment.report</field>
+      	<field name="model">wizard.payment.report</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Reportes Cheque/Transferencias">
+				<group colspan="4" col="4">
+					<group colspan="2" string="Detalles">
+						<field name="type" required="True"/>
+						<field name="state" required="True"/>
+					</group>
+					<group colspan="2" string="Filtro por fecha">
+		            	<field name="date_from"/>
+		            	<field name="date_to"/>
+	            	</group>
+	            </group>
+				<footer>
+					<button class="oe_highlight" name="act_report_cheque" string="Imprimir" type="object" attrs="{'invisible':[('type','=','bytransfer')]}"/>
+					<button class="oe_highlight" name="act_report_transfer" string="Imprimir" type="object" attrs="{'invisible':[('type','=','bycheque')]}"/>
+					ó
+					<button class="oe_link" special="cancel" string="Salir"/>
+				</footer>
+			</form>
+		</field>
+	 </record>
+		
+	<!-- ACTIONS -->
+	<record id="action_wizard_payment_report" model="ir.actions.act_window">
+		<field name="name">Reportes de Pagos</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.payment.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payment_report_view"/>
+		<field name="target">new</field>
+	</record>
+	
+	<!-- MENU -->
+	<!--menuitem action="action_wizard_payment_report"
+		id="menu_action_wizard_payment_report" icon="STOCK_PRINT"
+		parent="menu_reports_payments" /-->
+
+
+</data>
+</openerp>

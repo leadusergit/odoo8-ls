@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="35.0" y1="35.0" width="525" height="772"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Standard_Outline">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table2">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table7">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+	   <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
+	   <lineStyle kind="LINEBELOW" colorName="#000000" start="0,1" stop="-1,1"/>
+	   <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,2" stop="-1,-1"/>
+	   <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="-1,0"/>
+	   <lineStyle kind="LINEBELOW" colorName="#000000" start="0,1" stop="-1,1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table4">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+	   <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="-1,0"/>
+	   <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="-1,1"/>
+	   <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,2" stop="-1,-1"/>
+	   <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,0" stop="-1,0"/>
+	   <lineStyle kind="LINEBELOW" colorName="#e6e6e6" start="0,1" stop="-1,1"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P1" fontName="Helvetica" fontSize="15.0" leading="25" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P2" fontName="Helvetica" fontSize="10.0" leading="13" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P3" fontName="Helvetica" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="12.0" leading="14" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="12.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P6" fontName="Helvetica" fontSize="12.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="6.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="P8" fontName="Helvetica" fontSize="12.0" leading="14" alignment="RIGHT"/>
+    <paraStyle name="P9" fontName="Helvetica" fontSize="8.0" leading="10"/>
+    <paraStyle name="P9b" fontName="Helvetica" fontSize="8" leftIndent="-5.0" alignment="LEFT"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="9.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="8.0" leading="10" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P12" fontName="Helvetica" fontSize="12.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P12a" fontName="Helvetica" fontSize="12.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="12.0" leading="14" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P14" fontName="Helvetica" fontSize="12.0" leading="14" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P15" fontName="Helvetica" fontSize="20.0" leading="25" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P16" fontName="Helvetica" fontSize="10.0" leading="13" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P17" fontName="Helvetica" fontSize="9.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P18" fontName="Helvetica" fontSize="9.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P19" fontName="Helvetica" fontSize="12.0" leading="14" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P20" fontName="Helvetica" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Table Contents" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Table Heading" fontName="Helvetica" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Helvetica" fontSize="10.0" leading="13" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+  </stylesheet>
+  <images>
+  </images>
+ <story>
+
+<blockTable colWidths="262.5,262.5" repeatRows="1" style="Table2">
+ <tr>
+   <td><para style="P10"><font>PERIODOS</font></para></td>
+   <td><para style="P9b"><font color='black'>Fecha de Impresion: [[ time.strftime('%Y-%m-%d') ]] at [[ time.strftime('%H:%M:%S') ]]</font></para>
+</td>
+</tr>
+</blockTable>
+<para style="P10"><font>[[ periodos(data['form']) ]]</font></para>
+<para style="P7">[[repeatIn(objects,'o') ]]</para>
+<blockTable colWidths="143.0,226.0,156.0" repeatRows="1" style="Table2">
+  <tr>
+    <td>
+      <para style="Table Contents">
+        <font color="white"> </font>
+      </para>
+    </td>
+        <td>
+          <para style="P1"><font>[[ setTag('font','font',{'face':o.font_style,'color':o.color_font.name,'backColor':o.color_back.name}) ]] [[o.name]]</font></para>
+        </td>
+        <td>
+          <para style="P2">
+            <font color="white"> </font>
+          </para>
+        </td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="131.0,280.0,131.0" style="Table7">
+      <tr>
+        <td>
+          <para style="P12a" ><font color='blue'>Código</font></para>
+        </td>
+        <td>
+          <para style="P12a"><font color='blue'>Cuenta</font></para>
+        </td>
+        <td>
+          <para style="P13"><font color='blue'>Saldo</font></para>
+        </td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="131.0,280.0,131.0" style="Table4">
+      <tr>
+        <td>
+          <para style="P10"><font>[[ repeatIn(lines(data['form'],object=o), 'a') ]]</font><font>[[ setTag('font','font',{'face':o.font_style,'color':o.color_font.name,'backColor':o.color_back.name}) ]] [[ a['code'] ]]</font></para>
+        </td>
+        <td>
+          <para style="P17"><font color="white">[[ '..'*(a['level']-1) ]]</font><font>[[ setTag('font','font',{'face':o.font_style,'color':o.color_font.name,'backColor':o.color_back.name}) ]] [[ a['name'] ]]</font></para>
+        </td>
+        <td>
+          <para style="P18"><font>[[ setTag('font','font',{'face':o.font_style,'color':o.color_font.name,'backColor':o.color_back.name}) ]][[ formatLang(a['balance']) ]]</font></para>
+        </td>
+      </tr>
+    </blockTable>
+
+<pageBreak/>
+<blockTable colWidths="143.0,226.0,156.0" repeatRows="1" style="Table2">
+      <tr>
+        <td>
+          <para style="Table Contents">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P1"><font>INDICADORES</font></para>
+        </td>
+        <td>
+          <para style="P2">
+            <font color="white"> </font>
+          </para>
+        </td>
+      </tr>
+    </blockTable>
+ <blockTable colWidths="131.0,280.0,131.0" style="Table7">
+      <tr>
+        <td>
+          <para style="P12a" ><font color='blue'>Codigo</font></para>
+        </td>
+        <td>
+          <para style="P12a"><font color='blue'>Nombre</font></para>
+        </td>
+        <td>
+          <para style="P13"><font color='blue'>Valor</font></para>
+        </td>
+      </tr>
+    </blockTable>
+ <section>
+<para style="terp_default_8">[[ repeatIn(indicadores(data['form']), 'b') ]]</para>
+   <blockTable colWidths="131.0,280.0,131.0" style="Table4">
+      <tr>
+        <td>
+          <para style="P12a">[[ b['code'] or '' ]]</para>
+        </td>
+        <td>
+          <para style="P12a">[[ b['name'] or '']]</para>
+        </td>
+        <td>
+	  <para style="P13">[[ formatLang(b['balance']) ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+</section>
+ <para style="P2"><font color="white"> </font></para>
+<section>
+  <blockTable colWidths="183,0,183,0,183" style="Table4">
+	<tr>
+        <td>
+          <para style="P3">____________________</para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3">____________________</para>
+        </td>
+		<td>
+          <para style="P3"></para>
+        </td>
+		<td>
+          <para style="P3">____________________</para>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+		<td>
+          <para style="P3"></para>
+        </td>
+		<td>
+          <para style="P3"></para>
+        </td>
+      	</tr>
+	      <tr>
+        <td>
+          <para style="P3">GERENTE GENERAL</para>
+        </td>
+        <td>
+          <para style="P3"></para>
+        </td>
+        <td>
+          <para style="P3">CONTADOR GENERAL</para>
+        </td>
+		<td>
+          <para style="P3"></para>
+        </td>
+		<td>
+          <para style="P3">DIRECTOR FINANCIERO</para>
+        </td>
+      </tr>
+	</blockTable>
+	</section> 
+  </story>
+</document>
+

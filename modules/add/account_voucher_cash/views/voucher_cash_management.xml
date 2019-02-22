@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ================
+    Cash Management
+    ================
+-->
+		<record id="voucher_cash_wizard" model="ir.ui.view">
+            <field name="name">voucher.cash.wizard</field>
+            <field name="model">voucher.cash.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cash">
+                 <group>
+					<group colspan="1">
+						<field name="bank_account_id"/>
+						<field name="date"/>
+					</group>                  
+                </group>
+                <field name="voucher_ids" invisible="1"/>
+					<footer>
+						<button name="run_sql_pichincha" string="Cash(PICHINCHA)" class="oe_highlight" type="object"/>						
+						ó
+						<button name="generar_cash_produbanco" string="Cash(PRODUBANCO)" class="oe_highlight" type="object"/>
+						ó
+						<button name="run_sql_internacional" string="Cash(INTERNACIONAL)" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+       </record>
+
+       <act_window id="action_voucher_cash_wizard"
+            multi="True"
+            key2="client_action_multi" name="Generar Cash Management"
+            res_model="voucher.cash.wizard" src_model="account.voucher"
+            view_mode="form" target="new" view_type="form" /> 
+    </data>
+</openerp>

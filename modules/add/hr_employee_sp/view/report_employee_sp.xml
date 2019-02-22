@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_employee_sp">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h2>SPI</h2>
+                    <!--<table class="table table-condensed table-bordered">
+                      <tr>
+                        <td>
+                        <span t-field="o.company_id.logo"  t-field-options='{"widget": "image"}'/>
+                        </td>
+                        </tr>
+                    </table>-->
+                    <table class="table table-condensed table-bordered">
+                       <tr>
+                           <td><strong>Empresa:</strong></td>
+                           <td><span t-field="o.company_id.name"/></td>
+                        </tr>
+                        <tr>
+                           <td><strong>Desde</strong></td>
+                           <td><span t-field="o.date_from"/></td>
+                           <td><strong>Hasta</strong></td>
+                           <td><span t-field="o.date_to"/></td>
+                        </tr>
+                        <tr>
+                           <td><strong>Cedula o Ruc  </strong></td>
+                           <td><strong>Nombre del Empleado  </strong></td>
+                           <td><strong>InstitucionFinanciera</strong></td>
+                           <td><strong>CuentaBeneficiario</strong></td>
+                           <td><strong>TipoCuenta</strong></td>
+                           <td><strong>Valor</strong></td>                                                  
+                           <td><strong>Concepto</strong></td>
+                           <td><strong>Detalle</strong></td>
+                        </tr>
+                    </table>
+                     <table class="table table-condensed table-bordered">
+                     <tbody>
+                     <tr> 
+                     <t t-foreach="docs" t-as="o">
+                      <p>
+                       <t t-set="amount" t-value="run_sql('select hr_employee.identification_id CedulaRuc,hr_employee.name_related Nombre,psl.amount Valor,rpb.acc_type TipoCuenta,
+														  rpb.bank_bic InstitucionFinanciera,rpb.acc_number CuentaBeneficiario,20103 concepto 
+                       									  from hr_payslip ps,hr_payslip_line psl,hr_employee,res_partner_bank rpb
+														  where ps.id=psl.slip_id 
+														  and hr_employee.id=psl.employee_id
+														  and hr_employee.bank_account_id=rpb.id
+														  and psl.salary_rule_id=4
+														  and psl.create_date::date between %s and %s order by 2',o.date_from,o.date_to)"/>                        
+                       
+                       <t t-foreach="amount" t-as="part">         	
+                       <tr>
+                       <td><p><span t-esc="part['cedularuc']"/></p></td>
+                       <td><p><span t-esc="part['nombre']"/></p></td>
+                       <td><p><span t-esc="part['institucionfinanciera']"/></p></td>
+                       <td><p><span t-esc="part['cuentabeneficiario']"/></p></td>
+       				   <t t-if="part['tipocuenta']=='COR'">
+       				       <t t-set= "tipo" t-value="1"/>
+       				       <td><p><span t-esc="tipo"/></p></td>
+                       </t>
+                       <t t-if="part['tipocuenta']=='AHO'">
+                        	<t t-set= "tipo" t-value="2"/>
+                        	<td><p><span t-esc="tipo"/></p></td>
+                       </t>
+                       <td><p><span t-esc="part['valor']"/></p></td>
+                       <td><p><span t-esc="part['concepto']"/></p></td>
+                       <td><p><span t-field="o.period_id"/></p></td>
+                      </tr>
+                     </t>
+                     </p>
+                     </t>
+                     </tr>
+                     </tbody>
+                     </table>
+                   </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

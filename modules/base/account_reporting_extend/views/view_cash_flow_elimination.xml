@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+    <record id="view_cash_flow_form" model="ir.ui.view">
+			<field name="name">view.cash.flow.form</field>
+			<field name="model">account.cash.flow.elimination</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Eliminaciones">
+					<group col="4" colspan="4">
+						<field name="name" required="1" />
+					</group>
+					<field name="elimination_detail_ids" colspan="4" nolabel="1" editable="top" string="Eliminacion Detalles" >
+					<tree>
+					    <field name="name" />
+					    <field name="account_period_base_id" />
+					    <field name="account_period_comparativo_id" />
+					    <field name="account_debe_id" />
+					    <field name="account_haber_id" />
+					    <field name="cash_elimination_id" />
+					</tree>
+					</field>
+				</form>
+			</field>
+    </record>
+    <record id="view_cash_flow_tree" model="ir.ui.view">
+			<field name="name">view.cash.flow.tree</field>
+			<field name="model">account.cash.flow.elimination</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Eliminaciones">
+					<field name="name" required="1" />
+					<field name="elimination_detail_ids" />
+				</tree>
+			</field>
+    </record>
+    
+    <record id="action_elimination_tree" model="ir.actions.act_window">
+			<field name="name">Eliminaciones Flujo Efectivo</field>
+			<field name="res_model">account.cash.flow.elimination</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+	</record>
+    
+</data>
+</openerp>

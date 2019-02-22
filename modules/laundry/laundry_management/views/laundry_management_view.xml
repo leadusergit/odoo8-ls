@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--============================================================ 
+                                Laundry
+        ============================================================ -->
+        
+       <!-- <record id="product_add_form" model="ir.ui.view">
+            <field name="name">product.add.form</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+            <data>
+				<xpath expr="//field[@name='company_id']" position="after">
+                    <field name="laundry"/>
+                    <field name="method_id" attrs="{'invisible':[('laundry','=', False)]}"/>
+                    <field name="tiempo" attrs="{'invisible':[('laundry','=', False)]}"/>
+                    <field name="num_prendas_servicio" attrs="{'invisible':[('laundry','=', False)]}"/>                  
+                </xpath>
+				</data>
+            </field>
+        </record>
+        
+        <record id="view_product_template_search1" model="ir.ui.view">
+        <field name="name">product.template.search1</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Compañia" context="{'group_by':'company_id'}" />
+            </search>
+        </field>
+    	</record>  
+                
+        <record id="laundry_category_form" model="ir.ui.view">
+            <field name="name">laundry.category.form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+            <data>
+				<xpath expr="//field[@name='parent_id']" position="before">
+                   <group>
+                    <field name="isservicetype"/>
+                   </group>
+                </xpath>
+				</data>
+            </field>
+        </record>-->
+
+        <!-- Form view of laundry -->
+                
+          <record id="view_laundry_management_form" model="ir.ui.view">
+            <field name="name">laundry.management.form</field>
+            <field name="model">laundry.management</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Orden de Servicio" >
+                    <header>
+                    <button name="view_invoice" string="Generar Factura" type="object" class="oe_highlight" attrs="{'invisible':[('facturado', '=', True)]}" groups="base.group_laundry_salesman"/>
+                    <field name="state" widget="statusbar" statusbar_visible="'R','ENV','EP','ET','L','E'"/>                        
+                    </header>
+                    <sheet>
+                        <h1 align="right">
+                            <!-- <button name="laundry_enviado" string="Enviado" type="object" icon="gtk-clear" attrs="{'invisible':[('state', 'in', ('R','ENV','EP','ET','L','E','RCL'))]}"/>
+                            <button name="laundry_enproceso" string="En proceso"  type="object" icon="gtk-find"  attrs="{'invisible':[('state', 'in', ('R','ENV','EP','ET','L','E','RCL')]}"/>
+                            <button name="laundry_entransito" string="En tránsito"  type="object" icon="terp-camera_test" attrs="{'invisible':[('state', 'in', ('R','ENV','EP','ET','L','E','RCL'))]}" /> 
+                            <button name="laundry_listo" string="Listo"  type="object" icon="terp-camera_test" attrs="{'invisible':[('state', 'in', ('R','ENV','EP','L','E'))]}" />-->
+                            <button name="confirmar" string="Entregar"  type="object" class="oe_link" icon="terp-camera_test" attrs="{'invisible':[('state', 'in', ('R','ENV','EP','ET','E'))]}" groups="base.group_laundry_salesman"/>   
+                            <!--<button name="laundry_cancel" string="Cancel"  type="object" icon="gtk-cancel" attrs="{'invisible':[('state', 'in', ('R','ENV','ET','L','E','RCL'))]}"/>
+                            <button name="action_set_to_recibido" string="Set to Recibido" type="object" icon="gtk-index" attrs="{'invisible':[('state', 'in', ('R','ENV','EP','ET','L','E'))]}"/>
+                        	-->
+                        </h1>
+                        <h1 align="right">
+                           <button name="crear_reclamo" string="Generar Reclamo"  type="object" class="oe_link" icon="gtk-execute" attrs="{'invisible':[('state', 'in',('R','ENV','EP','ET','E','RCL'))]}" groups="base.group_laundry_salesman"/>                
+                        </h1>
+                        <h1>
+                        	<label string="Orden de Servicio"/>
+                       		<field name="tag_asignado" class="oe_inline" readonly="1"/>
+                        </h1>
+                        <group>
+                       	 	<group>
+                       	 		<field name="facturado" invisible="1"/>
+                       	 		<field name="reclamo" invisible="1"/>
+                       	 		<field name="codigo_orden_servicio"/>
+                                <field name="partner_id" on_change="onchange_partner_id(partner_id, context)" domain="[('customer','=',True)]"/> 
+                            	<field name="planta_id"/>  
+                            	<field name="total_prendas"/>                            	
+                            </group>
+                             <group>
+                             	<field name="company_id"/>
+                             	<field name="user_id"/>
+                                <field name="clean_start_time"/>
+                                <field name="clean_end_time"/>
+                            	<field name="pricelist_id" groups="product.group_sale_pricelist" on_change="onchange_pricelist_id(pricelist_id,service_lines)"/>
+                            </group>
+                        </group>
+                       <notebook>
+                        <page string="Detalle de Prendas">
+                            <field name="service_lines">
+                               <form string="Sales Order Lines">
+                                    <group>
+                                        <group>
+                                            <field name="product_id"
+                                                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                                                groups="base.group_user"
+                                                on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, False, product_uos_qty, False, name, parent.partner_id, False, True, parent.clean_start_time, False, parent.fiscal_position, False,method_id,tiempo,num_prendas_servicio,context)"/>
+                                            <label for="product_uom_qty"/>
+                                            <div>
+                                                <field
+                                                    context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                                                    name="product_uom_qty" class="oe_inline"
+                                                    on_change="product_id_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.clean_start_time, False, parent.fiscal_position, True,method_id,tiempo,num_prendas_servicio, context)"/>
+                                                <field name="product_uom" groups="product.group_uom" class="oe_inline oe_no_button"
+                                                    context="{'company_id': parent.company_id}"
+                                                    on_change="product_uom_change(parent.pricelist_id,product_id,product_uom_qty,product_uom,product_uos_qty,product_uos,name,parent.partner_id, False, False, parent.clean_start_time,method_id,tiempo, context)"/>
+                                            </div>
+                                            <label for="product_uos_qty" groups="product.group_uos"/>
+                                            <div groups="product.group_uos">
+                                                <field name="product_uos_qty" class="oe_inline"/>
+                                                <field name="product_uos" options='{"no_open": True}' class="oe_inline"/>
+                                            </div>
+                                            <label for="method_id" groups="product.group_uos"/>
+                                            <div groups="product.group_uos">
+                                                <field name="method_id" class="oe_inline"/>
+                                                <field name="tiempo" class="oe_inline"/>
+                                                <field name="cantp" class="oe_inline"/>                                                
+                                            </div>
+                                            <field name="price_unit"/>
+                                        </group>
+                                        <group>
+                                            <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
+                                        </group>
+                                    </group>
+                                    <field name="name"/>
+                                </form>
+                   				<tree string="Order Laundry Lines" editable="bottom">
+                                    <field name="product_id"
+                                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                                        groups="base.group_user"
+                                        on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, False, product_uos_qty, False, name, parent.partner_id, False, True, parent.clean_start_time, False, parent.fiscal_position, False,method_id,tiempo, context)"/>
+                                    <field name="name" invisible="1"/>
+                                    <field name="color"/>
+                                    <field name="cantp"/>
+                                    <field name="method_id" string="Tipo Servicio"/>
+                                    <field name="tiempo" string="Días"/>
+                                    <field name="method_type_id" widget="many2many_tags"/>
+                                    <field name="product_uom_qty"
+                                        context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
+                                        on_change="product_id_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.clean_start_time, False, parent.fiscal_position, True,method_id,tiempo, context)"/>
+                                    <field name="product_uom"
+                                        context="{'company_id': parent.company_id}"
+                                        on_change="product_uom_change(parent.pricelist_id, product_id, product_uom_qty, product_uom, product_uos_qty, product_uos, name, parent.partner_id, False, False, parent.clean_start_time,method_id,tiempo, context)"
+                                        groups="product.group_uom" options='{"no_open": True}' invisible="1"/>
+                                    <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
+                                    <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
+                                    <field name="price_unit"/>
+                                    <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
+                                    <field name="price_subtotal"/>
+                                    <field name="observacion"/>
+                                </tree>
+                            </field>
+                             <group class="oe_subtotal_footer oe_right" colspan="2" name="venta_total">
+                                <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_total" />
+                                    <button name="button_dummy"
+                                        states="R" string="(Actualizar)" type="object" class="oe_edit_only oe_link"/>
+                                </div>
+                                <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <div class="oe_clear"/>
+                            <field name="informacion" class="oe_inline" placeholder="Consideraciones ..."/>
+                        </page>
+                        <page string="Factura" groups="base.group_user">
+                          	<group>
+                          		<field name="invoice_ref_id"/>
+                         	</group>
+                        </page>
+                        <page string="Reclamos" groups="base.group_user">
+                        <group>
+                          		<field name="claim_ref"/>
+                        </group>
+                        </page>
+                        <page string="Estados">
+                           <group>
+                           <field name="delivery_guide_ref"/>
+                           <field name="dispatch_guide_ref"/>                         
+                          </group>
+                        </page>
+                        <page string="Otra Información">
+                         <group col="4">
+                           <group>
+                              <field name="porcentaje_iva_aplicado"/>
+                           </group>
+                		</group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record model="ir.ui.view" id="view_laundry_management_tree">
+            <field name="name">laundry.management.tree</field>
+            <field name="model">laundry.management</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Orden de Servicio" colors="tomato:state == 'ENV';teal:state =='EP'
+                	;blue :state =='ET';steelblue :state =='L'; green:state =='E';purple:state=='RCL'">
+                    <field name="tag_asignado"/>                           
+                    <field name="company_id"/> 
+                    <field name="codigo_orden_servicio"/> 
+                    <field name="partner_id"/>  
+                    <field name="clean_end_time"/>                    
+                    <field name="state"/>
+                    <field name="amount_total" sum="Total"/>
+                </tree>
+            </field>
+        </record>
+        
+       <record model="ir.ui.view" id="view_laundry_graph">
+            <field name="name">laundry.management.graph</field>
+            <field name="model">laundry.management</field>
+            <field name="arch" type="xml">
+                <graph string="Orden Servicio" type="bar">
+                    <field name="partner_id"/>
+                    <field name="clean_start_time"/> 
+                    <field name="amount_total" operator="+"/>
+                </graph>
+            </field>
+        </record>
+        <record id="action_for_laundry_graph" model="ir.actions.act_window">
+    		<field name="name">Lavanderia</field>
+    		<field name="res_model">laundry.management</field>
+    		<field name="view_type">form</field>
+   			<field name="view_mode">graph</field>
+	   		<field name="view_id" ref="view_laundry_graph"/>
+		</record>
+        
+        <!-- Search view -->
+       <record model="ir.ui.view" id="view_laundry_management_search">
+            <field name="name">laundry.management.search</field>
+            <field name="model">laundry.management</field>
+            <field name="arch" type="xml">
+                <search string="Lavanderia">
+                    <group string='Filters'>
+                        <filter domain="[('state','=','R')]" string="Recibido"/>
+                        <filter domain="[('state','=','ENV')]" string="Enviado"/>
+                        <filter domain="[('state','=','EP')]" string="En proceso"/>
+                        <filter domain="[('state','=','ET')]" string="En tránsito"/>
+                        <filter domain="[('state','=','L')]" string="Listo"/>
+                        <filter domain="[('state','=','E')]" string="Entregado"/>
+                        <filter domain="[('state','=','RCL')]" string="Reclamo"/>
+                    </group>
+                    <field name="company_id"/>
+                    <field name="partner_id" domain="[('parner_id.company_id','=',company_id.id)]"/>
+                    <field name="state"/>
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter name="company_id" string="Empresa" icon="terp-personal" domain="[]" context="{'group_by':'company_id'}"/>                        
+                        <filter name="partner_id" string="Cliente" icon="terp-personal" domain="[]" context="{'group_by':'partner_id'}"/>                        
+                        <filter name="user_id" string="Vendedor" icon="terp-personal" domain="[]" context="{'group_by':'user_id'}"/>                                         
+                    	<filter name="state" string="Estado" icon="terp-personal" domain="[]" context="{'group_by':'state'}"/>                                         
+                    	<filter name="clean_start_time" string="Fecha" icon="terp-personal" domain="[]" context="{'group_by':'clean_start_time'}"/>                                                            	
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+         <record model="ir.actions.act_window" id="open_laundry_management_form_tree">
+            <field name="name">Orden de Servicio Lavanderia</field>
+            <field name="res_model">laundry.management</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="view_id" ref="view_laundry_management_tree" />
+        </record>
+        
+        <menuitem id="laundry_management_menu" name="Lavanderia" groups="base.group_no_one,base.group_laundry_salesman,base.group_laundry_manager"/>
+                  
+        <menuitem id="menu_laundry_management" name="Punto de Atención"
+        parent="laundry_management_menu" groups="base.group_laundry_salesman" sequence="2" />
+        
+        <menuitem name="Orden de Servicio" id="menu_open_laundry_management_tree"
+        action="open_laundry_management_form_tree" parent="menu_laundry_management" sequence="4" />
+        
+       <!-- <menuitem action="action_for_laundry_graph" id="menu_laundry_graph_id"
+   		 sequence="5" name='Grafico Orden Servicio' parent='menu_laundry_management'/>  -->      
+       
+        
+         <!-- ================ CATALOGOS================= -->
+         
+         <!-- Form view catalogue method type-->
+        <!--<record id="view_laundry_method_type_catalogue_form" model="ir.ui.view">
+            <field name="name">laundry.method.type.catalogue.form</field>
+            <field name="model">laundry.method.type.catalogue</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Bandera Lavado">
+                  <group>
+                     <field name="codigo"/>
+                     <field name="descripcion_tipo_metodo"/>
+                  </group>
+                </form>
+            </field>
+        </record>-->
+
+        <!-- Tree  -->
+       <!-- <record id="view_laundry_method_type_tree" model="ir.ui.view">
+            <field name="name">laundry.method.type.catalogue.tree</field>
+            <field name="model">laundry.method.type.catalogue</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Bandera Lavado">
+                    <field name="codigo"/>
+                    <field name="descripcion_tipo_metodo"/>
+                </tree>
+            </field>
+        </record>-->
+
+        <!-- Action  service type -->
+        <!-- <record id="action_laundry_method_type_catalogue_view_form" model="ir.actions.act_window">
+            <field name="name">Bandera Lavado</field>
+            <field name="res_model">laundry.method.type.catalogue</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>-->
+        
+
+		<!-- Form view catalogue method -->
+        <!--<record id="view_laundry_method_catalogue_form" model="ir.ui.view">
+            <field name="name">laundry.method.catalogue.form</field>
+            <field name="model">laundry.method.catalogue</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Método Lavado" >
+                  <group>
+                     <field name="codigo"/>
+                     <field name="descripcion_metodo"/>
+                  </group>
+                </form>
+            </field>
+        </record> -->
+
+        <!-- Tree  -->
+        <!--<record id="view_laundry_service_type_list" model="ir.ui.view">
+            <field name="name">laundry.method.catalogue.tree</field>
+            <field name="model">laundry.method.catalogue</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Método de Lavado">
+                    <field name="codigo"/>
+                    <field name="descripcion_metodo"/>
+                </tree>
+            </field>
+        </record> -->
+
+        <!-- Action  service type -->
+       <!-- <record id="action_laundry_method_catalogue_view_form" model="ir.actions.act_window">
+            <field name="name">Método Lavado</field>
+            <field name="res_model">laundry.method.catalogue</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>  
+        
+       	<menuitem id="menu_service" name="Configuración Lavanderia" parent="stock.menu_stock_configuration" groups="base.group_no_one,base.group_laundry_salesman,base.group_laundry_manager,stock.group_locations" sequence="2" />
+        
+        <menuitem name="Método Lavado"
+        id="menu_action_laundry_method_catalogue" action="action_laundry_method_catalogue_view_form" parent="menu_service" sequence="9" />
+        <menuitem name="Bandera Lavado"
+        id="menu_action_laundry_method_type_catalogue" action="action_laundry_method_type_catalogue_view_form" parent="menu_service" sequence="10" />
+         -->
+        
+     </data>
+</openerp>

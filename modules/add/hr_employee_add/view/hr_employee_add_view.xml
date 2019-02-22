@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_hr_employee_add" model="ir.ui.view">
+			<field name="name">hr.employee.add</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<data>
+				<group string="Active" position="after">
+					<field name="provisiondt" string="Décimo Tercero"  attrs="{'invisible':[('pago_provisiones','&lt;&gt;',False)]}"/>
+					<field name="provisiondc" string="Décimo Cuarto" attrs="{'invisible':[('pago_provisiones','&lt;&gt;',False)]}"/>
+				</group>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_payslip_details">
+<t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h2>Detalle Rol</h2>
+                    <!--<table class="table table-condensed table-bordered">
+                      <tr>
+                        <td>
+                        <span t-field="o.company_id.logo"  t-field-options='{"widget": "image"}'/>
+                        </td>
+                     </tr>
+                    </table>-->
+                    <p t-field="o.name"/>
+                    <table class="table table-condensed table-bordered">
+                        <tr>
+                            <td><strong>Nombre</strong></td>
+                            <td><span t-field="o.employee_id"/></td>
+                            <td><strong>Cargo</strong></td>
+                            <td><span t-field="o.employee_id.job_id"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email</strong></td>
+                            <td><span t-field="o.employee_id.work_email"/></td>
+                            <td><strong>NºCédula</strong></td>
+                            <td><span t-field="o.employee_id.identification_id"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desde</strong></td>
+                            <td><span t-field="o.date_from"/></td>
+                            <td><strong>Hasta</strong></td>
+                            <td><span t-field="o.date_to"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-condensed">
+                        <thead>
+                        	 <tr>
+                                <th>Ingresos</th>
+                            </tr>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="get_payslip_lines(o.line_ids)" t-as="p">
+                            <t t-if="p.category_id.id == 7 or p.category_id.id == 11 or p.category_id.id == 13 or p.category_id.id == 14 and p.amount > 0">
+                            	<td><span class="text-right" t-field="p.salary_rule_id.tag_impresion"/></td>
+                                <td><span class="text-right" t-esc="formatLang(p.amount, currency_obj=o.company_id.currency_id)"/></td>
+                       	   </t>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed">
+                        <thead>
+                       		 <tr>
+                                <th>Egresos</th>
+                            </tr>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="get_payslip_lines(o.line_ids)" t-as="p">
+                       	   <t t-if="p.category_id.id == 8 and p.amount > 0">
+                            	<td><span class="text-right" t-field="p.salary_rule_id.tag_impresion"/></td>
+                                <td><span class="text-right" t-esc="formatLang(p.amount, currency_obj=o.company_id.currency_id)"/></td>
+                       	   </t>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed">
+                        <thead>
+                       		 <tr>
+                                <th>Compañia</th>
+                            </tr>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="get_payslip_lines(o.line_ids)" t-as="p">
+                       	   <t t-if="p.category_id.id ==10 and p.amount > 0">
+                            	<td><span class="text-right" t-field="p.salary_rule_id.tag_impresion"/></td>
+                                <td><span class="text-right" t-esc="formatLang(p.amount, currency_obj=o.company_id.currency_id)"/></td>
+                       	   </t>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed">
+                        <tbody>
+                         <thead>
+                             <tr>
+                                <th>Totales</th>
+                            </tr>
+                        </thead>
+                         <tr>
+                          <td class="text-right">
+                             <strong>Ingresos :  </strong><span class="text-right" t-esc="sum(line.amount for line in o.line_ids if line.category_id.id == 7 or line.category_id.id == 11 or line.category_id.id == 13 or line.category_id.id == 14)"/>
+                          </td>
+                          <td class="text-right">
+                             <strong>Egresos :  </strong><span class="text-right" t-esc="sum(line.amount for line in o.line_ids if line.category_id.id == 8)"/>
+                          </td>
+                          </tr>
+                        </tbody>
+                    </table>
+					<p class="text-right"><strong></strong></p>	
+					<p class="text-right"><strong></strong></p>					
+                    <p class="text-right"><strong>Firma Autorizada</strong></p>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

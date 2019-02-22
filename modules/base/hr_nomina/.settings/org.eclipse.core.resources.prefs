@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//report/contract_report.py=utf-8
+encoding//report/payroll_report.py=utf-8
+encoding//wizard/__init__.py=utf-8
+encoding//wizard/wizard_generate_calculated_payroll.py=utf-8
+encoding//wizard/wizard_payroll_set_calculated.py=utf-8
+encoding//wizard/wizard_payroll_validate.py=utf-8
+encoding//wizard/wizard_rol_pagos.py=utf-8
+encoding//wizard/wizard_send_payroll_mail.py=utf-8
+encoding/__openerp__.py=utf-8
+encoding/hr_contract.py=utf-8
+encoding/hr_employee_bank.py=utf-8
+encoding/hr_employee_ec.py=utf-8
+encoding/hr_payroll.py=utf-8
+encoding/payroll_tools.py=utf-8

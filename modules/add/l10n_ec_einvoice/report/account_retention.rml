@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<document filename="Comprobante-Retencion.pdf">
+  <template pageSize="(21.0cm,14.85cm)" title="Comprobante de Retencion" author="Israel Paredes" allowSplitting="20">
+    <pageTemplate id="first">
+      <pageGraphics>
+      	<!-- CABECERA -->
+      	<image x="2.0cm" y="10.85cm" height="4.0cm">[[ company.logo or removeParentNode('image') ]]</image>
+      	<setFont name="Helvetica-Bold" size="14"/>
+      	<drawString x="8.0cm" y="13.3cm">[[ company.name ]]</drawString>
+      	<setFont name="Helvetica" size="10"/>
+      	<drawString x="8.0cm" y="12.8cm">[[ company.rml_header1 ]]</drawString>
+      	<drawString x="8.0cm" y="12.3cm">[[ company.street ]]</drawString>
+      	<drawString x="8.0cm" y="11.8cm">[[ company.website ]]</drawString>
+      	<setFont name="Helvetica" size="8.5"/>
+      	<rect x="14.0cm" y="11.4cm" width="5.0cm" height="2.5cm" fill="no" stroke="yes" round="0.5cm"/>
+      	<drawCentredString x="16.5cm" y="13.3cm">Comprobante de Retención No.</drawCentredString>
+      	<lines>14.0cm 12.9cm 19.0cm 12.9cm</lines>
+      	<setFont name="Helvetica-Bold" size="13"/>
+      	<drawCentredString x="16.5cm" y="12.05cm">[[ o.auth_inv_id.serie_entidad ]]–[[o.auth_inv_id.serie_emision]]–[[ quitar(o.number_inv_supplier).zfill(9) ]]</drawCentredString>
+      	
+      	<!-- PIE DE PAGINA -->
+      	<lines>4.2cm 2.0cm 8.4cm 2.0cm</lines>
+      	<lines>12.6cm 2.0cm 16.8cm 2.0cm</lines>
+      	<setFont name="Helvetica-Bold" size="8"/>
+      	<drawCentredString x="6.3cm" y="1.65cm">Agente de Retención</drawCentredString>
+      	<drawCentredString x="14.7cm" y="1.65cm">Sujeto Pasivo</drawCentredString>
+      </pageGraphics>
+      <frame id="first" x1="1.0cm" y1="1.0cm" width="19.0cm" height="9.85cm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Header">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="#D1D1D1"/>
+    </blockTableStyle>
+    <blockTableStyle id="Details">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="#D1D1D1" start="0,0" stop="-1,-2"/>
+      <lineStyle kind="GRID" colorName="#D1D1D1" start="-2,-1" stop="-1,-1"/>
+      <blockSpan start="0,-1" stop="-3,-1"/>
+      <blockBackground colorName="#C4E4EB" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    <paraStyle name="Text" fontName="Helvetica" fontSize="9.0"/>
+    <paraStyle name="Bold" fontName="Helvetica-Bold" fontSize="9.0"/>
+    <paraStyle name="Heading" fontName="Helvetica" fontSize="12.0" leading="7" spaceBefore="12.0" spaceAfter="6.0"/>
+  </stylesheet>
+  <story>
+  	[[ repeatIn(objects, 'o') ]]
+  	<blockTable colWidths="3.0cm,6.5cm,5.5cm,4.0cm" style="Header">
+      <tr>
+      	<td><para style="Bold">SR.(ES):</para></td>
+      	<td><para style="Text">[[ o.partner_id.name ]]</para></td>
+      	<td><para style="Bold">FECHA EMISIÓN:</para></td>
+      	<td><para style="Text">[[ o.fecha ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Bold">R.U.C.:</para></td>
+      	<td><para style="Text">[[ o.partner_id.ident_num ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Bold">DIRECCIÓN:</para></td>
+      	<td><para style="Text">[[ o.partner_id.street.upper() + ' Y ' + o.partner_id.street2.upper() ]]</para></td>
+      	<td><para style="Bold">No. COMPROBANTE:</para></td>
+      	<td><para style="Text">[[ o.auth_inv_id.serie_entidad ]]–[[o.auth_inv_id.serie_emision]]–[[ quitar(o.number).zfill(9) ]]</para></td>
+      </tr>
+    </blockTable>
+    <para style="Heading"><font color="WHITE">ESTO ES UN ESPACIO</font></para>
+    <blockTable style="Details">
+      <tr>
+      	<td><para style="Bold">EJERCICIO FISCAL</para></td>
+      	<td><para style="Bold">BASE IMPONIBLE</para></td>
+      	<td><para style="Bold">TIPO DE IMPUESTO</para></td>
+      	<td><para style="Bold">CÓDIGO DEL IMPUESTO</para></td>
+      	<td><para style="Bold">% DE RETENCIÓN</para></td>
+      	<td><para style="Bold">VALOR RETENIDO</para></td>
+      </tr>
+      <tr>
+      	[[ repeatIn(o.tax_line, 't') ]]
+      	<td><para style="Text">[[ anio(o) ]]</para></td>
+      	<td><para style="Text">[[ '%.2f' % t.base ]]</para></td>
+      	<td><para style="Text">[[ tax_group(t.tax_group) ]]</para></td>
+      	<td><para style="Text">[[ t.tax_code_id.code ]]</para></td>
+      	<td><para style="Text">[[ '%.0f' % abs(t.amount / t.base * 100) ]]%</para></td>
+      	<td><para style="Text">[[ '%.2f' % abs(t.amount) ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Text"> </para></td>
+      	<td><para style="Text"> </para></td>
+      	<td><para style="Text"> </para></td>
+      	<td><para style="Text"> </para></td>
+      	<td><para style="Bold">TOTAL: </para></td>
+      	<td><para style="Bold">[[ '%.2f' % sum([abs(tax.amount) for tax in o.tax_line]) ]]</para></td>
+      </tr>
+    </blockTable>
+  </story>
+</document>

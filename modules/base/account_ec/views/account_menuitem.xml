@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="base.menu_action_currency_form" name="Currencies" parent="account.menu_finance_configuration" sequence="20" groups="base.group_no_one"/>
+                      
+        <menuitem id="menu_finance_accounting" name="Financial Accounting" parent="account.menu_finance_configuration"/>
+        <menuitem id="menu_analytic_accounting" name="Analytic Accounting" parent="account.menu_finance_configuration"/>
+
+        <menuitem id="menu_finance_reporting" name="Reporting" parent="account.menu_finance" sequence="8"/>
+        <menuitem id="menu_finance_legal_statement" name="Legal Statements" parent="account.menu_finance" sequence="8"/>
+        <menuitem id="menu_generic_report" name="Reportes Genéricos" parent="account.menu_finance_legal_statement" sequence="8" groups="group_account_no_option"/>
+        <menuitem id="menu_finance_entries" name="Entries Encoding" parent="account.menu_finance" sequence="2"/>
+        <menuitem id="account.menu_finance_recurrent_entries" name="Recurrent Entries" parent="account.menu_finance_entries" sequence="15"/>
+
+        <menuitem id="menu_finance_periodical_processing" name="Periodical Processing" parent="account.menu_finance"
+            sequence="3"/>
+        <menuitem id="menu_account_end_year_treatments" name="End of Year Treatments" parent="account.menu_finance_periodical_processing" sequence="20"/>
+        
+        <!-- Quitar las opciones de menu del financiero que no se usan-->
+        <!--menuitem action="account.action_account_moves_sale" sequence="16" id="account.menu_eaction_account_moves_sale"
+            parent="account.menu_finance_receivables" icon="STOCK_JUSTIFY_FILL" groups="group_account_no_option"/-->
+         
+         
+         
+         
+         
+        <!--   - Quitar las opciones de menu del financiero Proveedores, detalle de asientos contables que no se usan-->
+            <!--menuitem
+            action="account.action_account_moves_bank"
+            icon="STOCK_JUSTIFY_FILL"
+            id="account.menu_action_account_moves_bank"
+            parent="account.menu_finance_bank_and_cash"
+            sequence="16"
+            groups="group_account_no_option"
+        /-->
+        
+        <!--  Quitar Pago/Ordenes de pago
+             <menuitem action="account_payment.action_payment_order_tree" 
+             id="account_payment.menu_action_payment_order_form" 
+             parent="account_payment.menu_main_payment" 
+             sequence="3"
+             groups="group_account_no_option"
+             / -->
+        
+         <!--  Quitar Recibo de Venta
+         <menuitem id="account_voucher.menu_action_sale_receipt" 
+         	icon="STOCK_JUSTIFY_FILL"
+            action="account_voucher.action_sale_receipt"
+            parent="account.menu_finance_receivables"
+            groups="group_account_no_option"
+            sequence="10"/ -->
+        
+         <!--  Quitar Pago cliente>
+         <menuitem action="account_voucher.action_vendor_receipt" 
+         	icon="STOCK_JUSTIFY_FILL" 
+         	sequence="12"
+            id="account_voucher.menu_action_vendor_receipt"  
+            parent="account.menu_finance_receivables"
+            groups="group_account_no_option"
+            /-->
+            
+           <!--  Comprobantes de proveedor
+           <menuitem id="account_voucher.menu_action_purchase_receipt" 
+           	icon="STOCK_JUSTIFY_FILL"
+            action="account_voucher.action_purchase_receipt" 
+            parent="account.menu_finance_payables" 
+            sequence="10"
+            groups="group_account_no_option"/-->
+
+           
+            <!--  Pago a proveedor
+            <menuitem action="account_voucher.action_vendor_payment" 
+            icon="STOCK_JUSTIFY_FILL" 
+            sequence="12"
+            id="account_voucher.menu_action_vendor_payment"  
+            parent="account.menu_finance_payables"
+            groups="group_account_no_option"/-->
+            
+            
+             <!--  Detalle de Asientos contables-->
+            <menuitem
+            action="account.action_account_moves_all_a"
+            icon="STOCK_JUSTIFY_FILL"
+            id="account.menu_action_account_moves_all"
+            parent="account.menu_finance_entries"
+            sequence="1"
+            groups="group_account_no_option"/>
+        
+        
+             <!--  Detalle de Asientos contables-->
+        	<!--menuitem action="account.action_account_moves_purchase"
+            id="account.menu_eaction_account_moves_purchase"
+            parent="account.menu_finance_payables"
+            icon="STOCK_JUSTIFY_FILL"
+            sequence="16"
+            groups="group_account_no_option"/-->
+            
+            <!--  Registradores de efectivo-->
+            <menuitem action="account.action_view_bank_statement_tree" 
+            id="account.journal_cash_move_lines"
+            parent="account.menu_finance_bank_and_cash"
+            groups="group_account_no_option"/>
+            
+        <!--  - Cabiar de nombre Supplier Refund a Nota de Credito 
+        <delete model="ir.ui.menu" id="account.menu_action_invoice_tree4"/>
+        -->
+        
+        <menuitem name="Nota de Credito" action="account.action_invoice_tree4"
+         id="account.menu_action_invoice_tree4" parent="account.menu_finance_payables"/>
+        
+        
+        <!--  - Quitar las opciones de Asientos Contables / Asientos Recurrentes todas las opciones, Create Entries FRom Models  -->
+          <!--wizard string="Create Entries From Models" 
+          model="account.model" 
+          name="account.account_use_models" 
+          menu="False" 
+          id="account.wizard_account_use_model"
+          groups="group_account_no_option"/-->
+          
+            <!--menuitem action="account.wizard_account_use_model" 
+        	type="wizard" 
+        	parent="account.menu_finance_recurrent_entries" 
+        	id="account.menu_account_use_model"
+        	groups="group_account_no_option"/-->
+        	
+        	<!--wizard string="Create Entries From Models" 
+        	model="account.move.line" 
+        	name="account.account_use_models" 
+        	menu="True" 
+        	id="wizard_line_account_use_model"
+        	groups="group_account_no_option"/-->
+        
+        <!--  - Quitar las opciones de Asientos Contables / Asientos Recurrentes todas las opciones, Recurrencia Manual  -->
+        
+        <!--menuitem name="Manual Recurring" 
+        action="account.action_view_account_use_model" 
+        id="account.menu_action_manual_recurring" 
+        sequence="10" 
+        parent="account.menu_finance_recurrent_entries"
+        groups="group_account_no_option"/-->
+        
+        <!--  - Quitar las opciones de Asientos Contables / Asientos Recurrentes todas las opciones, Generar Asientos  -->
+        <menuitem sequence="3" 
+        action="account.action_account_subscription_generate" 
+        id="account.menu_generate_subscription" 
+        parent="account.menu_finance_recurrent_entries" 
+        groups="group_account_no_option"/>
+        
+         <!--  - Quitar las opciones de Asientos Contables / Asientos Recurrentes todas las opciones, Define Recurring Entries  -->
+        <menuitem
+            name="Define Recurring Entries" 
+            action="account.action_subscription_form"
+            id="account.menu_action_subscription_form" sequence="1"
+            parent="account.menu_finance_recurrent_entries"
+            groups="group_account_no_option"/>
+        
+         <!--  - Quitar las opciones de Asientos Contables / Asientos Recurrentes, el padre de los anteriores -->
+		<menuitem id="account.menu_finance_recurrent_entries" 
+			name="Recurring Entries"
+            parent="account.menu_finance_periodical_processing"
+            sequence="15"
+            groups="group_account_no_option"/>
+            
+          <!--  - Quitar las opcoines de menu Procesamiento Periodico / Reconciliation quitar todas / Automatic Reconciliation y menu padre-->
+         
+         <!--wizard id="wizard_automatic_reconcile" menu="False" model="account.account" name="account.automatic.reconcile" string="Automatic reconciliation"
+         groups="group_account_no_option"/-->
+        <menuitem id="next_id_20" name="Reconciliation" parent="account.menu_finance_periodical_processing"
+        groups="group_account_no_option"/>
+        <!--menuitem action="wizard_automatic_reconcile" id="menu_automatic_reconcile" parent="next_id_20" type="wizard"
+        groups="group_account_no_option"/-->
+         
+            
+        <!--  - Quitar las opciones de menu Procesamiento Periodico / Create subscription entries -->
+         
+         <!--wizard id="wizard_generate_subscription" 
+         menu="False" model="account.subscription" 
+         name="account.subscription.generate" 
+         string="Create subscription entries"
+         groups="group_account_no_option"/-->
+        <!--menuitem action="wizard_generate_subscription" 
+        id="menu_generate_subscription" 
+        parent="account.menu_finance_periodical_processing" 
+        type="wizard"
+        groups="group_account_no_option"/-->
+         
+        
+        <!--  - Quitar las opciones de menu Procesamiento Periodico / Validate Account Moves -->
+         <!--wizard id="wizard_validate_account_moves" menu="False" model="account.move" name="account.move.validate" string="Validate Account Moves"
+         groups="group_account_no_option"/-->
+        <!--menuitem action="wizard_validate_account_moves" id="menu_validate_account_moves" parent="account.menu_finance_periodical_processing" 
+        type="wizard"
+        groups="group_account_no_option"/-->
+        <!--wizard id="wizard_validate_account_moves_line" menu="True" model="account.move.line" name="account.move_line.validate" string="Validate Account Moves"
+        groups="group_account_no_option"/-->
+        
+            <!--  - Quitar las opciones de menu de Procesamiento Periodo / Extractos y todas las funciones -->
+        <!--menuitem name="Statements Reconciliation" 
+        action="account.action_bank_statement_periodic_tree" 
+        id="account.menu_menu_Bank_process" parent="account.menu_account_pp_statements" sequence="7"
+         groups="group_account_no_option"/-->
+        
+        <!--  - Quitar el Partner Accounts / Aged Partner Balance-->
+        <menuitem icon="STOCK_PRINT"
+            name="Aged Partner Balance"
+            action="account.action_account_aged_balance_view"
+            id="account.menu_aged_trial_balance"
+            parent="account.next_id_22" 
+            groups="group_account_no_option" />
+        
+        <!--menuitem icon="STOCK_PRINT" 
+        action="account.wizard_aged_trial_balance" 
+        id="menu_aged_trial_balance" 
+        parent="account.next_id_22" type="wizard"
+        groups="group_account_no_option" / -->
+        <!--  - Quitar la opcion de menu Configuracion / Contabilidad Financiera / Diferidos / Diferidos Ventas
+        <menuitem action="account_invoice_retention.action_deferred_ind" 
+        id="account_invoice_retention.menu_action_deferred_ind" 
+        parent="account_invoice_retention.menu_diferido" 
+        groups="group_account_no_option"/-->
+        
+        <!--  - Quitar la opcion de menu Configuracion / Registro de Multas
+        <menuitem action="account_invoice_retention.action_invoice_fine" 
+        id="account_invoice_retention.menu_action_invoice_fine"
+			parent="account.menu_finance_configuration" 
+			groups="group_account_no_option"/-->
+        
+        <!-- Cabiar de nombre Customer Refund a Nota de Credito -->
+        <menuitem name="Nota de Crédito" action="account.action_invoice_tree3" id="account.menu_action_invoice_tree3" parent="account.menu_finance_receivables"/>
+        
+      
+        <!--  AUMENTAR OPCION DE MENU DEL PRODUCTO  -->
+        <menuitem id="base.menu_product" name="Products" parent="account.menu_finance" groups="account.group_account_user,account.group_account_manager"/>
+        
+        <menuitem action="product.product_normal_action" id="product.menu_products" parent="base.menu_product" sequence="1" groups="account.group_account_user,account.group_account_manager"/>
+       
+       <!-- Quitar opciones de menu -->
+       <menuitem id="account.menu_finance_generic_reporting" name="Generic Reporting" parent="account.menu_finance_reports" sequence="100"/>
+       
+       <!--  Quitar opciones de menu Statement Periodical Processing Procesamiento Periodo / Extractos PADRE-->
+       <menuitem id="account.menu_account_pp_statements" name="Statements" parent="account.menu_finance_periodical_processing" sequence="12" groups="group_account_no_option" />
+       
+            
+    </data>
+</openerp>

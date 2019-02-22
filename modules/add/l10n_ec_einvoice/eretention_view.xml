@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- eRetention Form -->
+		<!-- <record id="view_eretention_tree" model="ir.ui.view"> <field name="name">account.eretention.tree</field> 
+			<field name="model">account.invoice.retention</field> <field name="inherit_id" 
+			ref="account_invoice_retention.view_invoice_retention_obj_tree"/> <field 
+			name="arch" type="xml"> <xpath expr="//tree[@string='Retenciones']" position="attributes"> 
+			<attribute name="colors">blue:state == 'draft';green:authorization_sri == 
+			False;black:state in ('done');gray:state == 'cancel'</attribute> </xpath> 
+			<xpath expr="//tree//field[@name='name']" position="after"> <field name="authorization_sri" 
+			invisible="1"/> </xpath> </field> </record> -->
+		<!-- eRetention Tree -->
+		<record id="view_eretention_tree" model="ir.ui.view">
+			<field name="name">account.eretention.tree</field>
+			<field name="model">account.invoice.retention</field>
+			<field name="inherit_id"
+				ref="account_invoice_retention.view_invoice_retention_obj_tree" />
+			<field name="arch" type="xml">
+				<xpath expr="//tree[@string='Retenciones']" position="attributes">
+					<attribute name="colors">blue:state ==
+						'draft';green:authorization_sri == False;black:state in
+						('done');gray:state == 'cancel'</attribute>
+				</xpath>
+				<xpath expr="//tree//field[@name='partner_id']" position="after">
+					<field name="authorization_sri" invisible="0" />
+				</xpath>
+			</field>
+		</record>
+
+		<!-- eRetention Form -->
+		<record id="view_account_eretention_form" model="ir.ui.view">
+			<field name="name">account.eretention.form</field>
+			<field name="model">account.invoice.retention</field>
+			<field name="inherit_id"
+				ref="account_invoice_retention.view_invoice_retention_obj_form" />
+			<field name="arch" type="xml">
+				<button name="act_cancel2" position="before">
+					<button name="action_generate_eretention" type="object"
+						string="Enviar SRI" class="oe_highlight" groups="base.group_user"
+						attrs="{'invisible':[('authorization_sri','=',True)]}" />
+					<button name="action_authorization_sri" type="object"
+						string="Autorización SRI" class="oe_highlight" groups="base.group_user"
+						attrs="{'invisible':[('authorization_sri','=',True)]}" />
+				</button>
+				<xpath expr="//field[@name='fecha']" position="after">
+					<field name="authorization_sri"/>
+					<field name="authorization_number"/>
+					<field name="authorization_date"/>
+					<field name="access_key"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

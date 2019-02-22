@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+                   
+     <record model="ir.ui.view" id="hr_employee_provision_pay_line_search">
+		<field name="name">hr.employee.provision.pay.line.search</field>
+		<field name="model">hr.employee.provision.pay.line</field>
+		<field name="arch" type="xml">
+			<search>
+			<field name="employee_id"/>
+			<field name="period_start"/>
+       		<field name="period_end"/>
+            <group expand="0" string="Group By">
+				 <!--<filter name="employee_id" string="Empleado" context="{'group_by':'employee_id'}"/> 
+				 <filter name="ppay_id" string="Tipo" context="{'group_by':'ppay_id'}"/>  -->
+				 <filter name="period_start" string="Periodo Inicial" context="{'group_by':'period_start'}"/> 
+				 <!--<filter name="period_end" string="Periodo Final" context="{'group_by':'period_end'}"/>-->
+				 <filter name="group_period_end" string="PF" icon="terp-partner" context="{'group_by':'period_end'}"/>		 				 
+				 <filter name="group_ppay_id" string="Tipo" icon="terp-partner" context="{'group_by':'ppay_id'}"/>  				 
+				 <filter name="group_employee_id" string="Empleado" icon="terp-partner" context="{'group_by':'employee_id'}"/>  
+			</group>
+			</search>
+		</field>
+	</record>
+	
+   	
+    <record model="ir.ui.view" id="view_hr_employee_provision_pay_line_tree">
+        <field name="name">hr.employee.provision.pay.line.tree</field>
+        <field name="model">hr.employee.provision.pay.line</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+        <tree create="false" delete="false" on_write="on_create_write">
+       		  <field name="ppay_id" invisible="1"/>
+       		  <field name="period_start"/>
+       		  <field name="period_end"/>
+              <field name="employee_id"/>
+              <field name="amount" sum='Total'/>
+         </tree>
+        </field>
+   	</record>
+   	
+   	
+    <record id="provision_pay_line_graph" model="ir.ui.view">
+      <field name="name">hr.employee.provision.pay.line.graph</field>
+          <field name="model">hr.employee.provision.pay.line</field>
+          <field name="type">graph</field>
+          <field name="arch" type="xml">
+             <graph string="Estadisticas" orientation="horizontal" type="bar">
+                <field name="employee_id" type="row" />
+                <field name="ppay_id" type="col"/>
+                <field name="amount"  operator="+"/>
+             </graph>
+          </field>
+     </record>
+   	
+   	<record model='ir.actions.act_window' id='provision_pay_line_act'>
+        <field name="name">Detalle</field>
+        <field name="res_model">hr.employee.provision.pay.line</field>
+        <field name="view_id" ref="view_hr_employee_provision_pay_line_tree"/>
+        <field name="view_mode">tree,graph</field>
+        <field name="search_view_id" ref="hr_employee_provision_pay_line_search"/>
+        <field name="context">{'search_default_group_ppay_id': 1,'search_default_group_employee_id': 1}</field>
+    </record> 
+   	
+
+	
+    <record model="ir.ui.view" id="hr_employee_provision_pay_form_view">
+		<field name="name">hr.employee.provision.pay.form</field>
+		<field name="model">hr.employee.provision.pay</field>
+		<field name="arch" type="xml">
+			<form>
+			<header>
+				<button type="object" name="load_rule" string="Generar" class="oe_highlight" icon="gtk-execute" attrs="{'invisible':[('state','!=', 'draft')]}"/>
+				<button type="object" name="done" string="Confirmar" class="oe_highlight" icon="gtk-execute" attrs="{'invisible':[('state','!=', 'draft')]}"/>  
+				<button type="object" name="pagar" string="Registrar Pagos" class="oe_highlight" icon="gtk-execute" attrs="{'invisible':[('state','!=', 'done')]}"/>  				
+				<button type="object" name="change_state" string="Cambiar a borrador" icon="gtk-execute" attrs="{'invisible':[('state','=', 'draft')]}"/>				
+				<field name="state" widget="statusbar"/>
+			</header>
+			 <sheet>
+			 <group>
+				<group string="Periodo">
+			    	<field name="period_start"/> 	
+					<field name="period_end"/> 
+				</group>
+				<group string="Region">	
+            			<field name="region"/>
+            			<field name="provision"/>
+            	</group>
+            	<group string="Total Provision" col="4">	
+            		<field name="dec3_amount" attrs="{'invisible':[('provision','=', 'dc')]}"/>
+            		<field name="dec4_amount" attrs="{'invisible':[('provision','=', 'dt')]}"/>
+            		<field name="journal_id" attrs="{'invisible':[('state','!=', 'done')]}"/>
+            		<!--<field name="subquery"/>  -->
+            	</group>
+            	</group>
+            	<notebook>
+                  	<page string="Detalle Decimos">
+                  		<field name="ppay_lines">
+							<tree>
+             		 			<field name="ppay_id" invisible="1"/>
+             		 			<field name="employee_id"/>
+             		 			<field name="amount" sum="Total"/>
+           			 		</tree>
+           			 	</field>
+                  	</page>
+                </notebook>
+            </sheet>
+            </form>
+		</field>
+	</record>
+
+	
+	<record model="ir.ui.view" id="hr_employee_provision_pay_search">
+			<field name="name">hr.employee.provision.pay.search</field>
+			<field name="model">hr.employee.provision.pay</field>
+			<field name="arch" type="xml">
+				<search>
+                <group expand="0" string="Group By">
+				       <filter name="provision" string="Tipo Provision" icon="terp-personal" domain="[]" context="{'group_by':'provision'}"/> 
+				</group>
+				</search>
+			</field>
+	</record>
+		
+	<record model="ir.ui.view" id="view_hr_employee_provision_pay_tree">
+        <field name="name">hr.employee.provision.pay.tree</field>
+        <field name="model">hr.employee.provision.pay</field>
+        <field name="arch" type="xml">
+        <tree>
+            <field name="region"/> 
+            <field name="provision"/>       
+        	<field name="period_start"/> 
+        	<field name="period_end"/> 
+        	<field name="state"/>                
+         </tree>
+        </field>
+   	</record>
+    
+		
+	<record model="ir.actions.act_window" id="hr_employee_provision_pay_act_window">
+		<field name="name">Generar Rol Decimos</field>
+		<field name="res_model">hr.employee.provision.pay</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+	<menuitem id="menu_payslip_decimos" name="Rol Pagos Decimos" parent="hr.menu_hr_root" groups="base.group_hr_user" sequence="26"/>		
+	<menuitem id="hr_employee_provision_pay_menu" name="Rol Decimos" parent="menu_payslip_decimos" action="hr_employee_provision_pay_act_window" sequence="26"/>
+	<menuitem id="provision_line_pay_menu" name="Detalle Rol Decimos" parent="menu_payslip_decimos" action="provision_pay_line_act"  sequence="27"/>
+	
+   </data>
+</openerp>

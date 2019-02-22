@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="view_account_invoice_ret_add" >
+			<field name="name">account.invoice.retention.add</field>
+			<field name="model">account.invoice.retention</field>
+			<field name="inherit_id" ref="account_invoice_retention.view_invoice_retention_obj_form"/>
+			<field name="arch" type="xml">
+				<button name="act_reabrir" position="before">
+				<button name="action_cr_sent" type="object"
+						string="Enviar Email" class="oe_highlight" attrs="{'invisible':[('authorization_sri','=',False)]}" groups="base.group_user" />
+				</button>			
+			</field>
+		</record>
+	</data>
+</openerp>

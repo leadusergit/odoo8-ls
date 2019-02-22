@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--============================================================ 
+                                Laundry
+        ============================================================ -->
+        
+        <record id="product_add_form" model="ir.ui.view">
+            <field name="name">product.add.form</field>
+            <field name="model">product.template</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+            <data>
+				<xpath expr="//field[@name='company_id']" position="after">
+                    <field name="laundry"/>
+                    <field name="method_id" attrs="{'invisible':[('laundry','=', False)]}"/>
+                    <field name="tiempo" attrs="{'invisible':[('laundry','=', False)]}"/>
+                    <field name="num_prendas_servicio" attrs="{'invisible':[('laundry','=', False)]}"/>                  
+                </xpath>
+				</data>
+            </field>
+        </record>
+        
+        <record id="view_product_template_search1" model="ir.ui.view">
+        <field name="name">product.template.search1</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Compañia" context="{'group_by':'company_id'}" />
+            </search>
+        </field>
+    	</record>
+        
+        
+        <record id="laundry_category_form" model="ir.ui.view">
+            <field name="name">laundry.category.form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+            <data>
+				<xpath expr="//field[@name='parent_id']" position="before">
+                   <group>
+                    <field name="isservicetype"/>
+                   </group>
+                </xpath>
+				</data>
+            </field>
+        </record>
+        
+         <!-- ================ CATALOGOS================= -->
+         
+         <!-- Form view catalogue method type-->
+        <record id="view_laundry_method_type_catalogue_form" model="ir.ui.view">
+            <field name="name">laundry.method.type.catalogue.form</field>
+            <field name="model">laundry.method.type.catalogue</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Bandera Lavado">
+                  <group>
+                     <field name="codigo"/>
+                     <field name="descripcion_tipo_metodo"/>
+                  </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree  -->
+        <record id="view_laundry_method_type_tree" model="ir.ui.view">
+            <field name="name">laundry.method.type.catalogue.tree</field>
+            <field name="model">laundry.method.type.catalogue</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Bandera Lavado">
+                    <field name="codigo"/>
+                    <field name="descripcion_tipo_metodo"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action  service type -->
+        <record id="action_laundry_method_type_catalogue_view_form" model="ir.actions.act_window">
+            <field name="name">Bandera Lavado</field>
+            <field name="res_model">laundry.method.type.catalogue</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+
+		<!-- Form view catalogue method -->
+       <record id="view_laundry_method_catalogue_form" model="ir.ui.view">
+            <field name="name">laundry.method.catalogue.form</field>
+            <field name="model">laundry.method.catalogue</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Metodo Lavado">
+                  <group>
+                     <field name="codigo_mtd"/>
+                     <field name="descripcion_mtd"/>
+                  </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree  -->
+        <record id="view_laundry_method_catalogue_tree" model="ir.ui.view">
+            <field name="name">laundry.method.catalogue.tree</field>
+            <field name="model">laundry.method.catalogue</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Metodo Lavado">
+                    <field name="codigo_mtd"/>
+                    <field name="descripcion_mtd"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action  service type -->
+        <record id="action_laundry_method_catalogue_view_form" model="ir.actions.act_window">
+            <field name="name">Metodo Lavado</field>
+            <field name="res_model">laundry.method.catalogue</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>  
+        
+       	<menuitem id="menu_service" name="Configuración Lavanderia" parent="stock.menu_stock_configuration" groups="base.group_no_one,stock.group_locations" sequence="2" />
+        
+        <menuitem name="Metodo Lavado"
+        id="menu_action_laundry_method_catalogue" action="action_laundry_method_catalogue_view_form" parent="menu_service" sequence="9" />
+        <menuitem name="Bandera Lavado"
+        id="menu_action_laundry_method_type_catalogue" action="action_laundry_method_type_catalogue_view_form" parent="menu_service" sequence="10" />
+         
+         <!-- ================ CLAIM CATALOGUE================= -->
+
+		<!-- Form view claim catalogue -->
+        <record id="view_laundry_method_catalogue_form" model="ir.ui.view">
+            <field name="name">laundry.claim.catalogue.form</field>
+            <field name="model">laundry.claim.catalogue</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Tipo Reclamo" >
+                  <group>
+                     <field name="codigo"/>
+                     <field name="descripcion_reclamo"/>
+                  </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree  -->
+        <record id="view_laundry_service_type_list" model="ir.ui.view">
+            <field name="name">laundry.claim.catalogue.tree</field>
+            <field name="model">laundry.claim.catalogue</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Tipo Reclamo">
+                    <field name="codigo" select="1"/>
+                    <field name="descripcion_reclamo"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action  service type -->
+        <record id="action_laundry_claim_catalogue_view_form" model="ir.actions.act_window">
+            <field name="name">Tipo Reclamo</field>
+            <field name="res_model">laundry.claim.catalogue</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>   
+               
+        <menuitem name="Tipo Reclamo"
+        id="menu_action_laundry_claim_catalogue_view_form" action="action_laundry_claim_catalogue_view_form" parent="menu_service" sequence="11" />
+
+    </data>
+</openerp>

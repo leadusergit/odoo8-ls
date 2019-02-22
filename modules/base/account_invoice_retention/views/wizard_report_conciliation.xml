@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_report_concilation" model="ir.ui.view">
+      	<field name="name">wizard.report.concilation</field>
+      	<field name="model">wizard.report.concilation</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Reporte de Conciliacion Bancaria">
+				<!-- Form 1 -->
+				<separator colspan="4" string="Seleccione el Periodo y el Banco" />
+				<group col="6" colspan="4">
+					<field name="period_id" />
+					<field name="journal_id" />
+					<field name="type" required = "1" />
+				</group>
+				<!-- Buttons -->
+				<separator string="Dejar vacio para mostrar todos" colspan="4"/>
+				<group col="2" colspan="4" >
+					<button icon="gtk-ok" name="action_excel" string="Exportar Excel" type="object" />
+					<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+				</group>
+				<field name="name" readonly="1" />
+				<field name="data" readonly="1" />
+			</form>
+		</field>
+	 </record>
+		
+	<!--
+		Actions 
+		PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+	-->
+	<record id="action_wizard_report_concilation" model="ir.actions.act_window">
+		<field name="name">Reporte de Concilacion Bancaria</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.report.concilation</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_report_concilation"/>
+		<field name="target">new</field>
+	</record>
+	
+	<!--<menuitem action="action_wizard_report_concilation" 
+	id="menu_action_wizard_report_concilation" 
+	parent="account.next_id_30"
+	groups="account.group_account_manager" 
+	icon="STOCK_PRINT"/>-->
+	
+  </data>
+</openerp>

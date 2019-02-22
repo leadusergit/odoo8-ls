@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	    <report id="payment_cheque_guayaquil"
+	    		groups="payment_general"
+	            string="Cheque Guayaquil"
+	            model="payment.cheque"
+	            name="payment.cheque.guayaquil"
+	            rml="addons/payments/report/payment_cheque_guayaquil.rml"
+	            auto="False"
+	            header="False"/>
+	            
+	    <report id="payment_cheque_internacional"
+	    		groups="payment_general"
+	            string="Cheque Internacional"
+	            model="payment.cheque"
+	            name="payment.cheque.internacional"
+	            rml="addons/payments/report/payment_cheque_internacional.rml"
+	            auto="False"
+	            header="False"/>
+	    
+	    
+	    <report id="payment_cheque_produbanco"
+	    		groups="payment_general"
+	            string="Cheque Produbanco"
+	            model="payment.cheque"
+	            name="payment.cheque.produbanco"
+	            rml="addons/payments/report/payment_cheque_produbanco.rml"
+	            auto="False"
+	            header="False"/>
+	    
+	    <report id="payment_cheque_pacifico"
+	    		groups="payment_general"
+	            string="Cheque Pacifico"
+	            model="payment.cheque"
+	            name="payment.cheque.pacifico"
+	            rml="addons/payments/report/payment_cheque_pacifico.rml"
+	            auto="False"
+	            header="False"/>
+	    
+	    <report id="payment_cheque_pichincha"
+	    		groups="payment_general"
+	            string="Cheque Pichincha"
+	            model="payment.cheque"
+	            name="payment.cheque.pichincha"
+	            rml="addons/payments/report/payment_cheque_pichincha.rml"
+	            auto="False"
+	            header="False"/>
+		
+	    <!--report id="payment_transfer_report"
+	    		groups="payment_general"
+	            string="Imprimir Transferencias"
+	            model="payment.transfer"
+	            name="payment.transfer"
+	            rml="addons/payments/report/payment_transfer_report.rml"
+	            auto="False"
+	            header="False"/-->
+		
+		<!--record id="wizard_cash_payment2" model="ir.actions.wizard">
+			<field name="name">Generar Cash Banco Guayaquil</field>
+			<field name="wiz_name">wizard.generate.cash2</field>
+		</record-->
+	
+		<!-- record id="wizard_cash_payments_nomina" model="ir.actions.wizard">
+			<field name="name">Generar Cash Nomina</field>
+			<field name="wiz_name">wizard.generate.cash.nomina</field>
+		</record-->
+		
+		<!-- MENU PADRE DE PAGOS -->
+		<menuitem name="Pagos" id="menu_payment_root" icon="terp-hr" groups="account.group_account_invoice"
+		 web_icon="images/payments.png" web_icon_hover="images/payments_hover.png"/>
+		<!--menuitem name="Pagos masivos" id="menu_action_payment_transfer_payment" parent="menu_payment_root"
+			groups="account.group_account_invoice,account.group_account_user" sequence="6"/-->
+		<menuitem name="Pagos" id="menu_print_payments" parent="menu_payment_root" sequence="7" groups="account.group_account_invoice"/>
+		<menuitem id="payment_cash_management_menu" name="Cash management" parent="menu_print_payments" action="action_payment_cash_management_view"/>
+		<menuitem name="Cobros" id="menu_payments_in" parent="menu_payment_root" sequence="7" groups="account.group_account_invoice"/>
+		<!-- menuitem name="Pagos de Nomina" id="menu_payments_nomina" parent="menu_payment_root" sequence="8" groups="account.group_account_invoice"/-->
+		
+		<!-- menuitem action="wizard_cash_payment2" id="menu_wizard_cash_payment2" parent="menu_print_payments" type="wizard" groups="account.group_account_invoice"/-->
+		<menuitem id="menu_reports_payments" parent="menu_payment_root"	name="Reportes" sequence="9" groups="account.group_account_invoice"/>
+		 
+		<!--menuitem action="wizard_cash_payments_nomina" id="menu_wizard_cash_payment_nomina" parent="menu_payments_nomina" type="wizard" sequence="1" groups="account.group_account_invoice"/-->
+		
+		<report id="cobro_extracto"
+	            string="Movimiento - Ingreso Caja"
+	            groups="payment_general"
+	            model="account.bank.statement"
+	            name="move.ingreso.caja"
+	            rml="addons/payments/report/move_ingreso_caja.rml"
+	            auto="False"
+	            header="False"/>
+	    
+	    
+	    <report id="pago_extracto_comp_diario"
+	            string="Movimiento - Comprobante Diario"
+	            groups="payment_general"
+	            model="account.bank.statement"
+	            name="move.comprobante.diario.stm"
+	            rml="addons/payments/report/move_comprobante_diario_stm.rml"
+	            auto="False"
+	            header="False"/>
+	    
+		
+		<report id="bank_statement_mov_orden_pago"
+	            string="Movimiento-Orden de Pago"
+	            groups="payment_general"
+	            model="account.bank.statement"
+	            name="move.orden.pago.stm"
+	            rml="addons/payments/report/move_orden_pago_stm.rml"
+	            auto="False"
+	            header="False"/>
+	            
+	            
+	</data>
+</openerp>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<!--
+	=================
+	Partner Modified
+	=================
+-->
+		<record id="view_partner_property_tree" model="ir.ui.view">
+			<field name="name">res.partner.property.tree.inherit</field>
+			<field name="model">res.partner</field>
+			<field name="type">tree</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="arch" type="xml">
+				<field name="display_name" position="after">
+					<field name="name_comercial" select="1"/>
+				</field>
+			</field>
+		</record>
+		
+		<!--record id="view_res_partner_auth_form" model="ir.ui.view">
+			<field name="name">res.partner.auth.form</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<page name="internal_notes" position="before">
+					<page string="Autorizaciones SRI">
+						<field name="auth_ids" nolabel="1">
+							<tree string="Detalle de Autorizaciones">
+								<field name="active"/>
+								<field name="name"/>
+								<field name="serie_entidad"/>
+								<field name="serie_emision"/>
+								<field name="expiration_date"/>
+								<field name="num_start"/>
+								<field name="num_end"/>
+								<field name="type"/>
+							</tree>
+						</field>
+					</page>
+				</page>
+			</field>
+		</record-->
+	
+		<record id="view_res_partner_auth_form_identity" model="ir.ui.view">
+			<field name="name">res.partner.auth.form2</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="name_comercial"/>
+				</field>
+				<field name="title" position="after">
+					<field name="ident_type" required="1"/>
+					<field name="ident_num" attrs="{'required':[('ident_type','not in',('s'))]}" nolabel="1" colspan="2"/>
+					<field name="legal_representative" colspan="4"/>
+				</field>
+				<field name="company_id" position="after">
+					<field name="is_provider"/>
+					<field name="tipoprov_ext" attrs="{'required':[('ident_type','=',('p'))]}"/>
+					<field name="parterel" attrs="{'required':[('ident_type','=',('p'))]}"/>
+				</field>
+							</field>
+		</record>
+	
+	
+		<record id="view_res_partner_auth_form_identity_debit" model="ir.ui.view">
+			<field name="name">res.partner.auth.form2</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.view_partner_property_form"/>
+			<field name="arch" type="xml">
+				<field name="debit" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</field>
+				<field name="debit" position="after">
+					<field name="debit_new"/>
+				</field>
+			</field>
+		</record>
+			
+		
+		<!--record id="view_res_partner_auth_form4" model="ir.ui.view">
+			<field name="name">res.partner.auth.form4</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='address']/form/group[@col='6']/field[@name='function']" position="after">
+					<field name="ident_type"/>
+					<field name="ident_num" on_change="onchange_id_num(ident_num,ident_type)" nolabel="1" colspan="2"/>
+				</xpath>
+				<xpath expr="//field[@name='address']/form/group[@col='4']/field[@name='type']" position="after">
+					<field name="location"/>
+				</xpath>
+				<xpath expr="//field[@name='address']/tree/field[@name='name']" position="after">
+					<field name="ident_num"/>
+				</xpath>
+			</field>
+		</record-->
+	
+		<!-- 
+		<record id="view_res_partner_auth_form5" model="ir.ui.view">
+			<field name="name">res.partner.auth.form5</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<field name="property_account_receivable" position="attributes">
+					<attribute name="attrs">{'required':[('customer','=',True)]}</attribute>
+				</field>
+				<field name="property_account_payable" position="attributes">
+					<attribute name="attrs">{'required':[('supplier','=',True)]}</attribute>
+				</field>
+				<field name="property_payment_term" position="after">
+					<field name="payment_type" on_change="onchange_payment_type(payment_type)" string="Forma de pago"/>
+				</field>
+				<field name="property_account_position" position="attributes">
+					<attribute name="required">1</attribute>
+				</field>
+			</field>
+		</record>
+		-->
+		
+		<record id="view_res_partner_auth_form5" model="ir.ui.view">
+			<field name="name">res.partner.auth.form5</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.view_partner_property_form"/>
+			<field name="arch" type="xml">
+				<field name="property_account_receivable" position="attributes">
+					<attribute name="attrs">{'required':[('customer','=',True)]}</attribute>
+				</field>
+				<field name="property_account_payable" position="attributes">
+					<attribute name="attrs">{'required':[('supplier','=',True)]}</attribute>
+				</field>
+				<field name="property_payment_term" position="after">
+					<field name="payment_type" on_change="onchange_payment_type(payment_type)" string="Forma de pago"/>
+				</field>
+				<field name="property_account_position" position="attributes">
+					<attribute name="required">1</attribute>
+				</field>
+			</field>
+		</record>
+		
+		<!--record id="view_partner_property_form1" model="ir.ui.view">
+			<field name="name">res.partner.property.form.inherit1</field>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='bank_ids']/form/field[@name='acc_number']" position="after">
+					<field name="acc_type" required="1" select="1"/>
+				</xpath>
+				<xpath expr="//field[@name='bank_ids']/tree" position="attributes">
+					<attribute name="editable">top</attribute>
+				</xpath>
+				<xpath expr="//field[@name='bank_ids']/tree/field[@name='acc_number']" position="after">
+					<field name="acc_type" required="1"/>
+					<field name="has_payment" on_change="onchange_has_payment(has_payment)"/>
+				</xpath>
+			</field>
+		</record-->
+	
+	</data>
+</openerp>

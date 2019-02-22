@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    =====================
+    Configuración del SW
+    =====================
+-->
+	
+		<record model="ir.ui.view" id="electronic_invoicing_ws_tree_view">
+			<field name="name">electronic.invoicing.ws.tree</field>
+			<field name="model">electronic.invoicing.ws</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Configuración de SW">
+					<field name="name" select="1"/>
+					<field name="state" select="1"/>
+					<field name="company_id" groups="base.group_multi_company"/>
+				</tree>
+			</field>
+		</record>
+	
+		<record model="ir.ui.view" id="electronic_invoicing_ws_form_view">
+			<field name="name">electronic.invoicing.ws.form</field>
+			<field name="model">electronic.invoicing.ws</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Configuración de un SW">
+					<header>
+						<button type="object" name="activate" string="Validar" icon="terp-camera_test" states="draft"/>
+						<button type="object" name="activate" string="Inhabilitar" states="active"
+							icon="terp-emblem-important" context="{'new_state':'draft'}"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<h1>
+						<label for="name" string="Servicio Web" class="oe_inline"/>
+						<field name="name" class="oe_inline"/>
+					</h1>
+					<group colspan="4" col="4">
+						<group colspan="2" col="2">
+							<separator string="Datos técnicos" colspan="2"/>
+							<field name="wsdl" placehorlder="http://localhost:8090/MyWS/services/Integrator?wsdl"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+						</group>
+						<group string="Opciones de conexión" colspan="2" col="2">
+							<label for="host" class="oe_inline"/>
+							<div>
+								<field name="host" placeholder="localhost" class="oe_inline"/>
+								:
+								<field name="port" placeholder="8080" class="oe_inline"/>
+							</div>
+							<field name="dbname"/>
+							<field name="user" placeholder="Usuario" class="oe_inline"/>
+							<field name="password" placeholder="Contraseña" class="oe_inline" password="True"/>
+						</group>
+						<separator string="Descripción" colspan="4"/>
+						<field name="description" nolabel="1" colspan="4"/>
+					</group>
+				</form>
+			</field>
+		</record>
+	
+		<record model="ir.actions.act_window" id="action_electronic_invoicing_ws_view">
+			<field name="name">Servicios Web para la F.E.</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">electronic.invoicing.ws</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="electronic_invoicing_ws_tree_view"/>
+		</record>
+	
+		<menuitem id="electronic_invoicing_ws_menu" parent="account.menu_configuration_misc" action="action_electronic_invoicing_ws_view"/>
+
+
+    	<!--
+    =====================
+    Enviar datos a un WS
+    =====================
+-->
+	
+		<record model="ir.ui.view" id="electronic_invoicing_send_form_view">
+			<field name="name">electronic.invoicing.send.form</field>
+			<field name="model">electronic.invoicing.send</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Asistente para enviar documentos a un S.W.">
+					<label string="Con éste asistente usted podrá enviar sus documentos a un Servicio Web." colspan="4"/>
+					<label string="Al enviar estos datos a un sistema externo, usted no debe preocuparse por la generación de los archivos necesarios para la validación de documentos electrónicos." colspan="4"/>
+					<field name="state" invisible="1"/>
+					<field name="doc_model" invisible="1"/>
+					<separator colspan="4"/>
+					<group colspan="4" attrs="{'invisible':[('state','!=','draft')]}">
+						<field name="ws_id" widget="selection"/>
+						<separator string="Documentos a enviar" colspan="4"/>
+						<field name="invoice_ids" colspan="4" nolabel="1" attrs="{'invisible':[('doc_model','!=','account.invoice')]}"/>
+						<field name="retention_ids" colspan="4" nolabel="1" attrs="{'invisible':[('doc_model','!=','account.invoice.retention')]}"/>
+					</group>
+					<group colspan="1" attrs="{'invisible':[('state','!=','done')]}">
+						<field name="result" nolabel="1"/>
+					</group>
+					<footer>
+						<button type="object" name="send" string="Enviar" states="draft" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cerrar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+	
+        <act_window id="action_invoice_electronic_invoicing_send_view"
+            name="Enviar documentos electrónicos" context="{}"	
+            res_model="electronic.invoicing.send" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form"
+            view_id="electronic_invoicing_send_form_view"/>
+            
+        <act_window id="action_retention_electronic_invoicing_send_view"
+            name="Enviar retenciones electrónicas" context="{}"	
+            res_model="electronic.invoicing.send" src_model="account.invoice.retention"
+            view_mode="form" target="new" view_type="form"
+            view_id="electronic_invoicing_send_form_view"/>
+        
+    </data>
+</openerp>

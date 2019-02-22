@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	 	<record id="view_account_invoice_search1" model="ir.ui.view">
+        <field name="name">account.account.invoice.search1</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter domain="[('state','=','paid')]" string="Pagado"/>
+                <filter domain="[('state','=','cancel')]" string="Anulado"/>
+                <field name="company_id"/>
+                <field name="user_id"/>
+                <field name="journal_id"/>
+                <field name="date_invoice"/>
+                <field name="date_due"/>
+                <field name="saleer_id"/>
+                <field name="tipo_factura"/>
+                <group expand="0" string="Group By">
+                	<filter name="company_id" string="Compañia" icon="terp-personal" domain="[]" context="{'group_by':'company_id'}"/>                        
+                	<filter name="user_id" string="Responsable" icon="terp-personal" domain="[]" context="{'group_by':'user_id'}"/>                                         
+                	<filter name="journal_id" string="Diario" icon="terp-personal" domain="[]" context="{'group_by':'journal_id'}"/>                                                     
+                	<filter name="date_invoice" string="Fecha Factura" icon="terp-personal" domain="[]" context="{'group_by':'date_invoice'}"/>                                                     
+                	<filter name="date_due" string="Fecha Vencimiento" icon="terp-personal" domain="[]" context="{'group_by':'date_due'}"/>                                                                  		
+               		<filter name="saleer_id" string="Vendedor" icon="terp-personal" domain="[]" context="{'group_by':'saleer_id'}"/>
+               		<filter name="tipo_factura" string="Tipo Documento" icon="terp-personal" domain="[]" context="{'group_by':'tipo_factura'}"/>              		                                                     
+               		              		                                                     
+              </group>
+              </search>
+        </field>
+    	</record>
+	</data>
+</openerp>

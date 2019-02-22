@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_contract">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <h2>Contrato Empleado</h2>
+                    <!--<table class="table table-condensed table-bordered">
+                    <tr>
+                        <td>
+                        <span t-field="o.employee_id.company_id.logo"  t-field-options='{"widget": "image"}'/>
+                        </td>
+                        </tr>
+                    </table>-->
+                    <table class="table table-condensed table-bordered">
+                       <tr>
+                           <td><strong>Fecha de Inicio en Cargo</strong></td>
+                           <td><span t-field="o.date_start"/></td>  
+                       	   <td><strong>Fecha de Fin en Cargo</strong></td>
+                       	   <td><span t-field="o.date_end"/></td>
+                       </tr> 
+                     </table>
+                     <table class="table table-condensed table-bordered">
+                       <tr>
+                       	   <td><strong>Referencia Contrato</strong></td>
+                       	   <td><strong>Empleado</strong></td>
+                       	   <td><strong>Tipo Contrato</strong></td>
+                       	   <td><strong>Puesto de Trabajo</strong></td>
+                       	   <td><strong>Salario</strong></td>
+                       	   <td><strong>Estructura Salarial</strong></td>
+                       </tr> 
+                       <tr>
+                           <td><span t-field="o.employee_id"/></td>                           
+                           <td><span t-field="o.employee_id"/></td>                           
+                           <td><span t-field="o.type_id"/></td>                           
+                           <td><span t-field="o.job_id"/></td>                           
+                           <td><span t-field="o.wage"/></td>                           
+                           <td><span t-field="o.struct_id"/></td>                           
+                       </tr>                       
+                    </table>
+                 </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

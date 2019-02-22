@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    <record model="ir.ui.view" id="pay_order_form_view">
+		<field name="name">pay.order.form.view</field>
+		<field name="model">pay.order</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form>
+				<group colspan="4" col="2">
+					<field name="file" filename="file_name" readonly="1"/>
+					<field name="file_name" readonly="1"/>
+				</group>
+			</form>
+		</field>
+	</record>
+    
+    <!--act_window id="wiz_generate_pay_order_report"
+            key2="client_print_multi" name="Movimiento"
+            res_model="pay.order" src_model="account.move"
+            view_mode="form" target="new" view_type="form"
+            view_id="pay_order_form_view"/-->
+	
+	
+	
+		
+    </data>
+		
+    
+</openerp>

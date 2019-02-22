@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<!-- 
+   	==========================================
+   	Asistente para enviar emails desde vouchers de pago
+   	==========================================
+-->
+		<record id="voucher_lote_mail_view" model="ir.ui.view">
+            <field name="name">voucher.lote.send.mail.form</field>
+            <field name="model">voucher.lote.send.mail</field>
+            <field name="arch" type="xml">
+                <form string="Enviar Correo Clientes">
+                    <p class="oe_grey">
+                        Se enviará la información referente al Cobro o Pago
+                    </p>
+                    <footer>
+                        <button string="Enviar Correo" name="lote_voucher_send_mail" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_voucher_send_mail"
+            multi="True"
+            key2="client_action_multi" name="Enviar Email(Notificación)"
+            res_model="voucher.lote.send.mail" src_model="account.voucher"
+            view_mode="form" target="new" view_type="form"/>
+            
+	
+
+	</data>
+</openerp>

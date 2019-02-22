@@ -1,0 +1,75 @@
+<openerp>
+    <data>
+
+        <record id="account_invoice_send_view" model="ir.ui.view">
+            <field name="name">account.invoice.send.form</field>
+            <field name="model">account.invoice.send</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Invoices SRI">
+                    <p class="oe_grey">
+                        Once open Invoices are sent to SRI
+                    </p>
+                    <footer>
+                        <button string="Send Invoices" name="invoice_send" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_account_invoice_send"
+            multi="True"
+            key2="client_action_multi" name="Facturación Electrónica SRI(FC)"
+            res_model="account.invoice.send" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" />
+            
+        <record id="account_invoice_retention_send_view" model="ir.ui.view">
+            <field name="name">account.invoice.retention.send.form</field>
+            <field name="model">account.invoice.retention.send</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Retention Invoices SRI">
+                    <p class="oe_grey">
+                        Once retention document are sent to SRI
+                    </p>
+                    <footer>
+                        <button string="Send Invoices Retention" name="invoice_retention_send" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_account_invoice_retention_send"
+            multi="True"
+            key2="client_action_multi" name="Facturación Electrónica SRI(CR)"
+            res_model="account.invoice.retention.send" src_model="account.invoice.retention"
+            view_mode="form" target="new" view_type="form" />
+            
+       <!--  <record id="account_invoice_retention_auth_view" model="ir.ui.view">
+            <field name="name">account.invoice.retention.auth.form</field>
+            <field name="model">account.invoice.retention.auth</field>
+            <field name="arch" type="xml">
+                <form string="Authorize Retention Invoices SRI">
+                    <p class="oe_grey">
+                        Once retention document are confirmed
+                    </p>
+                    <footer>
+                        <button string="Authorize Invoices Retention" name="invoice_retention_auth" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_account_invoice_retention_auth"
+            multi="True"
+            key2="client_action_multi" name="Autorización Comprobantes Electrónicos SRI"
+            res_model="account.invoice.retention.auth" src_model="account.invoice.retention"
+            view_mode="form" target="new" view_type="form" /> --> 
+            
+    </data>
+</openerp>
+

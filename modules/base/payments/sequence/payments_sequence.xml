@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+	
+		<record id="seq_retention_voucher" model="ir.sequence.type">
+			<field name="name">retvoucher_seq</field>
+			<field name="code">ret_voucher_seq</field>
+		</record>
+		
+		<record id="seq_retention" model="ir.sequence">
+			<field name="name">Retention Voucher</field>
+			<field name="code">ret_voucher_seq</field>
+			<field name="prefix"></field>
+			<field name="padding">7</field>
+		</record>
+		
+		<record id="seq_payments" model="ir.sequence.type">
+			<field name="name">Transfer_Payments</field>
+			<field name="code">tranfer_payments_seq</field>
+		</record>
+		
+		<record id="seq_payment" model="ir.sequence">
+			<field name="name">Transfer_Payment</field>
+			<field name="code">tranfer_payments_seq</field>
+			<field name="prefix"></field>
+			<field name="padding">2</field>
+		</record>
+		
+		<!-- Debo crear la sequence en el modulo account_invoice_retentioN  
+		
+		<record id="seq_ingreso_caja" model="ir.sequence.type">
+			<field name="name">ingreso_caja</field>
+			<field name="code">ingreso_caja_seq</field>
+		</record>
+		
+		<record id="seq_payment" model="ir.sequence">
+			<field name="name">ingreso_caja</field>
+			<field name="code">ingreso_caja_seq</field>
+			<field name="prefix"></field>
+			<field name="padding">7</field>
+		</record>
+		-->
+		
+		
+	</data>
+</openerp>
+
+

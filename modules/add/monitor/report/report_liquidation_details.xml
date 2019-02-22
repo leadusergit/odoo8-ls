@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="report_liquidation_details">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <div class="oe_structure"/>
+
+                        <h2>
+                            <span>Detalle de la Liquidación</span>
+                        </h2>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Nro. Factura</th>
+                                    <th class="text-center">Fecha de Factura</th>
+                                    <th>Típo</th>
+                                    <th>Cliente</th>
+                                    <th>Estado de la Factura</th>
+                                    <th>Valor Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <tr t-foreach="o.line_id" t-as="l">
+                                    <td>
+                                        <span t-field="l.invoice"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="l.invoice_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.type"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.customer_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.invoice_state"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="l.total"
+                                            t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            <div class="col-xs-4 pull-right">
+                                <table class="table table-condensed">
+                                    <tr class="border-black">
+                                        <td>Total de Venta</td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_sale" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total de Devolución</td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_dev" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                             <span t-field="o.total_liquidation" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total a Facturar</td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_payment" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="col-xs-6 pull-left">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td>Rango de Venta</td>
+                                        <td class="text-right">
+                                            <span t-field="o.calc_min_max"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fijo</td>
+                                        <td class="text-right">
+                                            <span t-field="o.calc_rate" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Porciento</td>
+                                        <td class="text-right">
+                                             <span t-field="o.calc_percent"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Formula</td>
+                                        <td class="text-right">
+                                            <span t-field="o.calc_formule"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <report
+			id="liquidation_report"
+			model="m.liquidation"
+			string="Liquidación"
+			report_type="qweb-pdf"
+			name="monitor.report_liquidation_details"
+			file="monitor.report_liquidation_details"
+		/>
+
+</data>
+</openerp>
+    

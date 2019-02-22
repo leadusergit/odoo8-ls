@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="48.0" y1="57.0" width="539" height="680"/>
+      <frame id="F1" x1="0" y1="57.0" width="539" height="631"/>
+      <frame id="F2" x1="28.0" y1="57.0" width="489" height="390"/>
+      <frame id="F3" x1="50" y1="57.0" width="539" height="305"/>
+      <frame id="F4" x1="50" y1="57.0" width="539" height="38"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Table1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Table2">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="3,0" stop="3,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,0" stop="4,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,-1" stop="4,-1"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Table3">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,1" stop="0,1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,1" stop="2,1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,1" stop="4,1"/>
+      
+    </blockTableStyle>
+    
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P1" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="P2" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="P3" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="9.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="9.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="P6" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="9.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="P8" fontName="Helvetica" fontSize="10.0" leading="13" alignment="CENTER"/>
+    <paraStyle name="P9" fontName="Helvetica" fontSize="10.0" leading="13" alignment="CENTER"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="16.0" leading="20" alignment="CENTER"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER"/>
+    <paraStyle name="P12" fontName="Helvetica-Bold" fontSize="9.0" leading="12" alignment="LEFT"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P14" fontName="Helvetica" fontSize="14.0" leading="17" alignment="CENTER"/>
+    <paraStyle name="P15" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P16" fontName="Helvetica-Bold" fontSize="12.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P17" fontName="Helvetica" fontSize="10.0" leading="10" alignment="LEFT"/>
+  </stylesheet> 
+  <story>
+    <para style="P13">[[ repeatIn(objects,'o') ]]</para>
+    <blockTable colWidths="300.0,270" style="Table1">
+      <tr>
+        <td><para style="P12">[[ get_date(o) ]]</para></td>
+        <td><para style="P3">Asiento:[[ str(o.id).zfill(7) or '']]</para></td>
+      </tr>
+      
+    </blockTable>
+    <currentFrame name="F1"/>
+    <blockTable colWidths="80.0,350" style="Table1">
+      <tr>
+        <td><para style="P3"><font color="white"> </font></para></td>
+        <td><para style="P16">[[o.partner_id.name]]</para></td>
+      </tr>
+    </blockTable>  
+    
+    <currentFrame name="F2"/>
+    <blockTable colWidths="10.0,350" style="Table1">
+      <tr>
+      
+        <td><para style="P3"><font color="white"> </font></para></td>
+        <td><para style="P17">[[o.comment]]</para></td> 
+      </tr>
+    </blockTable>  
+    <currentFrame name="F3"/>   
+    <section>
+      <para style="P1">[[ repeatIn(lines(o.move_id.line_id), 'move') ]]</para>
+      <blockTable colWidths="100.0,250.0,70.0,100.0" style="Table1">
+        <tr>
+          <td><para style="P1">[[ move.account_id.code or '']]</para></td>
+	      <td><para style="P2">[[ move.account_id.name or '']]</para></td>
+	      
+	      <td><para style="P5">[[ '%.2f' % move.debit or '.00']]</para></td>
+	      <td><para style="P5">[[ '%.2f' % move.credit or '.00']]</para></td>
+        </tr>
+      </blockTable>
+    </section>
+    <currentFrame name="F4"/>
+    
+    <blockTable colWidths="120.0,200.0,100.0,100.0" style="Table1">
+      <tr>
+        <td><para style="P4"><font color="white"> </font></para></td>
+        <td><para style="P4"><font color="white"> </font></para></td>
+        
+        <td><para style="P4">[['%.2f' % sum_debit(o, data) ]]</para></td>
+        <td><para style="P4">[['%.2f' % sum_credit(o, data)]]</para></td>
+      </tr>
+    </blockTable>
+    
+  </story>
+</document>
+

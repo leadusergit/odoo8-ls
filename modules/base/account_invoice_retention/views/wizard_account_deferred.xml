@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		#Form
+		<record id="view_deferred_sales_purchase" model="ir.ui.view">
+            <field name="name">wizard.account.deferred</field>
+            <field name="model">wizard.account.deferred</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Diferidos Ventas/Compras">
+                    <group colspan="4" expand="1">
+                        <separator string="Seleccione el periodo y el Tipo de Diferido" colspan="4"/>
+                        <field name="period_id" required="1"/>
+                        <field name="type" required="1"/>
+                        <field name="invoice_type" required="1"/>
+                        <field name="action" required="1"/>
+                    </group>
+                    <group colspan="4" col="2">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button icon="gtk-ok" string="Ok" name="action_posted" type="object"/>
+                   </group>
+               </form>
+            </field>
+        </record>
+        
+		#Actions
+        <record id="action_view_deferred_sales_purchase" model="ir.actions.act_window">
+            <field name="name">Generar Diferidos</field>
+            <field name="res_model">wizard.account.deferred</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_deferred_sales_purchase"/>
+            <field name="target">new</field>
+        </record>
+        
+        #Menu
+        <menuitem id="menu_finance_periodical_deferred" name="Diferidos" parent="account.menu_finance_periodical_processing"/>
+        <menuitem action="action_view_deferred_sales_purchase" id="menu_action_view_deferred_sales_purchase" parent="menu_finance_periodical_deferred"/>
+
+	</data>
+</openerp>

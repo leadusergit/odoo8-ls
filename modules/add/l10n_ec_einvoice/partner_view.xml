@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- Compania -->
+		<record id="view_res_company_einvoice_form" model="ir.ui.view">
+			<field name="name">account.res.company.einvoice.form</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<notebook position="inside">
+					<page string="Documentos Electrónicos"  >
+						<groups>
+							<!-- Habilitar Facturacion Electrónica -->
+						   <group>
+						   <field name="fee_view" string="Facturación Electrónica"/>
+						   </group> 
+							<group col="4">
+								<field name="electronic_signature" />
+								<field name="password_electronic_signature" password="1"/>
+								<field name="emission_code" />
+								<field name="ambiente_code" />
+						   </group>
+								<!-- Paths de carpetas comprobantes electrónicos -->
+						   <group>
+								<notebook position="inside">
+				 					<page string="Facturas" >
+				 					<groups>
+				 						<group>
+										<field name="bills_generated" string="Facturas Generadas"/>
+										<field name="bills_signed" string="Facturas Firmadas"/>
+										<field name="bills_authorized" string="Facturas Autorizadas"/>
+										</group>
+									</groups>
+									</page>
+									<page string="Comprobantes de Retención" >
+									<groups>
+				 						<group>
+										<field name="vouchers_generated" string="Comprobantes Generados"/>
+										<field name="vouchers_signed" string="Comprobantes Firmados"/>
+										<field name="vouchers_authorized" string="Comprobantes Autorizados"/>
+										</group>
+									</groups>	
+									</page>
+									<page string="Notas de Crédito" >
+									<groups>
+				 						<group>
+										<field name="credit_note_generated" string="NC Generadas"/>
+										<field name="credit_note_signed" string="NC Firmadas"/>
+										<field name="credit_note_authorized" string="NC Autorizadas"/>
+										</group>
+									</groups>
+									</page>
+								</notebook>
+							</group>
+							<group string="Claves de Contingencia">
+								<field name="contingency_key_ids" nolabel="1" widget="one2many_list">
+									<tree string="Claves de Contingencia" editable="top">
+										<field name="key" />
+										<field name="used" />
+									</tree>
+								</field>
+							</group>
+						</groups>
+					</page>
+				</notebook>
+			</field>
+		</record>
+	</data>
+</openerp>

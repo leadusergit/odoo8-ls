@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+            
+       <!-- wizard crea vouchers decimos desde objeto hr_payslip-->
+       
+       
+     <!--  <record id="hr_payments_decimos_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payments.decimos.wizard.form</field>
+            <field name="model">hr.payments.decimos.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Crea Voucher Decimos">
+                <group>
+                	<group colspan="1">
+						<field name="journal_id"/>
+						<field name="ref"/>
+					</group>
+					<group colspan="1">
+						<field name="date"/>
+						<field name="pago_dc" attrs="{'invisible': [('pago_dt','=',True)]}"/>
+						<field name="pago_dt" attrs="{'invisible': [('pago_dc','=',True)]}"/>                    		                      		
+					</group>                  
+                </group>
+                <field name="payslip_ids" invisible="1"/>
+					<footer>
+						<button name="pay_decimos" string="Register Payment" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_hr_payments_decimos_wizard"
+            multi="True"
+            key2="client_action_multi" name="Pagar Decimos"
+            res_model="hr.payments.decimos.wizard" src_model="hr.payslip"
+            view_mode="form" target="new" view_type="form" />
+            
+          -->	   
+            
+       <!-- wizard crea vouchers decimos desde objeto empleados
+       
+       
+     	<record id="hr_payments_decimos_employee_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payments.decimos.employee.wizard.form</field>
+            <field name="model">hr.payments.decimos.employee.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Crea Voucher Decimos">
+                <group>
+                	<group colspan="1">
+						<field name="journal_id"/>
+						<field name="ref"/>
+					</group>
+					<group colspan="1">
+						<field name="date"/>
+						<field name="codigo" required="1"/>                      		                      		
+					</group>                  
+                </group>
+                <field name="employee_ids" invisible="1"/>
+					<footer>
+						<button name="pay_employee_decimos" string="Register Payment" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_hr_payments_decimos_employee_wizard"
+            multi="True"
+            key2="client_action_multi" name="Pagar Decimos"
+            res_model="hr.payments.decimos.employee.wizard" src_model="hr.employee"
+            view_mode="form" target="new" view_type="form" />-->
+            
+         <!-- wizard crea vouchers decimos desde objeto empleados//mas wizard employees -->
+           
+            <!-- wizard employees -->
+        <!-- <record id="view_account_voucher_nomina" model="ir.ui.view">
+            <field name="name">account.voucher.nomina</field>
+            <field name="model">account.voucher.nomina</field>
+            <field name="arch" type="xml">
+                <form string="Employees">
+                    <header>
+                        <button icon="gtk-execute" string="Generate" name="compute_sheet_nomina" type="object" class="oe_highlight"/>
+                    </header>
+                    <group>
+                        <label colspan="4" nolabel="1" string="This wizard will list nomina for all selected employee(s)" />
+                    </group>
+                    <group colspan="4" >
+                        <separator string="Employees" colspan="4"/>
+                        <newline/>
+                        <field name="employee_ids" nolabel="1"/>
+                    </group>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_account_voucher_nomina" model="ir.actions.act_window">
+            <field name="name">Generate</field>
+            <field name="res_model">account.voucher.nomina</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_voucher_nomina"/>
+            <field name="target">new</field>
+        </record> -->
+   
+    </data>
+</openerp>

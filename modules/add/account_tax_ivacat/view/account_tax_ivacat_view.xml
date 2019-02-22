@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- Invoice Form -->
+		<record id="view_account_ivacat_form" model="ir.ui.view">
+			<field name="name">account.ivacat.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_due']" position="before">
+					<field name="porcentaje_iva_aplicado"/>
+				</xpath>
+			</field>
+		</record>
+		
+		<record id="view_account_supplier_ivacat_form" model="ir.ui.view">
+			<field name="name">account.supplier.ivacat.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='payment_term']" position="after">
+					<field name="porcentaje_iva_aplicado"/>
+				</xpath>
+			</field>
+		</record>
+		
+		<!-- Sale Order -->
+		<record id="view_sale_order_add_form" model="ir.ui.view">
+			<field name="name">sale.order.add.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+           	<xpath expr="//field[@name='payment_term']" position="before">
+					<field name="porcentaje_iva_aplicado"/>
+			</xpath>
+			</field>
+		</record>
+		
+		<!-- Purchase Order -->
+		<record id="view_purchase_order_add_form" model="ir.ui.view">
+			<field name="name">sale.purchase.add.form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form" />
+			<field name="arch" type="xml">
+           	<xpath expr="//field[@name='shipped']" position="before">
+					<field name="porcentaje_iva_aplicado"/>
+			</xpath>
+			</field>
+		</record>
+		
+		<!-- Pos Order -->
+		<record id="view_pos_order_add_form" model="ir.ui.view">
+			<field name="name">pos.order.add.form</field>
+			<field name="model">pos.order</field>
+			<field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
+			<field name="arch" type="xml">
+           	<xpath expr="//field[@name='pricelist_id']" position="after">
+					<field name="porcentaje_iva_aplicado"/>
+			</xpath>
+			</field>
+		</record>
+		
+		<template id="assets1_backend" name="point_of_sale assets1" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/account_tax_ivacat/static/src/js/models.js"></script>
+            </xpath>
+        </template> 
+	</data>
+</openerp>

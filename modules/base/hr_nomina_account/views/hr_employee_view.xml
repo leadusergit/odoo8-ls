@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+	==============
+	Departamentos
+	==============
+-->
+		<record model="ir.ui.view" id="view_department_form">
+			<field name="name">hr.department.form</field>
+			<field name="model">hr.department</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_department_form"/>
+			<field name="arch" type="xml">
+				<field name="company_id" position="after">
+					<field name="analytic_id" domain="[('company_id', '=', company_id)]"/>
+				</field>
+			</field>
+		</record>
+
+		<!--
+	================= 
+	Employee Modified
+	=================
+-->
+		<record model="ir.ui.view" id="view_employee_ec_form">
+			<field name="name">hr.employee.ec.form</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<group string="Active" position="after">
+					<group string="Contabilidad" groups="account.group_account_manager">
+						<field name="credit_account" required="1"/>
+						<field name="debit_account"/>
+						<field name="anticipo_debit_account"/>
+					</group>
+				</group>
+			</field>
+		</record>
+		
+	</data>
+</openerp>

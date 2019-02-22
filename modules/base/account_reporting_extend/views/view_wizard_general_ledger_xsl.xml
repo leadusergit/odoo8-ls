@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	
+		<record model="ir.ui.view" id="account_report_general_ledger_form_view">
+			<field name="name">account.report.general.ledger.form</field>
+			<field name="model">account.report.general.ledger</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.account_common_report_view"/>
+			<field name="arch" type="xml">
+				<field name="filter" position="before">
+					<field name="state" invisible="1"/>
+					<group col="4" colspan="2">
+	            		<separator string="Filtros comunes" colspan="4"/>
+	            		<field name="partner_id"/>
+	            		<field name="invoice_id"/>
+	            		<field name="move_id"/>
+	            		<field name="analytic_account_id"/>
+	            		<separator string="Filtros de tiempo" colspan="4"/>
+            		</group>
+				</field>
+				<group col="4" position="after">
+					<group colspan="4" col="2" attrs="{'invisible':[('state','!=','res')]}">
+						<separator string="Archivo generado"/>
+						<field name="data" filename="file_name"/>
+						<field name="file_name" default_focus="1"/>
+					</group>
+				</group>
+				<group col="4" position="attributes">
+					<attribute name="col">6</attribute>
+					<attribute name="attrs">{'invisible':[('state','!=','ini')]}</attribute>
+				</group>
+				<button name="check_report" position="after">
+					<button type="object" name="print_report_xls" string="Imprimir excel" default_focus="1" class="oe_highlight"/>
+				</button>
+			</field>
+		</record>
+        
+        <record id="account_xsl_general_ledger_view" model="ir.ui.view">
+            <field name="name">account.xsl.general.ledger.view</field>
+            <field name="model">account.report.general.ledger.xsl</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.account_common_report_view" />
+            <field name="arch" type="xml">
+            <data>
+            <xpath expr="/form/label[@string='']" position="replace">
+                <separator string="General Ledger" colspan="4"/>
+                <label nolabel="1" colspan="4" string="This report allows you to print or generate a pdf of your general ledger with details of all your account journals"/>
+            </xpath>
+            <xpath expr="//field[@name='target_move']" position="after">
+                <field name="display_account"/>
+                <field name="sortby"/>
+                <field name="initial_balance" attrs="{'readonly':[('fiscalyear_id','=', False)]}"/>
+                <field name="date_start" />
+                <newline/>
+            </xpath>
+            <field name="filter" position="before">
+            	<group col="4" colspan="2">
+            		<separator string="Filtros comunes" colspan="4"/>
+            		<field name="partner_id"/>
+            		<field name="invoice_id"/>
+            		<field name="move_id"/>
+            		<field name="analytic_account_id"/>
+            		<separator colspan="4"/>
+            	</group>
+            </field>
+            <xpath expr="//button[@string='Cancel']" position="before">
+                <group colspan="4" >
+                    <field name="data" filename="file_name"/>
+                    <field name="file_name"/>
+                </group>
+            </xpath>
+            
+            
+            </data>
+            </field>
+        </record>
+
+        <record id="account_xsl_general_ledger_view_inherit" model="ir.ui.view">
+            <field name="name">account.xsl.general.ledger.view.inherit</field>
+            <field name="model">account.report.general.ledger.xsl</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_xsl_general_ledger_view" />
+            <field name="arch" type="xml">
+               <field name="fiscalyear_id" position="replace">
+               <field name="fiscalyear_id" on_change="onchange_fiscalyear(fiscalyear_id)"/>
+               </field>
+            </field>
+        </record>
+
+        <record id="action_account_general_ledger_menu_xsl" model="ir.actions.act_window">  <!-- rename id -->
+            <field name="name">Libro Mayor xsl</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.report.general.ledger.xsl</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_xsl_general_ledger_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.values" id="action_account_general_ledger_values_xsl">
+            <field name="model_id" ref="account.model_account_account" />
+            <field name="object" eval="1" />
+            <field name="name">Libro Mayor xsl</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' +str(ref('action_account_general_ledger_menu_xsl'))" />
+            <field name="key">action</field>
+            <field name="model">account.account</field>
+        </record>
+
+        
+
+    </data>
+</openerp>

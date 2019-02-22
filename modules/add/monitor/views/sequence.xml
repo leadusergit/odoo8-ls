@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Liquidacion -->
+        <record id="seq_type_liquidation" model="ir.sequence.type">
+            <field name="name">Liquidacion</field>
+            <field name="code">m.liquidation</field>
+        </record>
+        <record id="seq_liquidation" model="ir.sequence">
+            <field name="name">Liquidacion</field>
+            <field name="code">m.liquidation</field>
+            <field name="prefix">LIQ-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</openerp>

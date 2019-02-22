@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    
+    </data>
+    <data noupdate="1">
+    
+    	<record id="hr_payroll_rule" model="ir.rule">
+	        <field name="name">Payroll global rule</field>
+	        <field name="model_id" ref="model_hr_payroll"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+	    <record id="hr_adm_incomes_rule" model="ir.rule">
+	        <field name="name">Adm. income global rule</field>
+	        <field name="model_id" ref="model_hr_adm_incomes"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+	    <record id="hr_expense_type_rule" model="ir.rule">
+	        <field name="name">Expense type global rule</field>
+	        <field name="model_id" ref="model_hr_expense_type"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+	    <record id="hr_provision_type_rule" model="ir.rule">
+	        <field name="name">Provision type global rule</field>
+	        <field name="model_id" ref="model_hr_provision_type"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+	    <record id="hr_income_rule" model="ir.rule">
+	        <field name="name">Income global rule</field>
+	        <field name="model_id" ref="model_hr_income"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+	    <record id="hr_expense_rule" model="ir.rule">
+	        <field name="name">Expense global rule</field>
+	        <field name="model_id" ref="model_hr_expense"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+	    
+    </data>
+</openerp>

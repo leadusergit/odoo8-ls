@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<report auto="False" id="account.account_invoices_offline" model="account.invoice"
+			name="account.einvoice.offline" rml="einvoice_offline/report/account_print_invoice_offline.rml"
+			usage="default" string="ComprobanteElectronico(Ride)" header="False" report_type="pdf" />
+			
+		<!-- <report auto="False" id="account.account_credit_note_offline" model="account.invoice"
+			name="account.ecreditnote.offline" rml="einvoice_offline/report/account_print_credit_note_offline.rml"
+			usage="default" string="Nota de Credito(Ride)" header="False" report_type="pdf" /> -->
+		
+		<report auto="False" id="retention" model="account.invoice.retention"
+			name="retention" rml="einvoice_offline/report/account_print_retention_offline.rml"
+			usage="default" string="Retenciones" header="False" report_type="pdf" />	
+	</data>
+</openerp>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+	================= 
+	Contract Type 
+	================= 
+	-->
+
+		<record model="ir.ui.view" id="view_hr_contract_type_tree">
+			<field name="name">hr.contract.type.tree</field>
+			<field name="model">hr.contract.type</field>
+			<field name="type">tree</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_type_view_tree"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="next_type_id"/>
+					<field name="dias_vigencia"/>
+					<field name="dias_alerta"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_hr_contract_type_form">
+			<field name="name">hr.contract.type.form</field>
+			<field name="model">hr.contract.type</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_type_view_form"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+				    <field name="description" colspan="4"/>
+					<group colspan="4" col="1">
+						<notebook>
+							<page string="Reporte para Jefaturas">
+								<field name="report_jefatura" nolabel="1" colspan="4" rowspan="8"/>
+							</page>
+							<page string="Reporte para Administrativos, Operativos y Personal de Planta">
+							   <field colspan="4" nolabel="1" name="report_otros" rowspan="8"/>
+							</page>
+						</notebook>
+					</group>
+					<field name="parcial"/>
+					<field name="next_type_id"/>
+					<field name="dias_vigencia"/>
+					<field name="dias_alerta"/>
+					<field name="template" colspan="4"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_contract_type_h">
+			<field name="name">Tipo de Contratos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.contract.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_hr_contract_type_tree"/>
+		</record>		
+
+		<!-- 
+	================= 
+	Contract Modified 
+	================= 
+	-->
+
+		<record model="ir.ui.view" id="hr_contract_view_form">
+			<field name="name">hr.contract.view.form</field>
+			<field name="model">hr.contract</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+				<field name="wage" position="after">
+					<field name="sueldo_basico" required='1'/>
+					<field name="costo_hora"/>
+					<field name="working_hours_per_day"/>
+				</field>
+				<field name="wage" position="replace">
+					<field name="wage" required='1' on_change="onchange_wage(wage)"
+						context="{'wage':wage}"/>
+				</field>
+				<!--field name="name" position="replace">
+					<field name="name" readonly="1"/>
+				</field-->
+				<field name="working_hours" position="replace">
+                    <field name="working_hours" string="Horario de Trabajo" required="1"/>
+                </field>
+                <field name="type_id" position="replace">
+					<field name="type_id" required='1' on_change="onchange_name(type_id)"
+						context="{'nombre':type_id, 'date_start' : date_start}"/>
+				</field>
+			</field>
+		</record>
+
+	</data>
+</openerp>

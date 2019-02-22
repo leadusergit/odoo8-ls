@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_list_account_manager","account_list_account","model_account_list_account","account.group_account_manager",1,1,1,1
+"access_account_cash_flow_perm","access_account_cash_flow_perm","model_account_cash_flow_elimination","account.group_account_manager",1,1,1,1
+"access_account_cash_flow_detail_perm","access_account_cash_flow_detail_perm","model_account_cash_elimination_detail","account.group_account_manager",1,1,1,1
+"access_account_cash_flow_detail","access_account_cash_flow_detail","model_account_cash_flow_detail","account.group_account_manager",1,1,1,1
+"access_account_cash_flow_relation_perm","access_account_cash_flow_relation_perm","model_account_cash_flow_relation","account.group_account_manager",1,1,1,1

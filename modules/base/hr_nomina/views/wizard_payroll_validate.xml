@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+<!--
+	=========================================================================================================
+	VALIDACION DE VARIOS ROLES DE PAGOS
+	=========================================================================================================
+ -->
+	 <record id="wizard_payroll_validate_view" model="ir.ui.view">
+      	<field name="name">wizard.payroll.validate</field>
+      	<field name="model">wizard.payroll.validate</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Validar Roles">
+				<field name="state" invisible="1"/>
+				<div attrs="{'invisible':[('state','!=','draft')]}">
+					<separator colspan="4" string="Validar Rol/Roles de Pago"/>
+					<label align="0.0" string="Se validara el/los roles que esten en estado calculado." colspan="4"/>
+					<separator colspan="4" string="Observaciones:"/>
+					<p><label align="0.0" string="1) Los roles que tengan un valor a pagar negativo no se validaran. " colspan="4"/></p>
+					<p><label align="0.0" string="2) Los roles que esten en estado diferente a calculado tampoco se validaran. " colspan="4"/></p>
+					<p><label align="0.0" string="3) Se validaran los roles que el usuario seleccione de la lista. Por defecto el sistema elige todos los que estan en la lista. " colspan="4"/></p>
+					<p><separator colspan="4" string="Este proceso puede tardar varios minutos esto dependera del número de roles seleccionados.!"/></p>
+				</div>
+				<div attrs="{'invisible':[('state','=','draft')]}">
+					<h3><label for="observation"/></h3>
+					<field name="observation"/>
+					<group string="Información del asiento" col="4">
+						<field name="ref" attrs="{'required':[('state','!=','draft')]}" colspan="4"/>
+						<field name="date" on_change="onchange_date(date)" attrs="{'required':[('state','!=','draft')]}"/>
+						<field name="period_id" attrs="{'required':[('state','!=','draft')]}"/>
+					</group>
+				</div>
+				<footer>
+					<button name="payroll_check" string="Comprobar" type="object" class="oe_highlight" states='draft'/>
+					<button name="payroll_validate" string="Validar Rol/Roles" type="object" class="oe_highlight" states='res'/>
+					ó
+					<button special="cancel" string="Cerrar" class="oe_link"/>
+				</footer>
+			</form>
+		</field>
+	 </record>
+		
+	<record id="action_wizard_payroll_validate" model="ir.actions.act_window">
+		<field name="name">Validar Rol/Roles</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.payroll.validate</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payroll_validate_view"/>
+		<field name="target">new</field>
+	</record>
+	
+	<record model="ir.values" id="payroll_validate_values">
+            <field name="model_id" ref="hr_nomina.model_hr_payroll" />
+            <field name="object" eval="1" />
+            <field name="name">Validar Rol</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_payroll_validate'))" />
+            <field name="key">action</field>
+            <field name="model">hr.payroll</field>
+    </record>
+
+</data>
+</openerp>

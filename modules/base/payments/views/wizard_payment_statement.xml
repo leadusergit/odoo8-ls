@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+	 <!-- FORM -->
+	 <record id="wizard_payment_statement_view" model="ir.ui.view">
+      	<field name="name">wizard.payment.statement</field>
+      	<field name="model">wizard.payment.statement</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Escoja una opcion para continuar !">
+				<field name="type" required="True" colspan="4" />
+				<group colspan="4" attrs="{'invisible':[('type','!=','cancel_check')]}">
+					<field name="date" attrs="{'required':[('type','=','cancel_check')]}"/>
+				</group>
+				<newline/>
+				<group col="2" colspan="4" >
+					<button icon="gtk-ok" name="get_option" string="Siguiente" type="object"/>
+					<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+				</group>
+			</form>
+		</field>
+	 </record>
+	 
+	 <record id="wizard_payment_statement_search" model="ir.ui.view">
+      	<field name="name">wizard.payment.statement</field>
+      	<field name="model">wizard.payment.statement</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Anular Pagos">
+				<group col="4" colspan="6">
+				</group>
+				<separator colspan="4"/>
+			    <group col="2" colspan="4">
+            		<button special="cancel"  string="Cancel" icon='gtk-cancel'/>
+					<button name="cancel_check_2" string="Anular" colspan="1" type="object" icon="gtk-execute"/>
+				</group>
+			</form>
+		</field>
+	 </record>
+		
+	<!-- ACTIONS -->
+	<record id="action_wizard_payment_statement_form" model="ir.actions.act_window">
+		<field name="name">Devolución Valores</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.payment.statement</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payment_statement_view"/>
+		<field name="target">new</field>
+	</record>
+	
+	
+	<!-- 
+	========================================================================================================================================
+																Anular Cheques 
+	========================================================================================================================================
+	-->
+	<!-- FORM -->
+	 <record id="wizard_payment_statement_cancel_check" model="ir.ui.view">
+      	<field name="name">wizard.payment.statement.cancel.check</field>
+      	<field name="model">wizard.payment.statement.cancel.check</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Cambie los valores!">
+				<group col="4" colspan="6">
+				</group>
+				<group col="2" colspan="4" >
+					<button icon="gtk-ok" name="cancel_check" string="Siguiente" type="object"/>
+					<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+				</group>
+			</form>
+		</field>
+	 </record>
+		
+	<!-- ACTIONS -->
+	<record id="action_wizard_payment_statement_cancel_check" model="ir.actions.act_window">
+		<field name="name">Anular Pago de Cliente</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.payment.statement.cancel.check</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payment_statement_cancel_check"/>
+		<field name="target">new</field>
+	</record>
+	
+	<record id="bank_statement_line_view_tree" model="ir.ui.view">
+      	<field name="name">bank.statement.line.view.tree</field>
+      	<field name="model">account.bank.statement.line</field>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom" string="Lineas del Extracto Bancario">
+                    <field name="numero_orden" />
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="partner_id"/>
+                    <!-- field name="employee_id" /-->
+                    <!--field name="type"/-->
+                    <field domain="[('journal_id','=',parent.journal_id)]" name="account_id"/>
+                    <!--field name="analytic_account_id"/-->
+                    <!--field name="preproject_id"/-->
+                    <!--field name="funds_certificate_id"/-->
+                    <field name="amount"/>
+            </tree>
+		</field>
+	 </record>
+	
+	
+	
+	
+	
+	
+
+</data>
+</openerp>

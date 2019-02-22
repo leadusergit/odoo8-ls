@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <!-- ACA TOCA HEREDAR EL BOTON DE WIZARD DEL LA VISTA account_voucher_view.xml -->
+    </data>
+</openerp>

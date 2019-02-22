@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	 	<record id="view_account_asset_search1" model="ir.ui.view">
+        <field name="name">account.asset.asset.search1</field>
+        <field name="model">account.asset.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_search"/>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Categoria" context="{'group_by':'category_id'}" />
+                <filter string="Periodo" context="{'group_by':'purchase_date'}" />
+                <filter string="Estado" context="{'group_by':'state'}" />
+                <filter string="Custodio" context="{'group_by':'employee_id'}" />
+                <filter string="Localizacion" context="{'group_by':'localization'}"/>
+            </search>
+        </field>
+    	</record>
+    
+		
+		<record id="view_account_asset_add" model="ir.ui.view">
+			<field name="name">account.asset.add</field>
+			<field name="model">account.asset.asset</field>
+			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//field[@name='company_id']" position="after">
+						<field name="employee_id" string="Custodio"/>
+						<field name="localization"/>
+					</xpath>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>

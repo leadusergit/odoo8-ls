@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	 	
+	 	<!-- Añade filtros en vista search de account.voucher vista liquiacion con TC  -->
+	 	<record id="view_account_voucher_search1" model="ir.ui.view">
+        <field name="name">account.voucher.search1</field>
+        <field name="model">account.voucher</field>
+        <field name="inherit_id" ref="account_voucher.view_voucher_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                 <filter icon="terp-sale" string="Cobrado" domain="[('account_id.type','=','receivable')]" help="A cobrar"/>
+                 <filter icon="terp-purchase" string="Pagado" domain="[('account_id.type','=','payable')]" help="A cobrar"/>
+                <group expand="0" string="Group By">
+                	<filter name="type" string="Tipo" icon="terp-personal" domain="[]" context="{'group_by':'type'}"/>                        
+              </group>
+           </search>
+        </field>
+    	</record>
+    	
+    	
+    	
+    	
+    	<!-- Añade campos de Tarjeta de credito al seleccionar forma de pago TC en vista voucher proveedor -->
+    	<record model="ir.ui.view" id="view_voucher_supplier_form_tarjeta">
+            <field name="name">account.voucher.supplier.form.tarjeta</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+            <field name="arch" type="xml">
+		<field name="name" position="after">
+			<field name="is_credit_card" invisible="1" />
+			<field name="tipo_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="nro_tarjeta" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+			<field name="cant_cuotas" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+		</field>
+            </field>
+        </record>
+		       
+		<!-- Añade campo x_conciliado en vista Asientos Contables/Detalle de Asientos Contables -->
+        <record model="ir.ui.view" id="account_move_line_form">
+        <field name="name">account.payments.move.line.form</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <field name="reconcile_partial_id" position="after">
+                    <field name="x_conciliado"/>
+            </field>
+        </field>
+    </record>	
+    	
+    	
+	</data>
+</openerp>

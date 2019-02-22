@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  <!--
+  ====================================================================================
+    RETENTION VIEW
+  ====================================================================================
+  -->
+  
+  <record id="view_retention_voucher_tree" model="ir.ui.view">
+    <field name="name">account.invoice.retention.voucher.tree</field>
+    <field name="model">account.invoice.retention.voucher</field>
+    <field name="type">tree</field>
+    <field name="arch" type="xml">
+      <tree string="Comprobantes de Retencion" colors="blue:state=='draft';darkred:state=='cancel'" create="false">
+	        <field name="nro_retencion" select="1"/>
+	        <field name="partner_id" select="1"/>
+			<field name="numero" select="1"/>
+	        <field name="ruc" select="1"/>
+	        <field name="broadcast_date" select="1"/>
+	        <field name="state" select="1"/>		  
+	        <field name="type_voucher_purchase" select="1"/>
+	        <field name="address" select="1"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="view_retention_voucher_form" model="ir.ui.view">
+    <field name="name">account.invoice.retention.voucher.form</field>
+    <field name="model">account.invoice.retention.voucher</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+      <form string="Comprobantes de Retencion" create="false">
+      	<header>
+	        <button name="action_move_lines_voucher" class="oe_highlight"
+	   				states="draft" string="Validar" type="object" icon="gtk-execute" 
+	   				confirm="¿Confirmo los datos del comprobante de retencion, asi como las retenciones efectuadas?"/>
+	   		<button name="action_reconcile_retention"
+	   				states="new" string="Validar" type="object" icon="gtk-execute"/>
+	   		<button name="action_cancel_retention"
+	   				states="valid" string="Cambiar a Borrador" type="object" icon="gtk-convert" />
+	   		<field name="state" widget="statusbar"/>
+   		</header>
+   		<sheet>
+	        <h1>Comprobante de Retencion</h1>
+	        <group col="4" colspan="4">
+		        <group colspan="2" attrs="{'invisible':[('state','not in',['new'])]}">
+		        	<field name="line_id" attrs="{'required':[('state','=','new')]}" on_change="on_change_move_line(line_id)"/>
+		        </group>
+		        <group colspan="2" attrs="{'invisible':[('state','not in',['new'])]}">
+		        	<field name="name"/>
+		        </group>
+		        <newline/>
+		        <field name="partner" readonly="1"/>
+		        <field name="number" required="1"/>
+		        <field name="ruc" readonly="1" />
+		        <field name="ath_sri" required="1"/>
+		        <field name="address" readonly="1"/>
+		        <field name="move_id" readonly="0"/>
+	        	<field name="amount_reconcile" readonly="1" attrs="{'invisible':[('state','not in',['new'])]}"/>
+	        </group>
+	        <separator string="Identificacion de Beneficiario"  colspan="4"/>
+	        <group col="4" colspan="4">
+		        <field name="social_reason" readonly="1"/>	
+		        <field name="broadcast_date" required="1"/>
+		        <field name="ruc_ci" readonly="1" />
+		        <field name="type_voucher_purchase" attrs="{'readonly':[('state','in',['draft','valid'])]}"/>
+		        <field name="numero" readonly="1"/>
+		        <field name="num_voucher_purchase"  required="1"/>
+	        </group>
+	        <newline/>
+	        <separator colspan="4"/>
+	        <newline/>
+	        <field name="ret_voucher_line_ids" required="1" nolabel="1" colspan="4">
+	        	<form string="Detalle retencion de impuestos">
+	        		<group colspan="4" col="4">
+			        		<field name="fiscal_year_id" />	
+			        		<field name="tax_base" />
+			        		<field name="tax_id" />
+					        <field name="perc_tax"/>
+			        		<field name="ret_amount"/>
+	        		</group>
+	           	</form>
+	        	<tree string="Detalle retencion de impuestos">
+	        		<field name="fiscal_year_id" />	
+	        		<field name="tax_base" />
+	        		<field name="tax_id" />
+			        <field name="perc_tax" />
+	        		<field name="ret_amount"  />
+	            </tree>
+	        </field>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_retention_voucher" model="ir.actions.act_window">
+    <field name="name">Comprobante de Retención Ventas</field>
+    <field name="res_model">account.invoice.retention.voucher</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('state','in',['new','draft','valid'])]</field>
+    <field name="view_id" eval="False" />
+  </record>
+
+  
+  <record id="action_retention_voucher_view1" model="ir.actions.act_window.view">
+      <field eval="2" name="sequence" />
+      <field name="view_mode">form</field>
+      <field name="view_id" eval="view_retention_voucher_form" />
+      <field name="act_window_id" ref="action_retention_voucher" />
+  </record>
+  
+  <record id="action_retention_voucher_view2" model="ir.actions.act_window.view">
+      <field eval="1" name="sequence" />
+	  <field name="view_mode">tree</field>
+	  <field name="view_id" eval="view_retention_voucher_tree" />
+	  <field name="act_window_id" ref="action_retention_voucher" />
+  </record>
+  
+  <!--menuitem action="action_retention_voucher" id="menu_action_retention_voucher"
+      parent="account.menu_action_invoice_tree1" groups="account.group_account_manager,account.group_account_user" /-->
+
+  </data>
+</openerp>
+

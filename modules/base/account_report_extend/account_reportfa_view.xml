@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+  
+  	<record model="ir.ui.view" id="view_company_form">
+  		<field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="type">form</field>
+  		<field name="inherit_id" ref="base.view_company_form"/>
+  		<field name="arch" type="xml">
+      	    <field name="currency_id" position="after">
+      	        <group colspan="4" col="4">
+      	        	<separator string="Configuración para el S.R.I."/>
+      	        	<field name="num_establecimiento"/>
+      	        	<field name="num_sucursal"/>
+      	        </group>
+		    </field>
+        </field>
+  	</record>
+  
+    <record model="ir.ui.view" id="view_account_report_bs_fa_form">
+        <field name="name">account.report.bs.fa.form</field>
+        <field name="model">account.report.bs</field>
+        <field name="type">form</field>
+      	<field name="inherit_id" ref="account_reporting.view_account_report_bs_form"/>
+      	<field name="arch" type="xml">
+      	    <field name="report_type" position="after">
+      	        <field name="nivel"/>
+		    </field>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_account_report_bs_fa1_form">
+		<field name="name">account.report.bs.fa1.form</field>
+		<field name="model">account.report.bs</field>
+		<field name="type">form</field>
+		<field name="inherit_id" ref="account_reporting.view_account_report_bs_form"/>
+		<field name="arch" type="xml">
+		  <notebook position="inside">
+		    <page string="Indicadores">
+	              <field name="account_report_ids" nolabel="1" colspan="4"/>
+	      	</page>
+		  </notebook>
+		</field>
+    </record>
+    
+    <!--wizard
+        string="Balance"
+		model="account.report.bs"
+		name="account.account.balancesheet.report1"
+		keyword="client_print_multi"
+		id="wizard_balance_report_fa"/-->
+
+
+    <record model="ir.ui.view" id="view_account_report_tree_bs_fa">
+        <field name="name">account.report.report.tree.bs.fa</field>
+      	<field name="model">account.report.bs</field>
+      	<field name="type">tree</field>
+      	<field name="field_parent">child_id</field>
+      	<field name="arch" type="xml">
+      	    <tree string="Account reporting">
+      	        <field name="code"/>
+          		<field name="name"/>
+      		</tree>
+      	</field>
+    </record>
+
+	<record model="ir.actions.act_window" id="action_account_tree_bs_fa">
+		<field name="name">Informe Contabilidad</field>
+	    <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.report.bs</field>
+        <field name="domain">[('parent_id','=',False)]</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_account_report_tree_bs_fa"/>
+     </record>
+	<menuitem name="Informe Contabilidad" id="action_account_report_bs_form_fa" action="action_account_tree_bs_fa" parent="account.next_id_22"/>
+
+
+    <!--wizard id="wizard_declaracion_formularios" 
+                menu="False"
+                model="account.tax.header"
+                name="wizard.declaracion.formularios"
+                string="Declaracion de formularios"/-->
+                
+    <!--wizard id="wizard_declaracion_formulario_ats" 
+                menu="False"
+                model="account.document.ats"
+                name="wizard.declaracion.formulario.ats"
+                string="Declaracion de formulario A.T.S."/-->
+	
+  </data>
+</openerp>

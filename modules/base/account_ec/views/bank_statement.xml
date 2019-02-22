@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!--record id="view_bank_statement_form_invoice_ec" model="ir.ui.view">
+            <field name="name">account.bank.statement.invoice.form.inherit.ec</field>
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+              <field name="currency" invisible="1" position="after">
+                <button name="%(action_view_account_statement_from_invoice_lines)d"
+                            string="Importar Facturas" type="action" icon="gtk-execute"
+                            attrs="{'invisible':[('state','=','confirm')]}"/>
+              </field>
+            </field>
+        </record-->
+        
+        <record id="view_bank_statement_form_invoice_v2" model="ir.ui.view">
+            <field name="name">account.bank.statement.form.invoice.v2</field>
+            <field name="model">account.bank.statement</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+              <field name="journal_id" position="replace">
+                  <field name="journal_id" domain="[('type', 'in', ('bank','pagos_varios'))]" on_change="onchange_journal_id(journal_id)" select="1" widget="selection"/>                
+              </field>
+            </field>
+        </record>
+        
+        
+        
+    </data>
+</openerp>

@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="57.0" y1="14" width="513" height="528"/>
+      <pageGraphics>
+        <setFont name="Helvetica-Bold" size="10"/>
+	    <drawRightString x="4.5cm" y="24.7cm">[[ o.date_invoice or '' ]]</drawRightString>
+	    <!--<drawRightString x="19cm" y="23.7cm">[[ o.saleer or '' ]]</drawRightString>-->
+	    <drawRightString x="9.3cm" y="24.1cm">[[ o.partner_id and o.partner_id.name.upper() or '']]</drawRightString>
+	    <drawRightString x="18.7cm" y="24.0cm">[[ o.partner_id and o.partner_id.ident_num  or '' ]]</drawRightString>
+	    
+        <place x="1.8cm" y="3.1cm" width="25cm" height="18.6cm">
+          <blockTable colWidths="30,290,100,110" style="Tabla1">
+		      <tr>
+		        <td><para style="PD1">[[ cantidad(o) ]] </para></td>
+		        <td><para style="PD2"> [[ o.invoice_line[0].name or '' ]]</para></td>
+		        <td><para style="PD1"><font color="white"></font></para></td>
+		        <td><para style="PD3">[[ formato(round(o.amount_subtotal, 2)) ]]</para></td>
+		      </tr>
+		      <tr>
+		        <td><para style="PD4"><font color="white"> </font></para></td>
+		        <td><para style="WH1"><font color="white"> </font></para></td>
+		        
+		      </tr>
+		  </blockTable>
+        </place>
+        <setFont name="Helvetica-Bold" size="9"/>
+	    <drawCentredString x="6.5cm" y="4.1cm">[[ o.days_later ]]</drawCentredString>
+	    <drawCentredString x="9.6cm" y="3.8cm">[[ get_tax(o.id) ]]</drawCentredString>
+	    <setFont name="Helvetica-Bold" size="10"/>
+	    <drawRightString x="20.3cm" y="14.9cm">[[ formato(round(o.amount_subtotal,2)) ]]</drawRightString>
+	    <drawRightString x="20.3cm" y="13.9cm">[[ formato(round(o.amount_discount,2)) ]]</drawRightString>
+	    <drawRightString x="20.3cm" y="12.8cm">[[ formato(round(o.amount_untaxed,2)) ]]</drawRightString>
+	    <drawRightString x="20.3cm" y="12.0cm">[[ formato(round(o.t_iva,2)) ]]</drawRightString>
+	    <drawRightString x="20.3cm" y="11.2cm">[[ formato(round(o.amount_pay,2)) ]]</drawRightString>
+	    <setFont name="Helvetica" size="10"/>
+	    
+	    <place x="0" y="9.2cm" width="11cm" height="4cm">
+	    <blockTable colWidths="11cm" style="Tabla1">
+		      <tr>
+		        <td><para style="PD1">[[o.comment]] </para></td>
+	    	  </tr>
+	    </blockTable>
+	    </place>
+	  </pageGraphics>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    
+    <blockTableStyle id="Tabla1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Tabla2">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Tabla3">
+     <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+     <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+        
+    <blockTableStyle id="Totales">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="MIDDLE"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <!-- Cabecera -->
+    <paraStyle name="WH1" fontName="Helvetica-Bold" fontSize="7.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="WH2" fontName="Helvetica" fontSize="6.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="Ph1" fontName="Helvetica-Bold" fontSize="9" leading="11" alignment="LEFT"/>
+    <paraStyle name="Ph2" fontName="Helvetica-Bold" fontSize="7.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="Ph3" fontName="Helvetica-Bold" fontSize="10.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="Ph4" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    
+    <!-- Detalle -->
+    <paraStyle name="PD1" fontName="Helvetica-Bold" fontSize="8.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="PD2" fontName="Helvetica" fontSize="8.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="PD3" fontName="Helvetica-Bold" fontSize="8.5" leading="11" alignment="RIGHT"/>
+    <paraStyle name="PD4" fontName="Helvetica" fontSize="8.0" leading="11" alignment="RIGHT" />
+    <paraStyle name="PD5" fontName="Helvetica" fontSize="8.0" leading="11" alignment="RIGHT" />
+    
+    <!-- Contrato -->
+    <paraStyle name="PC1" fontName="Helvetica" fontSize="9.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="PC2" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="LEFT"/>
+    
+    <!-- Letras Valores -->
+    <paraStyle name="PV1" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="LEFT"/>
+    
+    <!-- Totales -->
+    <paraStyle name="PT1" fontName="Helvetica-Bold" fontSize="10" leading="11" alignment="RIGHT"/>
+
+    <images/>
+  </stylesheet>
+  <story>
+    <para style="WH1">[[repeatIn(objects, 'o')]] </para>
+  </story>
+</document>

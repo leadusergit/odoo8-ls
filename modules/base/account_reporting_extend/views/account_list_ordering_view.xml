@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+	 <!-- lista de cuentas para los balances -->
+	<record id="view_list_account_11" model="ir.ui.view">
+        <field name="name">view.list.account.11</field>
+        <field name="model">account.report.bs</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account_reporting.view_account_report_bs_form" />
+        <field name="arch" type="xml">
+            <field name="account_id" position="before">
+            	<field name="chart_account_id"/>
+               	<button name="load_account_list" string="Cargar Cuentas" type="object"/>
+            </field>
+		</field>
+	</record>
+</data>
+<data noupdate="1">
+	
+	<record id="account_report_bs_global_rule" model="ir.rule">
+        <field name="name">account.report.bs.global.rule</field>
+        <field name="model_id" ref="model_account_report_bs"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+</data>
+</openerp>

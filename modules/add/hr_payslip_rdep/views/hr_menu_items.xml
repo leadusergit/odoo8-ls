@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+		<menuitem name="Formulario RDEP" action="action_wizard_generate_rdep" id="menu_wizard_generate_rdep" parent="hr_payroll.menu_hr_root_payroll" groups="base.group_hr_user" sequence="32"/>
+	    <!-- <menuitem name="Ajuste Gastos Personales" action="action_ajuste_gastos" id="menu_accion ajustes" parent="hr_employee_gp.menu_payslip_gp" sequence="36"/> -->
+		
+    </data>
+</openerp>

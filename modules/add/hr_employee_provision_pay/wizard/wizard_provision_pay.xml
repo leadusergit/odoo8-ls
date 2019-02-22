@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+	 <record id="wizard_provision_pay_view" model="ir.ui.view">
+            <field name="name">wizard.provision.pay.form</field>
+            <field name="model">wizard.provision.pay</field>
+            <field name="arch" type="xml">
+                <form string="exportar">
+                <group>
+					<group colspan="4">
+						<field name="date_from"/>
+						<field name="date_to"/>
+					</group>                  
+                </group>
+					<footer>
+						<button name="run_sql" string="Exportar Decimo Cuarto" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_provision_pay"
+            multi="True"
+            key2="client_action_multi" name="Exportar Decimo Cuarto"
+            res_model="wizard.provision.pay" src_model="hr.employee.provision.pay"
+            view_mode="form" target="new" view_type="form" />
+        
+      <record id="wizard_provision_pay_view1" model="ir.ui.view">
+            <field name="name">wizard.provision.pay.form1</field>
+            <field name="model">wizard.provision.paydt</field>
+            <field name="arch" type="xml">
+                <form string="exportar">
+                <group>
+					<group colspan="4">
+						<field name="date_from"/>
+						<field name="date_to"/>
+					</group>                  
+                </group>
+					<footer>
+						<button name="run_sql_dt" string="Exportar Decimo Tercer" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_provision_pay1"
+            multi="True"
+            key2="client_action_multi" name="Exportar Decimo Tercero"
+            res_model="wizard.provision.paydt" src_model="hr.employee.provision.pay"
+            view_mode="form" target="new" view_type="form" />
+	</data>
+</openerp>

@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+	<data>
+	<!--
+    **************************************** 
+	         PAGOS 
+	**************************************** 
+	-->
+		<record id="view_payment_transfer_payment_tree" model="ir.ui.view">
+			<field name="name">payment.transfer.payment.tree</field>
+			<field name="model">payment.transfer.payment</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Pagos" colors="blue:state=='draft'">
+					<field name="name" select="1" />
+					<field name="monto" />
+					<field name="type" select="1"/>
+					<field name="state" select="1"/>
+					<field name="generation_date" select="1"/>
+				</tree>
+			</field>
+		</record>
+		
+	<!--
+    **************************************** 
+	         PAGOS POR TRANSFERENCIAS 
+	**************************************** 
+	-->	
+		
+		<record id="view_payment_transfer_payment_form" model="ir.ui.view">
+			<field name="name">payment.transfer.payment.form</field>
+			<field name="model">payment.transfer.payment</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pago por transferencia">
+					<field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+					<field name="bank_account_id"/>
+					<field name="period_id" invisible="1"/>
+					<field name="type" readonly="1"/>
+					<!--  <button states="draft" colspan='2' name="buttom_charge" string="Cargar Comprobantes" type="object" icon="gtk-find"  />-->
+					<field name="state"/>
+					<field name="statement_id" on_change="onchange_statement(statement_id,name)" attrs="{'readonly':[('state','!=','draft')]}"
+						   domain="[('state','=', 'confirm')]"/>
+					<field name="group_by" />
+					<field name="transfer_to" attrs="{'invisible':[('group_by','=','by_partner')]}"/>
+					<group col='2' colspan='4' attrs="{'invisible':[('group_by','=','by_partner')]}">
+					    <group col='4' colspan='4' attrs="{'invisible':[('transfer_to','!=','partner_to')]}">
+					        <separator string="Elija el proveedor"	colspan="2" />
+					        <field name="supplier_to" />
+					    </group>
+						<!-- group col='4' colspan='2' attrs="{'invisible':[('transfer_to','!=','employee_to')]}">
+						    <separator string="Elija el empleado" colspan="2" />
+						    <field name="employee_to" />
+					    </group-->
+					</group>
+				    <newline/>
+					<separator string="Detalle de Comprobantes"	colspan="4"/>
+					<label colspan="2" string=" "/>
+					<button type="object" name="change_all_check" string="Marcar" states="draft" icon="gtk-apply" context="{'value':True}"/>
+				    <button type="object" name="change_all_check" string="Desmarcar" states="draft" icon="gtk-media-stop" context="{'value':False}"/>
+					<field name="invoce_line_ids" nolabel="1" colspan="4" mode="tree">
+						<tree string="Líneas de Pago" editable="top">
+							<field name="partner" readonly="1"/>
+							<field name="identification_number" readonly="1"/>
+							<field name="bank_account_id" required="1" domain="[('partner_id', '=', partner)]"/>
+							<field name="state" readonly="1"/>
+							<field name="note"/>
+							<field name="amount_total" sum="Total Pago" readonly="1"/>
+							<field name="has_transfer" invisible="1"/>
+							<button type="object" name="change_check" string="Cambiar" icon="gtk-media-stop" context="{'value':True}"
+								attrs="{'invisible': ['|', ('has_transfer', '=', True), ('state', '!=', 'Borrador')]}"/>
+							<button type="object" name="change_check" string="Cambiar" icon="gtk-apply" context="{'value':False}"
+								attrs="{'invisible': ['|', ('has_transfer', '=', False), ('state', '!=', 'Borrador')]}"/>
+						</tree>
+						<form string="Facturas Realizadas">
+							<field name="name" readonly="1" />
+							<field name="has_transfer" readonly = "1"/>
+							<field name="account_mov_id" readonly="1" />
+							<field name="amount_total" readonly="1" />
+						</form>
+					</field>
+					<newline/>
+					<group colspan="4">
+						<separator colspan="3" />
+						<button states="draft" name="generate_payment_transfer" string="Generar Transferencias" type="object" icon="gtk-add"  />
+						<button name="%(action_payment_transfer_excel)d" string="Crear Archivo" type="action" icon="gtk-print" states="done"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record id="action_payment_transfer_payment" model="ir.actions.act_window">
+			<field name="name">Pagos</field>
+			<field name="res_model">payment.transfer.payment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_payment_transfer_payment_tree"/>
+            <field name="context">{'type':'transfer'}</field>
+		</record>
+
+		<record id="action_payment_transfer_payment1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_payment_transfer_payment" />
+		</record>
+		
+		<record id="action_payment_transfer_payment2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_transfer_payment_form" />
+			<field name="act_window_id" ref="action_payment_transfer_payment" />
+		</record>
+		
+		<record id="action_payment_transfer" model="ir.actions.act_window">
+			<field name="name">Transferencia masiva</field>
+			<field name="res_model">payment.transfer.payment</field>
+			<field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','transfer')]</field>
+            <field name="context">{'type':'transfer'}</field>
+		</record>
+
+		<record id="action_payment_transfer1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_payment_transfer" />
+		</record>
+		
+		<record id="action_payment_transfer2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_transfer_payment_form" />
+			<field name="act_window_id" ref="action_payment_transfer" />
+		</record>
+
+		<!--menuitem id="menu_action_payment_transfer" parent="menu_action_payment_transfer_payment"
+			action="action_payment_transfer" groups="account.group_account_invoice,account.group_account_user" /-->
+			
+<!--
+    **************************************** 
+	         PAGOS MEDIANTE CHEQUES
+	**************************************** 
+-->
+		
+		<record id="view_payment_cheque_form" model="ir.ui.view">
+			<field name="name">payment.cheque.form</field>
+			<field name="model">payment.transfer.payment</field>
+			<field name="type">form</field>
+			<field name="priority" eval="2" />
+			<field name="arch" type="xml">
+				<form string="Pago por Cheque">
+					<field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+					<!--  <field name="tipo_com" required="1" attrs="{'readonly':[('state','!=','draft')]}" />-->
+					<field name="period_id" invisible="1"/>
+					<field name="type" readonly="1"/>
+					<!--  <button states="draft" colspan='2' name="buttom_charge" string="Cargar Comprobantes" type="object" icon="gtk-find"  />-->
+					<field name="state"/>
+					<field name="group_by" />
+					<field name="statement_id" on_change="onchange_statement(statement_id,name)" attrs="{'readonly':[('state','!=','draft')]}"
+						   domain="[('state','=', 'confirm')]"/>
+				    <group col='2' colspan='2' attrs="{'invisible':[('group_by','=','by_partner')]}">
+				        <field name="payable_to" attrs="{'required':[('group_by','=','none')]}"/>
+				    </group>
+				    <button states="draft" colspan='2' name="check_all" string="Marcar" type="object" icon="gtk-apply"/>
+				    <button states="draft" colspan='2' name="uncheck_all" string="Desmarcar" type="object" icon="gtk-media-stop"/>
+				    <separator string="Detalle de Comprobantes"	colspan="4" />
+					<field name="invoce_line_ids" nolabel="1" colspan="4" attrs="{'readonly':[('state','!=','draft')]}" widget="one2many_list" height="250">
+						<tree editable="bottom" string="Línea de Pago" >
+							<field name="account_mov_id"  invisible="1"/>
+							<field name="cheque" invisible="1"/>
+							<field name="has_transfer" invisible = "1"/>
+							<field name="chq" attrs="{'readonly':[('state','==','valid')]}" />
+							<field name="invoice_num" readonly="1"/>
+							<field name="date_maturity" readonly="1"/>
+							<field name="name" readonly="1"/>
+							<field name="amount_total" readonly="1" sum="Total Pago"/>
+							<field name="identification_type" readonly="1"/>
+							<field name="identification_number" readonly="1" />
+							<field name="acc_type" readonly="1"/>
+							<field name="acc_number" readonly="1"/>
+							<field name="bank_code"  readonly="1"/>
+							<field name="state" readonly="1"/>
+							<field name="note"/>
+							<field name="factura" invisible='1'/>
+						</tree>
+						<form string="Facturas Realizadas">
+							<group colspan="4" string="Cheque">
+								<field name="name" readonly="1" />
+								<field name="cheque" readonly = "1"/>
+								<field name="account_mov_id" readonly="1" />
+								<field name="amount_total" readonly="1" />
+							</group>
+						</form>
+					</field>
+					<newline/>
+				    <separator colspan="3" />
+				    <button states="draft" name="generate_payment_cheque" string="Generar Cheques" type="object" icon="gtk-add"  />
+				</form>
+			</field>
+		
+		</record>
+		
+		<record id="action_payment_cheque" model="ir.actions.act_window" >
+			<field name="name">Pagos por Cheques</field>
+			<field name="res_model">payment.transfer.payment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_payment_transfer_payment_tree" />
+			<field name="context">{'type':'check'}</field>
+			<field name="domain">[('type','=','check')]</field>
+		</record>
+		
+		<record id="action_payment_cheque_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_payment_cheque" />
+		</record>
+		
+		<record id="action_payment_cheque_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_cheque_form" />
+			<field name="act_window_id" ref="action_payment_cheque" />
+		</record>
+		
+		<!-- menuitem id="menu_action_payment_cheque" parent="menu_action_payment_transfer_payment" 
+		          action="action_payment_cheque" groups="account.group_account_invoice"/-->
+		
+		<record id="action_payment_cheque_new" model="ir.actions.act_window">
+            <field name="name">Nuevo Pago por Cheque</field>
+            <field name="res_model">payment.transfer.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field eval="view_payment_cheque_form" name="view_id"/>
+            <field name="domain">[('type','=','check')]</field>
+            <field name="context">{'type':'check'}</field>
+        </record>
+        
+        <!-- menuitem action="action_payment_cheque_new" id="menu_action_payment_cheque_new" parent="menu_action_payment_cheque" groups=""/-->
+		          
+		
+	<!-- 
+	*****************************************************************************
+								IMPRESION CHEQUE 
+	***************************************************************************** 
+	-->
+
+		<record model="ir.ui.view" id="view_payment_cheque_search">
+			<field name="name">payment.cheque.search</field>
+			<field name="model">payment.cheque</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Cheques">
+					<filter string="Efectivos" name="efect" domain="[('state','in',['done','printed'])]" icon="terp-check"/>
+					<separator/>
+					<filter string="Borrador" domain="[('state','=','draft')]" icon="gtk-edit"/>
+					<filter string="Listos" domain="[('state','=','done')]" icon="terp-stock_zoom"/>
+					<filter string="Impresos" domain="[('state','=','printed')]" icon="gtk-print"/>
+					<filter string="Anulados" domain="[('state','=','cancel')]" icon="gtk-cancel"/>
+					<field name="name"/>
+					<field name="num_cheque"/>
+					<field name="bank_account_id"/>
+					<field name="payment_date"/>
+					<newline/>
+					<group string="Filtros avanzados...">
+						<field name="partner_id"/>
+						<field name="period_id"/>
+						<field name="amount"/>
+						<field name="move"/>
+						<field name="date_maturity"/>
+						<field name="generation_date"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_payment_cheque_print_tree">
+			<field name="name">payment.cheque.tree1</field>
+			<field name="model">payment.cheque</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Factura pagada mediante cheque" colors="navy:state=='done';royalblue:state=='printed';darkred:state=='cancel'">
+					<field name="name"/>
+					<field name="num_cheque"/>
+					<field name="bank_account_id"/>
+					<field name="payment_date"/>
+					<field name="amount"/>
+					<field name="move" string="Asiento"/>
+					<field name="period_id"/>
+					<field name="generation_date"/>
+					<field name="date_maturity"/>
+					<field name="payment"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_payment_cheque_print_form">
+			<field name="name">payment.cheque.form1</field>
+			<field name="model">payment.cheque</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pago mediante cheque">
+					<header>
+						<button type="object" name="change_state" string="Borrador" states="done" icon="gtk-edit"/>
+						<button type="object" name="change_state" string="Listo" states="draft" icon="terp-camera_test" context="{'new_state':'done'}"/>
+						<button type="object" name="change_state" string="Anular" states="printed" icon="gtk-cancel" context="{'new_state':'cancel'}"/>
+						<button type="object" name="change_state" string="Borrador" states="cancel" icon="gtk-edit" confirm="¿Está seguro de volver a editar el comprobante?"/>
+						<button type="object" name="print_expense" string="Comprobante de egreso" states="done,printed" icon="gtk-print"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+					</header>
+					<sheet>
+						<group colspan="4" col="4">
+							<field name="type" invisible = "1"/>
+							<field name="partner_id" on_change="onchange_parnter_id(partner_id)"/>
+							<field name="name"/>
+							<field name="bank_account_id" on_change="onchange_bank_account_id(type,bank_account_id)"/>
+							<field name="num_cheque"/>
+							<field name="payment_date"/>
+							<field name="move" on_change="onchange_move(move)" domain="[('tipo_comprobante','=','Egreso'),('journal_id.type','=','bank')]"/><!--domain="[('partner_id','=',partner_id),('journal_id.type','=','bank')]"/-->
+							<field name="amount"/>
+							<field name="bank"/>
+							<notebook colspan="4">
+								<page string="Observación">
+									<field name="observation" required="1" nolabel="1" colspan="4"/>
+								</page>
+								<page string="Detalles del cheque">
+									<field name="origin" readonly="1"/>
+									<field name="generation_date" readonly="1"/>
+									<field name="date_maturity" readonly="1"/>
+									<field name="cheque_det_ids" nolabel="1" colspan="4" readonly="1" mode="tree">
+										<tree string="Detalles del Asiento contable">
+										 	<field name="name"/>
+											<field name="account"/>
+											<field name="partner"/>
+											<field name="debit" sum="debit"/>
+											<field name="credit" sum="credit"/>
+										</tree>
+									</field>
+								</page>
+							</notebook>
+							<separator colspan="4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="action_payment_cheque_pay">
+			<field name="name">Cheques</field>
+			<field name="res_model">payment.cheque</field>
+			<field name="domain">[('type','=','out')]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False"/>
+			<field name="context">{'search_default_efect': True}</field>
+		</record>
+		<record id="action_payment_cheque_pay_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_payment_cheque_print_tree"/>
+			<field name="act_window_id" ref="action_payment_cheque_pay"/>
+		</record>
+		<record id="action_payment_cheque_pay_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_cheque_print_form"/>
+			<field name="act_window_id" ref="action_payment_cheque_pay"/>
+		</record>
+
+		<menuitem id="menu_view_payment_cheque_pay" parent="menu_print_payments"
+		          action="action_payment_cheque_pay" groups="account.group_account_invoice" sequence="1"/>
+		          
+		<!--
+	====================
+	Cheques de ingresos
+	====================
+-->
+	
+		<!--record model="ir.ui.view" id="payment_cheque_in_tree_view">
+			<field name="name">payment.cheque.in.tree</field>
+			<field name="model">payment.cheque</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Cheques cobrados" colors="navy:state=='done';royalblue:state=='printed';darkred:state=='cancel'">
+					<field name="name"/>
+					<field name="num_cheque"/>
+					<field name="bank_account_id"/>
+					<field name="payment_date"/>
+					<field name="amount"/>
+					<field name="move" string="Asiento"/>
+					<field name="period_id"/>
+					<field name="generation_date"/>
+					<field name="date_maturity"/>
+					<field name="payment"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record-->
+	
+		<record model="ir.ui.view" id="payment_cheque_in_form_view">
+			<field name="name">payment.cheque.in.form</field>
+			<field name="model">payment.cheque</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Cheque cobrado">
+					<header>
+						<button type="object" name="change_state" string="Borrador" states="done,printed" icon="gtk-edit"/>
+						<button type="object" name="change_state" string="Listo" states="draft" icon="terp-camera_test" context="{'new_state':'done'}"/>
+						<button type="object" name="change_state" string="Anular" states="done,printed" icon="gtk-cancel" context="{'new_state':'cancel'}"/>
+						<button type="object" name="print_expense" string="Comprobante de ingreso" states="done,printed" icon="gtk-print"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<field name="type" invisible="1"/>
+						<field name="name" invisible="1"/>
+						<group colspan="4" col="4">
+							<field name="partner_id" on_change="onchange_parnter_id(partner_id)"/>
+							<field name="bank_account_id" string="Depositado en" on_change="onchange_bank_account_id(type,bank_account_id)"/>
+							<field name="num_cheque" string="Comprobante de depósito"/>
+							<field name="payment_date" string="Fecha"/>
+							<field name="move" on_change="onchange_move(move)" domain="[('tipo_comprobante','=','IngresoCaja'),('journal_id.type','=','bank')]"/>
+							<field name="amount"/>
+							<field name="bank"/>
+						</group>
+						<notebook colspan="4">
+							<page string="Observación">
+								<field name="observation" required="1" nolabel="1" colspan="4"/>
+							</page>
+							<page string="Detalles del cheque">
+								<field name="origin" readonly="1"/>
+								<field name="generation_date" readonly="1"/>
+								<field name="date_maturity" readonly="1"/>
+								<field name="cheque_det_ids" nolabel="1" colspan="4" readonly="1" mode="tree">
+									<tree string="Detalles del Asiento contable">
+									 	<field name="name"/>
+										<field name="account"/>
+										<field name="partner"/>
+										<field name="debit" sum="debit"/>
+										<field name="credit" sum="credit"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	
+		<record model="ir.actions.act_window" id="action_payment_cheque_in_view">
+			<field name="name">Cobros</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">payment.cheque</field>
+			<field name="domain">[('type','=','in')]</field>
+			<field name="context">{'default_type':'in'}</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_payment_cheque_print_tree"/>
+		</record>
+		<record id="action_payment_cheque_in_tree_view" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_payment_cheque_print_tree"/>
+			<field name="act_window_id" ref="action_payment_cheque_in_view"/>
+		</record>
+		<record id="action_payment_cheque_in_form_view" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="payment_cheque_in_form_view"/>
+			<field name="act_window_id" ref="action_payment_cheque_in_view"/>
+		</record>
+	
+		<menuitem id="payment_cheque_in_menu" parent="menu_payments_in" sequence="1" action="action_payment_cheque_in_view"/>
+		
+		<!--
+	===========================================
+	Asistente de pago con cheque desde voucher
+	===========================================
+-->
+		<record model="ir.ui.view" id="view_payment_cheque_voucher_form">
+			<field name="name">payment.cheque.voucher.form</field>
+			<field name="model">payment.cheque</field>
+			<field name="type">form</field>
+			<field name="priority" eval="20"/>
+			<field name="arch" type="xml">
+				<form string="Pago mediante cheque">
+				<group colspan="4" col="4">
+					<field name="type"/>
+					<field name="name" attrs="{'invisible':[('type','=','in')]}"/>
+					<field name="bank_account_id" on_change="onchange_bank_account_id(type,bank_account_id)"/>
+					<field name="num_cheque"/>
+					<field name="amount"/>
+					<field name="bank"/>
+					<field name="payment_date"/>
+					<field name="origin" invisible="1"/>
+					<field name="move" invisible="1"/>
+					<field name="partner_id" invisible="1"/>
+					<separator string="Detalle" colspan="4"/>
+					<field name="cheque_det_ids" nolabel="1" colspan="4">
+						<tree string="Detalles del Asiento contable">
+						 	<field name="name" readonly="1"/>
+							<field name="account" readonly="1"/>
+							<field name="partner" readonly="1"/>
+							<field name="debit" readonly="1"/>
+							<field name="credit" readonly="1"/>
+						</tree>
+						<form string="Detalles del Asiento contable"> 
+							<field name="name" readonly="1"/>
+							<field name="account" readonly="1"/>
+							<field name="partner" readonly="1"/>
+							<field name="debit" readonly="1"/>
+							<field name="credit" readonly="1"/>
+						</form>
+					</field>
+					<separator string="Observacion" colspan="4" />
+					<field name="observation" required="1" nolabel="1" colspan="4"/>
+					<group colspan="4" col="5">
+						<field name="state"/>
+						<button type="object" name="save_and_close" string="Listo" states="draft" icon="terp-camera_test" context="{'new_state':'done'}"/>
+					</group>
+				</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="action_payment_cheque_voucher_form">
+			<field name="name">Cheques</field>
+			<field name="res_model">payment.cheque</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" eval="view_payment_cheque_voucher_form"/>
+			<field name="target">new</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_vendor_payment_form">
+			<field name="name">account.voucher.payment.form</field>
+			<field name="model">account.voucher</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+			<field name="arch" type="xml">
+				<button string="Unreconcile" position="after">
+					<button type="action" name="%(action_payment_cheque_voucher_form)d" string="Pago con cheque" icon="terp-dolar"
+						    attrs="{'invisible':['|', ('comprobante_id','!=',False), ('state','!=','posted')]}"/>
+				</button>
+				<field name="number" position="after">
+                   	<newline/>
+                   	<field name="comprobante_id"/>
+                </field>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_vendor_receipt_form">
+			<field name="name">account.voucher.receipt.form</field>
+			<field name="model">account.voucher</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+			<field name="arch" type="xml">
+				<button string="Unreconcile" position="after">
+					<button type="action" name="%(action_payment_cheque_voucher_form)d" string="Pago con cheque" icon="terp-dolar"
+						attrs="{'invisible':['|', ('comprobante_id','!=',False), ('state','!=','posted')]}"/>
+				</button>
+				<field name="number" position="after">
+                   	<newline/>
+                   	<field name="comprobante_id"/>
+                </field>
+			</field>
+		</record>
+		
+		<!--
+	==========================================
+	Pago de account.voucher con transferencia
+	==========================================
+-->
+
+		<record id="view_voucher_payment_transfer_form" model="ir.ui.view">
+			<field name="name">payment.voucher.transfer.payment.form</field>
+			<field name="model">payment.transfer.payment</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Pago por transferencia">
+					<field name="name"/>
+					<field name="bank_account_id"/>
+					<separator string="Detalle de Comprobantes"	colspan="4"/>
+					<field name="invoce_line_ids" nolabel="1" colspan="4">
+						<tree string="Líneas de Pago" editable="top">
+							<field name="partner" readonly="1"/>
+							<field name="identification_type" readonly="1"/>
+							<field name="identification_number" readonly="1"/>
+							<field name="bank_account_id" domain="[('parnter_id', '=', partner)]" required="1"/>
+							<field name="amount_total" readonly="1" sum="Total Pago"/>
+						</tree>
+					</field>
+					<group colspan="4">
+						<separator colspan="4"/>
+						<field name="state"/>
+						<button states="draft" name="save_and_close" string="Listo" type="object" icon="gtk-apply"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<act_window id="voucher_payment_transfer_view"
+        	name="Pago con transferencia" multi="True"
+			res_model="payment.transfer.payment" src_model="account.voucher"
+			view_mode="form" target="new" view_type="form"
+			view_id="view_voucher_payment_transfer_form"/>
+			
+		<!--
+		========================================================================================================
+		PAGOS DE NONIMA 
+		========================================================================================================
+		 -->
+		
+		<!-- record model="ir.actions.act_window" id="action_payment_cheque_pay_nomina">
+			<field name="name">Imprimir Cheque Nomina</field>
+			<field name="res_model">payment.cheque</field>
+			<field name="domain">[('state','in',['done','printed'])]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+		
+		<menuitem id="menu_view_payment_cheque_pay_nomina" parent="menu_payments_nomina" action="action_payment_cheque_pay_nomina" sequence="2" groups="account.group_account_invoice"/-->
+		
+	
+	<!-- 
+	*****************************************************************************
+								IMPRESION DE TRANSFERENCIAS
+	***************************************************************************** 
+	-->
+
+		<record model="ir.ui.view" id="view_payment_transfer_print_search">
+			<field name="name">payment.transfer.search</field>
+			<field name="model">payment.transfer</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Transferencias">
+					<filter string="Efectivos" name="efect" icon="terp-check" domain="[('state','in',['done','printed'])]"/>
+					<separator orientation="vertical"/>
+					<filter string="Borrador" icon="gtk-edit" domain="[('state','=','draft')]"/>
+					<filter string="Anulados" icon="gtk-cancel" domain="[('state','=','cancel')]"/>
+					<field name="name"/>
+					<field name="num_exit_voucher"/>
+					<field name="bank_account_dest_id"/>
+					<field name="bank_account_id"/>
+					<field name="date_generation"/>
+					<newline/>
+					<group string="Filtros avanzados...">
+						<field name="amount_transfer"/>
+						<field name="date_payment"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_payment_transfer_print_tree">
+			<field name="name">payment.transfer.tree</field>
+			<field name="model">payment.transfer</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Factura pagada mediante transferencia" colors="navy:state=='done';royalblue:state=='printed';darkred:state=='cancel'">
+					<field name="invoice_num"/>
+					<field name="name"/>
+					<field name="amount_transfer"/>
+					<field name="date_maturity"/>
+					<field name="state"/>
+					<field name="payment_date"/>
+					<field name="inv_type"/>
+					<field name="period_id"/>
+					<field name="type_hr"/>
+					<field name="payment"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_payment_transfer_print_form">
+			<field name="name">payment.transfer.form</field>
+			<field name="model">payment.transfer</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5" />
+			<field name="arch" type="xml">
+				<form string="Pago mediante transferencia">
+					<header>
+						<button type="object" name="change_state" string="Anular" icon="gtk-cancel"
+							context="{'new_state':'cancel'}" states="done"/>
+						<button type="object" name="change_state" string="Validar" class="oe_highlight"
+							context="{'new_state':'done'}" states="draft"/>
+						<button type="object" name="change_state" string="Borrador" icon="gtk-edit" states="done,cancel"/>
+						<button type="object" name="print_expense" string="Comprobante de egreso" icon="gtk-print" states="done"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group colspan="4" col="6">
+							<group colspan="4">
+								<separator string="Datos" colspan="4"/>
+								<field name="partner_id" on_change="onchange_parnter_id(partner_id)"/>
+								<field name="name" string="Beneficiario"/>
+								<field name="move" on_change="onchange_move(move)" domain="[('tipo_comprobante','=','Egreso'),('journal_id.type','=','bank')]"/>
+								<field name="amount"/>
+								<field name="date_generation"/>
+							</group>
+							<group colspan="2" col="2">
+								<separator string="Transferencia" colspan="2"/>
+								<field name="bank_account_dest_id" string="Desde"/>
+								<field name="bank_account_id" string="Hacia" domain="[('partner_id', '=', partner_id)]"/>
+							</group>
+						</group>
+						<notebook colspan="4">
+							<page string="Detalles">
+								<group>
+									<field name="num_exit_voucher"/>
+									<field name="date_payment"/>
+									<separator string="Notas" colspan="4"/>
+									<field name="detalle" colspan="4" nolabel="1"/>
+								</group>
+							</page>
+							<page string="Detalles de la transferencia">
+								<group>
+									<field name="origin"/>
+									<field name="bank"/>
+									<field name="date_maturity"/>
+									<field name="transfer_ids" readonly="1" nolabel="1" colspan="4" mode="tree">
+										<tree string="Detalles del Asiento contable" >
+										 	<field name="name"/>
+											<field name="account"/>
+											<field name="partner"/>
+											<field name="debit" sum="Total"/>
+											<field name="credit" sum="Total"/>
+										</tree>
+									</field>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_payment_transfer_pay">
+			<field name="name">Transferencias</field>
+			<field name="res_model">payment.transfer</field>
+			<field name="context">{'search_default_efect': True}</field>
+			<field name="domain">[('type','=','out')]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+		<record id="action_payment_transfer_tree_view" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_payment_transfer_print_tree"/>
+			<field name="act_window_id" ref="action_payment_transfer_pay"/>
+		</record>
+		<record id="action_payment_transfer_form_view" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_transfer_print_form"/>
+			<field name="act_window_id" ref="action_payment_transfer_pay"/>
+		</record>
+
+		<menuitem id="menu_view_payment_transfer_pay" parent="menu_print_payments"
+		          action="action_payment_transfer_pay" sequence="2" groups="account.group_account_invoice" />
+		          
+		<!--
+	=======================
+	Transferencia cobradas
+	=======================
+-->
+		<record model="ir.ui.view" id="view_payment_transfer_in_form">
+			<field name="name">payment.transfer.in.form</field>
+			<field name="model">payment.transfer</field>
+			<field name="type">form</field>
+			<field name="priority" eval="5" />
+			<field name="arch" type="xml">
+				<form string="Cobro mediante transferencia">
+				<group colspan="4" col="4">
+					<field name="type" invisible="1"/>
+					<field name="partner_id" on_change="onchange_parnter_id(partner_id)"/>
+					<field name="name" string="Beneficiario" invisible="1"/>
+					<field name="bank_account_dest_id" string="A la cuenta"/>
+					<field name="move" on_change="onchange_move(move)" domain="[('tipo_comprobante','=','IngresoCaja'),('journal_id.type','=','bank')]"/>
+					<field name="amount"/>
+					<field name="date_generation"/>
+					<notebook colspan="4">
+						<page string="Detalles">
+							<field name="num_exit_voucher" />
+							<field name="date_payment" />
+							<separator string="Notas" colspan="4" />
+							<field name="detalle" colspan="4" nolabel="1" />
+						</page>
+						<page string="Detalles de la transferencia">
+							<field name="origin" />
+							<field name="bank" />
+							<field name="date_maturity" />
+							<field name="transfer_ids" readonly="1" nolabel="1" colspan="4"
+								mode="tree">
+								<tree string="Detalles del Asiento contable">
+									<field name="name" />
+									<field name="account" />
+									<field name="partner" />
+									<field name="debit" sum="Total" />
+									<field name="credit" sum="Total" />
+								</tree>
+							</field>
+						</page>
+					</notebook>
+					<group colspan="4" col="7">
+						<separator colspan="7" />
+						<field name="state" />
+						<button type="object" name="change_state" string="Anular"
+							icon="gtk-cancel" context="{'new_state':'cancel'}" states="done" />
+						<button type="object" name="change_state" string="Validar"
+							icon="gtk-apply" context="{'new_state':'done'}" states="draft" />
+						<button type="object" name="change_state" string="Borrador"
+							icon="gtk-edit" states="done,cancel" />
+						<button type="object" name="print_expense" string="Comprobante de ingreso"
+							icon="gtk-print" states="done" />
+					</group>
+				</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="action_payment_transfer_in_view">
+			<field name="name">Cobro por transferencia</field>
+			<field name="res_model">payment.transfer</field>
+			<field name="context">{'search_default_efect': True}</field>
+			<field name="domain">[('type','=','in')]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+		<record id="action_payment_transfer_in_tree_view" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_payment_transfer_print_tree"/>
+			<field name="act_window_id" ref="action_payment_transfer_in_view"/>
+		</record>
+		<record id="action_payment_transfer_in_form_view" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_transfer_in_form"/>
+			<field name="act_window_id" ref="action_payment_transfer_in_view"/>
+		</record>
+		
+		<!--menuitem id="payment_transfer_in_menu" parent="menu_payments_in"
+		          action="action_payment_transfer_in_view" sequence="2" groups="account.group_account_invoice" /-->
+	 	
+		<!-- record model="ir.actions.act_window" id="action_payment_transfer_pay_hr">
+			<field name="name">Imprimir Transferencias Realizadas</field>
+			<field name="res_model">payment.transfer</field>
+			<field name="domain">[('state','in',['done','printed']),('type_hr','!=',True)]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+
+		<record id="action_payment_transfer_pay_hr_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_payment_transfer_print_tree" />
+			<field name="act_window_id" ref="action_payment_transfer_pay_hr" />
+		</record>
+
+		<record id="action_payment_transfer_pay_hr_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_transfer_print_form" />
+			<field name="act_window_id" ref="action_payment_transfer_pay_hr" />
+		</record>
+		
+        <menuitem id="menu_view_payment_transfer_pay_hr" parent="menu_payments_nomina"
+		          action="action_payment_transfer_pay_hr" sequence="3" groups="account.group_account_invoice" /-->
+		
+		<!--
+		====================================================================================================================================
+		GENERACION DE PAGOS POR TARJETA DE CREDITO
+		====================================================================================================================================
+		 -->
+		
+		 <record id="view_payment_credit_card_form" model="ir.ui.view">
+			<field name="name">payment.credit.form</field>
+			<field name="model">payment.transfer.payment</field>
+			<field name="type">form</field>
+			<field name="priority" eval="2" />
+			<field name="arch" type="xml">
+				<form string="Pago por Tarjeta de Credito">
+					<field name="name" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+					<field name="type" readonly="1" />
+					<!--  <field name="tipo_com" required="1" attrs="{'readonly':[('state','!=','draft')]}" />-->
+					<field name="tarjeta" required="1" attrs="{'readonly':[('state','!=','draft')]}" />
+					<field name="state" />
+					<field name="statement_id" on_change="onchange_statement(statement_id,name)" attrs="{'readonly':[('state','!=','draft')]}"
+						   domain="[('state','=', 'confirm')]"/>
+					<!--  <button states="draft" name="buttom_charge" string="Cargar Comprobantes" type="object" icon="gtk-find"  />-->
+					<group colspan='2' col="2">
+					    <button states="draft" name="check_all" string="Marcar" type="object" icon="gtk-apply"/>
+				        <button states="draft" name="uncheck_all" string="Desmarcar" type="object" icon="gtk-media-stop"/>
+				    </group>
+					<separator string="Detalle de Comprobantes"	colspan="4" />
+					<field name="invoce_line_ids" nolabel="1"  attrs="{'readonly':[('state','!=','draft')]}" colspan="4" widget="one2many_list" height="250">
+						<tree editable="bottom" string="Línea del Pago" >
+							<field name="account_mov_id"  invisible="1"/>
+							<field name="cheque" invisible="1"/>
+							<field name="has_transfer" invisible = "1"/>
+							<field name="chq" attrs="{'readonly':[('state','==','valid')]}" />
+							<field name="invoice_num" readonly="1"/>
+							<field name="date_maturity" readonly="1"/>
+							<field name="name" readonly="1"/>
+							<field name="amount_total" readonly="1" sum="Total Pago"/>
+							<field name="identification_type" readonly="1"/>
+							<field name="identification_number" readonly="1" />
+							<field name="card" readonly="1" />
+							<field name="state" readonly="1"/>
+							<field name="note"/>
+							<field name="factura" invisible='1'/>
+						</tree>
+						<form string="Facturas Realizadas">
+							<group colspan="4" string="Cheque">
+								<field name="name" readonly="1" />
+								<field name="cheque" readonly = "1"/>
+								<field name="account_mov_id" readonly="1" />
+								<field name="amount_total" readonly="1" />
+							</group>
+						</form>
+					</field>
+					<newline/>
+					<group colspan="4">
+						<separator colspan="3" />
+						<button states="draft" name="generate_payment_cheque" string="Generar Cheque" type="object" icon="gtk-add"  />
+					</group>
+				</form>
+			</field>
+		
+		</record>
+		
+		<record id="action_payment_card" model="ir.actions.act_window" >
+			<field name="name">Pagos por Tarjeta de Credito</field>
+			<field name="res_model">payment.transfer.payment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','credit_card')]</field>
+            <field name="context">{'type':'credit_card'}</field>
+		</record>
+		
+		<record id="action_payment_card_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_payment_card" />
+		</record>
+		
+		<record id="action_payment_card_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_payment_credit_card_form" />
+			<field name="act_window_id" ref="action_payment_card" />
+		</record>
+		
+		<!-- menuitem id="menu_action_payment_card" parent="menu_action_payment_transfer_payment" 
+		          action="action_payment_card" groups="account.group_account_invoice"/-->
+		          
+		<record id="action_payment_card_new" model="ir.actions.act_window">
+            <field name="name">Nuevo Pago por Tarjeta de Credito</field>
+            <field name="res_model">payment.transfer.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field eval="view_payment_credit_card_form" name="view_id"/>
+            <field name="domain">[('type','=','credit_card')]</field>
+            <field name="context">{'type':'credit_card'}</field>
+        </record>
+        
+        <!-- menuitem action="action_payment_card_new" id="menu_action_payment_card_new" parent="menu_action_payment_card"/-->
+		            
+	</data>
+</openerp>
+

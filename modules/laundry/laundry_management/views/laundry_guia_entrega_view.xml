@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--============================================================ 
+                                Laundry GE
+        ============================================================ -->
+        <!-- Form view of GE -->
+          <record id="view_laundry_delivery_guide_form" model="ir.ui.view">
+            <field name="name">laundry.delivery.guide.form</field>
+            <field name="model">laundry.delivery.guide</field>
+            <field name="type">form</field>
+      		<field name="arch" type="xml">
+                <form string="Guía de Entrega" >
+                    <header>
+                    <button name="confirmar_ge_lines" string="Enviar" type="object" class="oe_highlight" 
+                    	icon="gtk-find"  attrs="{'invisible':[('state', 'in',('send','recept','partial'))]}" groups="base.group_laundry_salesman"/>
+                    <field name="state" widget="statusbar" statusbar_visible="'draft','send','recept'"/>                        
+                    </header>
+                    <sheet>
+                        <h1>
+                        	<label string="Guía de Entrega"/>
+                       		<field name="codigo_auto" class="oe_inline" readonly="1"/>
+                        </h1>
+                        <group>
+                       	 	<group>
+                       	 		<field name="codigo_guia_entrega" invisible="1"/>
+                             	<field name="planta_id"/>
+                             	<field name="num_prendas_ge"/>
+                            </group>
+                             <group>
+                              	<field name="company_id"/>                             
+                                <field name="user_id"/>                                
+								<field name="fecha_recepcion"/>								 
+                                <field name="fecha_entrega"/>
+                                <field name="partner_id" domain="[('nomina','=',1)]"/>                              
+                            </group>
+                        </group>
+                      <notebook>
+                        <page string="Detalle Guía de Entrega">
+                          <field name="guia_lines">
+                            <form string="Lineas">
+                                <group>
+                                    <field name="service_order_id" domain="[('state','in',('R','RCL')),('estado_rcl','=','ep')]"/>
+                                    <field name="check" invisible="1"/> 
+                                    <field name="num_prendas"/>
+                                    <field name="total"/>
+                                    <field name="observacion"/>
+                                    <field name="service_claim_id"/>
+                                 </group>
+                            </form>
+                            <tree string="Descripcion de Servicio" editable="buttom">
+                                	<field name="service_order_id" domain="[('state','in',('R','RCL')),('estado_rcl','=','ep')]"/>
+                                	<field name="num_prendas"/>
+                               		<field name="total"/>
+                               	 	<field name="observacion"/>
+                                	<field name="service_claim_id"/>
+	                     	</tree>	                     	
+                        	</field>
+                         </page>
+                       </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record model="ir.ui.view" id="view_laundry_delivery_guide_tree">
+            <field name="name">laundry.delivery.guide.tree</field>
+            <field name="model">laundry.delivery.guide</field>
+            <field name="type">tree</field>
+      		<field name="arch" type="xml">
+                <tree string="Guía de Entrega" colors="tomato:state == 'send';green:state == 'recept';orangered:state == 'partial'">
+                    <field name="company_id"/> 
+                    <field name="codigo_auto"/>                    
+                    <field name="fecha_recepcion"/>
+                    <field name="user_id"/>
+                    <field name="num_prendas_ge"/>
+                    <field name="state"/>                  
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Search view -->
+       <record model="ir.ui.view" id="view_laundry_delivery_guide_search">
+            <field name="name">laundry.delivery.guide.search</field>
+            <field name="model">laundry.delivery.guide</field>
+            <field name="arch" type="xml">
+                <search string="Guía de Entrega">
+                    <group string='Filters'>
+                        <filter domain="[('state','=','draft')]" string="Borrador"/>
+                        <filter domain="[('state','=','send')]" string="Enviado"/>
+                        <filter domain="[('state','=','recept')]" string="Recibido"/>
+                    </group>
+                    <field name="company_id"/>
+                    <field name="partner_id" domain="[('parner_id.company_id','=',company_id.id)]"/>
+                    <field name="user_id"/>
+                    <field name="state"/>
+                    <newline/>
+                    <group expand="0" string="Group By">
+                        <filter name="partner_id" string="Transportista" icon="terp-personal" domain="[]" context="{'group_by':'partner_id'}"/>                        
+                        <filter name="user_id" string="Responsable" icon="terp-personal" domain="[]" context="{'group_by':'user_id'}"/>                       
+                        <filter name="user_id" string="Estado" icon="terp-personal" domain="[]" context="{'group_by':'state'}"/> 			
+                        <filter name="user_id" string="Empresa" icon="terp-personal" domain="[]" context="{'group_by':'company_id'}"/>                                           
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+         <record model="ir.actions.act_window" id="open_laundry_delivery_guide_form_tree">
+            <field name="name">Guía Entrega Lavanderia</field>
+            <field name="res_model">laundry.delivery.guide</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_laundry_delivery_guide_tree" />
+        </record>
+     
+        
+        <menuitem name="Guía de Entrega" id="menu_open_laundry_delivery_guide_form_tree"
+        action="open_laundry_delivery_guide_form_tree" parent="laundry_management.menu_laundry_management" sequence="5" />      
+       
+        
+        
+    </data>
+</openerp>

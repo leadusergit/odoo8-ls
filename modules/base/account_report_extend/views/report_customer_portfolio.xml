@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_report_customer" model="ir.ui.view">
+        <field name="name">wizard.report.customer</field>
+		<field name="model">wizard.report.customer</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		<form string="Control de Cartera">
+		    <separator colspan="2" string="Seleccione la fecha de corte! " />
+		    <field name="date_start" invisible="1"/>
+		    <field name="type" colspan="2" />
+			<field name="date" required="1"/>
+			<group col="4" colspan="4" attrs="{'invisible':[('type','in',['seller', 'group'])]}">
+			    <separator colspan="4" string="Seleccione el Cliente " />
+				<field name="partner_id" colspan="2"/>
+				<label string="(Dejar vacio para mostrar todos)" colspan="2" align="0.0"/>
+			</group>
+			<newline/>
+			<group col="4" colspan="4" attrs="{'invisible':[('type','in',['customer', 'group'])]}">
+			    <separator colspan="4" string="Seleccione el Vendedor" />
+			    <field name="seller_id" colspan="2"/>
+			    <label string="(Dejar vacio para mostrar todos)" colspan="2" align="0.0"/>
+			</group>
+			<newline/>
+			<group col="4" colspan="4" attrs="{'invisible':[('type','in',['customer', 'seller'])]}">
+			    <separator colspan="4" string="Seleccione el Vendedor" />
+			    <field name="group_id" colspan="2"/>
+			    <label string="(Dejar vacio para mostrar todos)" colspan="2" align="0.0"/>
+			</group>
+			<newline/>
+			<separator colspan="4" />
+			<group col="3" colspan="4">
+			    <button icon="gtk-ok" name="action_excel" string="Excel" type="object"/>
+			    <!--  <button icon="gtk-ok" name="action_excel_customer" string="Excel" type="object" attrs="{'invisible':[('type','in',['seller'])]}"/>-->
+				<!--  <button icon="gtk-ok" name="report_customer" string="Imprimir" type="object" attrs="{'invisible':[('type','in',['seller'])]}"/>
+				<button icon="gtk-ok" name="report_seller" string="Imprimir" type="object" attrs="{'invisible':[('type','in',['group','customer'])]}"/>
+				-->
+				<button icon="gtk-close" name="act_cancel" special="cancel" string="Cerrar" type="object" />
+			</group>
+			<separator colspan="4" />
+			<field name="name" readonly='1'/>
+			<field name="data" readonly='1'/>
+		</form>
+	    </field>
+	  </record>
+		
+		<!-- Actions -->
+		
+		<record id="action_wizard_report_customer" model="ir.actions.act_window">
+			<field name="name">Reporte de Control de Cartera</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.customer</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_report_customer"/>
+			<field name="target">new</field>
+		</record>
+		
+		<!-- Menu -->
+		<menuitem parent="menu_reporte_sale"
+		          id="menu_action_wizard_report_customer"
+		          action="action_wizard_report_customer"
+		          icon="STOCK_PRINT" />
+		          <!-- groups="sale.group_sale_report"/ -->
+	</data>
+</openerp>

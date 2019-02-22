@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- RES.PARTNER -->
+		<!-- form supplier -->
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+
+                 <xpath expr="//page[@name='internal_notes']" position="before">
+                    <page string="Instancia online">
+                        <group>
+                            <group>
+                                <field name="is_online" />
+                                <field name="init_date" attrs="{'required': [('is_online', '!=', False)]}" />
+                                <field name="end_date" />
+                            </group>
+                            <group>
+                                <field name="user_quantity" attrs="{'required': [('is_online', '!=', False)]}" />
+                                <field name="multiples_session" />
+                                <field name="url" attrs="{'required': [('is_online', '!=', False)]}" />
+                                <field name="db" attrs="{'required': [('is_online', '!=', False)]}" />
+                                <field name="user_admin" attrs="{'required': [('is_online', '!=', False)]}" />
+                                <field name="user_passw" attrs="{'required': [('is_online', '!=', False)]}" />
+                            </group>
+                        </group>
+
+                        <div class="oe_grey">
+                            Configuración para la ejecución automática, solo puede existir una áctiva.
+                        </div>
+                        <field name="schedule_conf_id">
+                                <tree string="Configuracion de Ejecucion">
+                                    <field name="quantity_days" />
+                                    <field name="date"/>
+                                    <field name="activo"/>
+                                </tree>
+                                <form string="Configuracion de Ejecucion">
+                                    <group>
+                                        <group>
+                                            <field name="quantity_days" />
+                                            <field name="date"/>
+                                        </group>
+                                        <group>
+                                            <field name="activo"/>
+                                        </group>
+                                    </group>
+                                </form>
+
+                            </field>
+
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+       <!-- PRODUCT.TEMPLATE  -->
+        <!-- form -->
+        <record id="view_m_product_template_form_inherited" model="ir.ui.view">
+            <field name="name">m.product.template.form.inherited</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+
+                <field name="type" position="after">
+                    <field name="for_instance" />
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

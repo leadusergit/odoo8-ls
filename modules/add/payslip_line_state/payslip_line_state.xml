@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <!-- --> 
+       <record model="ir.ui.view" id="payslip_line_state">
+       <field name="name">payslip.line.state</field>
+       <field name="model">hr.payslip.line</field>
+       <field name="type">tree</field>
+       <field name="inherit_id" ref="account_move_link.view_payslip_line_tree"/>
+       <field name="arch" type="xml">
+         <xpath expr="/tree/field[@name='amount']" position="after">
+                   <field name="line_state"/>
+         </xpath>
+       </field>
+  	   </record>
+  	   
+  	   
+  	   <record id="view_payslip_line_search" model="ir.ui.view">
+            <field name="name">Detalle Rol-Empleado</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="inherit_id" ref="account_move_link.view_payslip_line_search"/>            
+            <field name="arch" type="xml">
+                <search string="Search Items">
+                    <filter icon="terp-camera_test" string="Realizado" domain="[('line_state','=','done')]"/>
+                    <filter icon="terp-camera_test" string="Borrador" domain="[('line_state','=','draft')]"/>                
+				    <field name="line_state"/>                  	
+                  <group expand="0" string="Group By">
+                    <filter name="filter_state" string="Estado" icon="terp-folder-orange" context="{'group_by':'line_state'}"/>                    
+                </group>
+                </search>
+            </field>
+    </record>
+    
+    </data>
+</openerp>

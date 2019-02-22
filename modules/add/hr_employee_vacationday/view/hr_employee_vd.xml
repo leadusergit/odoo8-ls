@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!--<record id="view_hr_employee_emco" model="ir.ui.view">
+			<field name="name">hr.employee.emco</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<data>
+				<group string="Active" position="inside">
+					<field name="provisionfr" string="Fondos Reseva(y/n)" attrs="{'invisible':[('maintain_reserve_funds','&lt;&gt;',False)]}"/>
+				</group>
+				</data>
+			</field>
+		</record>  -->
+		
+		<record id="view_hr_contract_add_vc" model="ir.ui.view">
+			<field name="name">hr.contract.add.vc</field>
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+				<data>	
+				 <notebook position="inside">
+				 	<page string="Vacaciones" >
+				 	<group>
+						<field name="fecha_limite_cv"/>
+						<field name="num_dias_vacacion"/>		
+						<button type="object" name="get_info" string="Calcular" icon="gtk-execute" 
+						help="Calcula Nº de dias de vacaciones que le corresponden hasta la fecha"/>
+					</group>
+					</page>
+				</notebook>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>

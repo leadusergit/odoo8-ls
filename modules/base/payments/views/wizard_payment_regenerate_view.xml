@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<!--
+	=========================================================================================================
+	GENERAR NUEVAMENTE EL ARCHIVO DEL CASH 
+	=========================================================================================================
+ -->
+	 <record id="wizard_payment_regenarate_view" model="ir.ui.view">
+      	<field name="name">wizard.payment.regenerate</field>
+      	<field name="model">wizard.regenerate.cash</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Generar Archivo de Cash">
+				
+				<!-- Form 1 -->
+				<group col="4" fill="1" attrs="{'invisible':[('state','=','get')]}">
+					<separator colspan="4" string="Regenerar el archivo de transferecia de nomina"/>
+					<label string="El sistema generara nuevamente el archivo de la transferencia de nomina." colspan="4"/>
+					<field name="state" invisible="1"/>
+					<separator colspan="4"/>
+				</group>
+				
+				<!-- Form 2 -->
+				<group col="4" fill="1" attrs="{'invisible':[('state','=','choose')]}">
+					<separator colspan="4" string="Archivo Resultado"/>
+					<field name="data" colspan="4"/>
+					<field name="registros_generados" readonly="1" />
+					<field name="valor_total" readonly="1" />			
+				</group>
+				
+				<!-- Buttons -->
+				<separator colspan="4"/>
+				<group col="2" colspan="2" height="40">
+					<button icon="gtk-cancel" name="act_cancel" special="cancel"
+						states="choose" string="Cancelar" type="object" />
+					<button icon="gtk-ok" name="act_regenerate_cash" states="choose"
+						string="Generar" type="object" />
+					<button icon="gtk-close" name="act_destroy" special="cancel"
+						states="get" string="Salir" type="object" />
+				</group>
+					
+			</form>
+		</field>
+	 </record>
+	 
+	 <!--
+		Actions 
+		PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+	-->
+	<record id="action_wizard_payment_regenerate" model="ir.actions.act_window">
+		<field name="name">Archivo Transferencia</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.regenerate.cash</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_payment_regenarate_view"/>
+		<field name="target">new</field>
+	</record>
+	
+	<record model="ir.values" id="payment_regenerate_values">
+            <field name="model_id" ref="payments.model_payment_transfer" />
+            <field name="object" eval="1" />
+            <field name="name">dos</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_payment_regenerate'))" />
+            <field name="key">action</field>
+            <field name="model">payment.transfer</field>
+    </record>
+	
+	 
+	 
+</data>
+</openerp>

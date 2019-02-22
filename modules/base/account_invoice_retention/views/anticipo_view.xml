@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record id="invoice_anticipo_tree" model="ir.ui.view">
+			<field name="name">account.invoice.anticipo.tree</field>
+			<field name="model">account.invoice</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree colors="blue:state=='draft'" string="Invoice">
+					<field name="code_advance_liq" />
+					<field name="origin" select="1"/>
+					<field name="name" invisible = "1" />
+					<field name="partner_id" groups="base.group_user" />
+					<field name="amount_untaxed" sum="Untaxed amount" />
+					<field name="amount_total" sum="Total amount" />
+					<field name="date_invoice" select="1" />
+					<field name="date_due" select="1" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="invoice_anticipo_form" model="ir.ui.view">
+			<field name="name">account.invoice.anticipo.form</field>
+			<field name="model">account.invoice</field>
+			<field name="type">form</field>
+			<field name="priority">20</field>
+			<field name="arch" type="xml">
+				<form string="Anticipos">
+					<group col="6" colspan="4">
+						<field domain="[('type', '=', 'purchase')]" name="journal_id" select="2" />
+						<field name="type" readonly="1" select="2" />
+						<field name="tipo_factura" select="1" 
+						       attrs="{'readonly':[('tipo_factura','in',['anticipo'])]}" 
+						       domain="[('tipo_factura', '=', 'anticipo')]"/>
+						<field name="partner_id" domain="[('supplier','=', 1)]"
+							on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term)"
+							select="1" context="{'default_customer': 0}" />
+							
+						<!--<field name="partner_id" domain="[('supplier','=', 1)]"
+							on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank)"
+							select="1" context="{'default_customer': 0}" />
+ 						<field domain="[('partner_id','=',partner_id)]" name="address_invoice_id" /> -->
+						<field domain="[('type','&lt;&gt;','view'), ('company_id', '=', company_id),('journal_id','=',journal_id)]" 
+						       name="account_id" />
+						<field name="invoice_payment" attrs="{'readonly':[('state','not in',['draft','proforma','proforma2'])]}" select = "2"/>
+						<field name="is_deferred" on_change="onchange_is_deferred(is_deferred)"
+					           attrs="{'readonly':[('state','not in',['draft','proforma','proforma2'])]}"/>
+					</group>
+					<notebook colspan="4">
+						<page string="Invoice">
+							<field name="date_invoice" />
+							<field name="code_advance_liq" select="2"/>	
+							<field name="reference"/>
+							<field name="check_total" required="2" />
+							<field name="number_inv_supplier" 
+							       attrs="{'readonly':[('type','in',['in_invoice','in_refund']),('state','in',['open','paid','cancel'])],'required':[('ret_sin_fact','=',False),('tipo_factura','not in',['gas_no_dedu','anticipo','doc_inst_est','gasto_financiero'])]}"/>
+        					<field name="auth_inv_id" 
+        					       attrs="{'readonly':[('type','in',['in_invoice','in_refund']),('state','in',['open','paid','cancel'])],'required':[('ret_sin_fact','=',False), ('tipo_factura','not in',['gas_no_dedu','anticipo','doc_inst_est','gasto_financiero'])]}" 
+        					       domain="[('type','=',type), ('partner_id','=',partner_id),('active','=',1)]"/>
+							<field colspan="4"
+								default_get="{'check_total': check_total, 'invoice_line': invoice_line, 'address_invoice_id': address_invoice_id, 'partner_id': partner_id, 'price_type': 'price_type' in dir() and price_type or False}"
+								name="invoice_line" nolabel="1">
+								<tree string="Invoice lines" editable="top">
+									<field name="product_id"
+										on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id)" />
+									<field
+										domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '&lt;&gt;', 'view')]"
+										name="account_id" on_change="onchange_account_id(parent.fiscal_position,account_id)" />
+									<field name="invoice_line_tax_id" view_mode="2"
+										context="{'type':parent.type}" domain="[('parent_id','=',False)]" />
+									<field
+										domain="[('type','&lt;&gt;','view'), ('company_id', '=', parent.company_id)]"
+										name="account_analytic_id" required="0" />
+									<field name="quantity" />
+									<field name="price_unit" />
+									<field name="price_subtotal" />
+									<field name="name" />
+									<field invisible="1" name="uos_id" />
+								</tree>
+							</field>
+							<group col="1" colspan="2">
+							   <separator colspan="4"/>
+								<field name="tax_line" nolabel="1">
+									<tree editable="bottom" string="Taxes">
+										<field name="name" />
+										<field name="base"
+											on_change="base_change(base,parent.currency_id,parent.company_id,parent.date_invoice)"
+											readonly="1" />
+										<field name="amount"
+											on_change="amount_change(amount,parent.currency_id,parent.company_id,parent.date_invoice)" />
+										<field invisible="1" name="base_amount" />
+										<field invisible="1" name="tax_amount" />
+									</tree>
+								</field>
+							</group>
+							<group col="4" colspan="2">
+								<button colspan="2" name="button_reset_taxes" states="draft"
+									string="Compute Taxes" type="object" />
+								<field name="amount_untaxed" />
+								<label string="" colspan="2" />
+								<field name="amount_tax" />
+								<label string="" colspan="2" />
+								<field name="amount_pay" />
+								<field name="reconciled" />
+								<field name="amount_total" />
+								<field name="state" />
+								<field name="residual" />
+								<group col="3" colspan="4">
+									<button name="invoice_open" states="draft,proforma2"
+										string="Validate" icon="gtk-execute" />
+									<button name="invoice_cancel" states="draft,proforma2,sale,open"
+										string="Cancel" icon="gtk-cancel" />
+									<button name="action_cancel_draft" states="cancel"
+										string="Set to Draft" type="object" icon="gtk-convert" />
+								</group>
+							</group>
+						</page>
+						<page string="Other Info">
+							<field name="company_id" />
+							<field name="fiscal_position" groups="base.group_extended" />
+							<newline />
+							<!-- Ocultar campos para el onchange del partner_id -->
+							<field name="payment_term" invisible="1"/>
+							<!--<field name="partner_bank" invisible="1"/>-->
+							<field name="name" />
+							<newline />
+							<field name="number" invisible="1"/>
+							<field name="origin" />
+							<!--field colspan="4" domain="[('partner_id','=',partner_id)]"
+								   name="address_contact_id" /-->
+							<field name="move_id" />
+							<field name="period_id" />
+							<label align="0.0" colspan="2"
+								   string="(keep empty to use the current period)" />
+							<separator colspan="4" string="Additional Information" />
+							<field colspan="4" name="comment" nolabel="1" />
+						</page>
+						<!--  <page string="Detalle de Impuestos" attrs="{'invisible':[('tax_line.tax_group','!=','ret')]}">-->
+						    <page string="Detalle de Impuestos" >						    
+						    <field name="requiere_retencion"/>	 
+							<field name="retencion_pendiente" select="2"/>	
+							<separator string="Modo de Generación de retención" colspan="4"/>
+							<group col="6" colspan="4">
+								 <field name="gen_ret_mode" on_change="onchange_get_ret_mod(gen_ret_mode)"/>
+								 <field name="ret_sin_fact" on_change="onchange_ret_sin_fact(ret_sin_fact)" attrs="{'readonly':[('gen_ret_mode','=',False)]}"/>
+								 <field name="has_early_ret" on_change="onchange_has_early_ret(has_early_ret)" />			 
+								 <newline/>
+								 <group col="2" colspan="3">
+						 			 <label string="Si no selecciona ninguna opción el sistema le permite crear o relacionar manualmente la retención, con lo cual puede agrupar más de una factura del partner en una sóla retención"/>
+								 </group>
+							 </group>
+							     <newline/>
+							     <separator string="Información de Retención" colspan="4"/>
+							     <newline/>
+							     <group col="6" colspan="4">
+								     <newline/>
+								     <field name="amount_tax_retention"/>
+								     <field name="auth_ret_id"  domain="[('type','=','retention'),('active','=',1)]"/>
+								     <field name="type_document"/>
+								     <field name="ret_id" select="2" attrs="{'readonly':[('has_early_ret','=',False)],'required':[('has_early_ret','=',True)]}" domain="[('partner_id','=',partner_id),('type','=','retention'),('state','=','early')]"/>
+							     </group>
+							     <newline/>
+							     <separator string="Bases Imponibles e Impuestos Aplicados" colspan="4"/>
+							     <newline/>
+							     <group col="4" colspan="4">
+							          <field name="t_b_excenta_iva" readonly="1"/>	    
+							          <field name="t_b_excenta_ret_ir" readonly="1"/>
+							          <field name="t_bi_iva" select="2" readonly="1"/>
+							          <field name="t_bi_ir" readonly="1"/>
+							          <field name="t_iva" select="2" readonly="1"/>
+							          <field name="t_ret_ir" readonly="1"/>
+							          <field name="t_ret_iva" readonly="1"/>
+							     </group>
+						</page>
+						<page string="Gastos Diferidos" attrs="{'invisible':[('is_deferred','=',False)]}">
+						  <field name="date_deferred" attrs="{'required':[('is_deferred','=',True)], 'readonly':[('state','not in',['draft','proforma','proforma2'])]}"/>
+						  <field name="from_invoice" attrs="{'readonly':[('state','not in',['draft','proforma','proforma2'])]}"/>
+						  <group colspan="2" col="2" string="Cuenta a donde se enviara el Diferido" attrs="{'invisible':[('from_invoice','=',False)]}">
+						    <field name="account_deferred" attrs="{'required':[('from_invoice','=',True)], 'readonly':[('state','not in',['draft','proforma','proforma2'])]}"/>
+						  </group>
+					    </page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_anticipo_tree" model="ir.actions.act_window">
+			<field name="name">Anticipos</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar,graph</field>
+			<field eval="False" name="view_id" />
+			<field name="domain">[('type','=','in_invoice'),('tipo_factura','=','anticipo')]</field>
+			<field name="context">{'type':'in_invoice','tipo_factura':'anticipo'}</field>
+		</record>
+
+
+		<record id="action_anticipo_supplier_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="invoice_anticipo_tree" />
+			<field name="act_window_id" ref="action_anticipo_tree" />
+		</record>
+
+		<record id="action_anticipo_supplier_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="invoice_anticipo_form" />
+			<field name="act_window_id" ref="action_anticipo_tree" />
+		</record>
+
+		<menuitem action="action_anticipo_tree" id="menu_action_anticipo_tree"
+			parent="account.menu_finance_invoice"/>
+
+        <record id="action_liquidacion_tree" model="ir.actions.act_window">
+			<field name="name">Liquidaciones Anticipos</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar,graph</field>
+			<field name="domain">[('type','=','in_invoice'),('tipo_factura','in',('purchase_liq','gastos_no_deducibles','doc_inst_est','gasto_financiero'))]</field>
+			<field name="context">{'type':'in_invoice'}</field>
+		</record>
+
+
+		<record id="action_liquidacion_supplier_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="invoice_anticipo_tree" />
+			<field name="act_window_id" ref="action_liquidacion_tree" />
+		</record>
+
+		<record id="action_liquidacion_supplier_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="invoice_anticipo_form" />
+			<field name="act_window_id" ref="action_liquidacion_tree" />
+		</record>
+
+		<menuitem action="action_liquidacion_tree" id="menu_action_liquidacion_tree"
+			parent="account.menu_finance_invoice" groups="account_ec.group_account_no_option"/>
+
+	</data>
+</openerp>

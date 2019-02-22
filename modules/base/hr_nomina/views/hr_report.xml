@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<report id="payroll_report"  model="hr.payroll" name="hr.payrolll" 
+			rml="hr_nomina/report/payroll_report.rml" string="Imprimir Nómina"
+			auto="False" header="False" />
+			
+		<report id="datos_personales_report" string="Imprimir Datos Personales" model="hr.employee"
+			name="nomina.datos" rml="hr_nomina/report/datos_personales_report.rml" auto="False"
+			header="False" />
+			
+		<!--
+	==========
+	Contratos
+	==========
+-->
+		<record model="ir.ui.view" id="contract_report_form_view">
+			<field name="name">contract.report.form</field>
+			<field name="model">contract.report</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Imprimir">
+					<field name="file" filename="file_name" colspan="4" />
+					<field name="file_name" />
+				</form>
+			</field>
+		</record>
+		        
+        <act_window name="Imprimir"
+            res_model="contract.report"
+            src_model="hr.contract"
+            view_mode="form"
+            target="new"
+            key2="client_print_multi"
+            id="generate_contract_report"/>
+
+	</data>
+</openerp>

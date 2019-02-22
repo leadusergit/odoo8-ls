@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="payslip_totales_report"
+            model="hr.payslip"
+            string="Totales Nomina Mensual"
+            report_type="qweb-pdf"
+            name="account_move_link.report_payslip_totales" 
+            file="account_move_link.report_payslip_totales"
+        />
+    </data>
+</openerp>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_report_incomes" model="ir.ui.view">
+        <field name="name">wizard.report.incomes</field>
+		<field name="model">wizard.report.incomes</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		<form string="Detalle de Ingresos">
+		    <field name="date_start" invisible="1"/>
+		    <separator colspan="4" string="Seleccione el Banco! " />
+		    <field name="journal_ids" required="1" colspan="4"/>
+		    <separator colspan="2" string="Seleccione Filtro! " />
+		    <field name="filter" colspan="2" />
+			<group col="4" colspan="4" attrs="{'invisible':[('filter','in',['by_date'])]}">
+			    <separator colspan="4" string="Seleccione el Periodo " />
+				<field name="period_id" colspan="2"/>
+			</group>
+			<newline/>
+			<group col="4" colspan="4" attrs="{'invisible':[('filter','in',['by_period'])]}">
+			    <separator colspan="4" string="Seleccione las Fechas" />
+			    <field name="date_from" colspan="2"/>
+			    <field name="date_to" colspan="2"/>
+			</group>
+			<newline/>
+			<separator colspan="4" />
+			<group col="3" colspan="4">
+			    <button icon="gtk-ok" name="action_excel" string="Excel" type="object"/>
+				<button icon="gtk-close" special="cancel" string="Cerrar" type="object" />
+			</group>
+			<separator colspan="4" />
+			<field name="name" readonly='1'/>
+			<field name="data" readonly='1'/>
+		</form>
+	    </field>
+	  </record>
+		
+		<!-- Actions -->
+		
+		<record id="action_wizard_report_incomes" model="ir.actions.act_window">
+			<field name="name">Reporte de Ingresos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.incomes</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_report_incomes"/>
+			<field name="target">new</field>
+		</record>
+		
+		<!-- Menu -->
+		<menuitem parent="menu_reporte_sale"
+		          id="menu_action_wizard_report_incomes"
+		          action="action_wizard_report_incomes"
+		          icon="STOCK_PRINT" />
+		          <!-- groups="sale.group_sale_report"/ -->
+	</data>
+</openerp>

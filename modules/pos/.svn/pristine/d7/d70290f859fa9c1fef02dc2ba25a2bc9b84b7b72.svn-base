@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+    <record id="pos_order_graph" model="ir.ui.view">
+            <field name="name">pos.order.graph</field>
+            <field name="model">pos.order</field>
+            <field name="arch" type="xml">
+                <graph string="Total" type="bar">
+                    <field name="partner_id" type="row"/>
+                    <field name="date_order" type="col"/>
+                </graph>
+            </field>
+     </record>
+     
+     
+       <record model="ir.ui.view" id="view_pos_order_line_search">
+            <field name="name">pos.order.line.search</field>
+            <field name="model">pos.order.line</field>
+            <field name="arch" type="xml">
+                <search string="Point of Sale Lines">
+                    <field name="product_id" />
+                    <field name="order_id" />
+                    <group expand="0" string="Group By">
+                        <filter string="order_id" icon="terp-personal" domain="[]" context="{'group_by' : 'order_id'}" />
+                    </group>
+                </search>
+            </field>
+      </record>
+      <record model="ir.ui.view" id="view_pos_order_line_tree">
+            <field name="name">pos.order.line</field>
+            <field name="model">pos.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Point of Sale Line">
+                    <field name="company_id" />
+                    <field name="order_id" />
+                    <field name="product_id" />
+                    <field name="price_subtotal" />
+                </tree>
+            </field>
+     </record>
+     <record id="pos_order_line_graph" model="ir.ui.view">
+            <field name="name">pos.order.line.graph</field>
+            <field name="model">pos.order.line</field>
+            <field name="arch" type="xml">
+                <graph string="Total Lines" type="bar">
+                    <field name="order_id"/>
+                    <field name="price_subtotal" type="measure" operator="+"/>
+                </graph>
+            </field>
+     </record>
+     <record model="ir.actions.act_window" id="action_pos_line_tree">
+            <field name="name">Detalle Pedidos</field>
+            <field name="res_model">pos.order.line</field>
+            <field name="view_id" ref="view_pos_order_line_tree"/>
+            <field name="search_view_id" ref="view_pos_order_line_search"/>
+            <field name="view_mode">tree,graph</field>            
+      </record>
+      
+      <menuitem name="Detalle" id="menu_saleline" action="action_pos_line_tree" parent="point_of_sale.menu_point_of_sale"  sequence="5"/>
+        
+ </data>
+</openerp>

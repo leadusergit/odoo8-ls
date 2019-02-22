@@ -1,0 +1,152 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+        <!-- ###################################################################################################
+        correo al cliente con la tabla de lo que se va a facturar
+        ######################################################################################################-->
+
+        <!--Email template -->
+        <record id="m_email_template_sale" model="email.template">
+            <field name="name">Liquidación</field>
+            <field name="email_from">leadSoluction@kruger.com.ec</field>
+            <field name="subject">liquidación (${object.name or 'n/a' })</field>
+            <field name="email_to">${object.email or 'n/a' }</field>
+            <field name="model_id" ref="monitor.model_m_liquidation"/>
+            <field name="report_template" ref="liquidation_report"/>
+            <field name="report_name">Detalle de liquidación</field>
+            <field name="lang">${object.client_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                <title>Reestablecer contraseña</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+                <style type="text/css">
+                    table.tbproducts {
+                        border-collapse: collapse;
+                        font-family: Arial,Helvetica,sans-serif;
+                        font-size: 13px;
+                    }
+                    hr { background-color: #019FB8; height: 1px; border: 0; }
+                    table.tbproducts th, table.tbproducts td {
+                        border: 1px solid #a9a0a0;
+                        padding: 3px;
+                    }
+                    div.main_msg{
+                        text-align: justify;
+                    }
+
+                    table.tbtotal td {
+                        padding: 3px;
+                    }
+
+                    div.total{
+                        position: absolute;
+                            right: 0px;
+                            margin-right: 140px;
+                    }
+
+                    .noBorder tr, .noBorder td {
+                        border: none;
+                    }
+
+                </style>
+            </head>
+            <body topmargin="0" leftmargin="0"
+                  style="height: 100% !important; margin: 0; padding: 0; width: 100% !important;min-width: 100%;" marginheight="0"
+                  marginwidth="0">
+
+            <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr>
+                    <td style="background-color:#838383;" align="center" bgcolor="#838383" valign="top"><br>
+                        <br>
+                        <table border="0" width="600" cellpadding="0" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td style="background-color:#FFFFFF" align="left" bgcolor="#FFFFFF" valign="top"></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#FFFFFF; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000000;
+                                    padding:0px 15px 10px 15px;"
+                                    align="center" bgcolor="#FFFFFF" valign="top">
+                                    <br>
+                                    <div style="font-size:30px; color:#838383;"><b>LIQUIDACIÓN</b></div>
+                                    <hr height="10" width="100%" /><br>
+
+                                    <div class="main_msg"><br>
+                                        Estimado/a:<br>
+                                        Le envio a continuación la descripción de la liquidaci, y se le adjunta el detalle a facturar.
+
+                                        aqui puede ir el texto que se desee, explicandole al cliente todo lo que debe realizar para cumpolir
+                                        con el pago de la factura, solo elaborar bien el texto que pueda ponerse en la plantilla y listo.
+                                    </div>
+                                    <br/>
+
+                                    <div align="left">
+                                        <b style="color:#696969;">Liquidación:</b> ${object.name or '' }<br/>
+                                        <br/>
+                                        <table class="noBorder">
+                                            <tbody>
+                                                <tr>
+                                                    <td > <b style="color:#696969;">Total de Venta:</b> </td>
+                                                    <td> ${object.total_sale or 0.0 } </td>
+                                                </tr>
+                                                <tr>
+                                                    <td > <b style="color:#696969;">Total de Devolución:</b> </td>
+                                                    <td> ${object.total_dev or 0.0 } </td>
+                                                </tr>
+                                                <tr>
+                                                    <td > <b style="color:#696969;">Total:</b> </td>
+                                                    <td> ${object.total_liquidation or 0.0 } </td>
+                                                </tr>
+                                                <tr>
+                                                    <td > <b style="color:#696969;">Total a Facturar:</b> </td>
+                                                    <td> ${object.total_payment or 0.0 } </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <br/>
+
+
+
+                                    <div>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <br/>
+
+                                        <img src="${object.banner}" height="100px" width="200px"><br/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#019FB8;" align="left" bgcolor="#019FB8" height="20px" valign="top">
+                                    <br></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br></td>
+                </tr>
+                </tbody>
+            </table>
+            </body>
+            </html>
+
+
+
+            ]]></field>
+        </record>
+
+    </data>
+</openerp>

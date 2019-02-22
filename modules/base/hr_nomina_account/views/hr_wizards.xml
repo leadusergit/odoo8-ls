@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ===========================
+    Asistente para pagar roles
+    ===========================
+-->
+		<record id="wizard_pay_payroll_form_view" model="ir.ui.view">
+			<field name="name">wizard.pay.payroll.form</field>
+			<field name="model">wizard.pay.payroll</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group colspan="1">
+							<field name="journal_id"/>
+							<field name="ref"/>
+						</group>
+						<group colspan="1">
+							<field name="date"/>
+							<field name="period_id"/>
+						</group>
+					</group>
+					<field name="payroll_ids" invisible="1"/>
+					<footer>
+						<button name="pay" string="Aceptar" type="object" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>			
+				</form>
+			</field>
+		</record>
+		
+		<act_window id="action_wizard_pay_payroll"
+			multi="True" key2="client_action_multi" name="Pagar roles"
+            res_model="wizard.pay.payroll" src_model="hr.payroll"
+            view_mode="form" target="new" view_type="form"/>
+            
+		<!--
+    ===============================
+    Asistente para generar el cash
+    ===============================
+-->
+		<record id="wizard_cash_payroll_form_view" model="ir.ui.view">
+			<field name="name">wizard.cash.payroll.form</field>
+			<field name="model">wizard.cash.payroll</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group colspan="1">
+							<field name="name"/>
+							<field name="journal_id"/>
+						</group>
+						<group colspan="1">
+							<field name="bank_account_id"/>
+							<field name="date"/>
+						</group>
+					</group>
+					<field name="payroll_ids" invisible="1"/>
+					<footer>
+						<button name="generate" string="Aceptar" type="object" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>			
+				</form>
+			</field>
+		</record>
+		
+		<act_window id="action_wizard_cash_payroll"
+			multi="True" key2="client_action_multi" name="Generar cash"
+            res_model="wizard.cash.payroll" src_model="hr.payroll"
+            view_mode="form" target="new" view_type="form"/>
+		
+    </data>
+</openerp>

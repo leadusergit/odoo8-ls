@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+   
+    <record id="hr_salary_rule_add_form" model="ir.ui.view">
+            <field name="name">hr.salary.rule.add.form</field>
+            <field name="model">hr.salary.rule</field>          
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form" />
+            <field name="arch" type="xml">
+             <xpath expr="//field[@name='appears_on_payslip']" position="after">
+             	<field name="acumula"/>
+             	<field name="descuento_iess"/>
+             </xpath>
+           </field>
+	</record>
+                
+   	
+	<record model="ir.ui.view" id="hr_employee_plantilla_search">
+			<field name="name">hr.employee.plantilla.search</field>
+			<field name="model">hr.employee.plantilla</field>
+			<field name="arch" type="xml">
+				<search>
+                    <field name="plantilla_lines" mode="tree,form" colspan="4" nolabel="1" widget="one2many_list" context="{'group_by':'plantilla_lines'}"/>
+                    <group expand="0" string="Group By">
+				        <filter name="fiscalyear_id" string="Año" icon="terp-personal" domain="[]" context="{'group_by':'fiscalyear_id'}"/> 
+				   </group>
+				</search>
+			</field>
+	</record>
+	
+    <record model="ir.ui.view" id="hr_employee_plantilla_form_view">
+		<field name="name">hr.employee.plantilla.form</field>
+		<field name="model">hr.employee.plantilla</field>
+		<field name="arch" type="xml">
+			<form>
+			<header>
+			    <button type="object" name="done" string="Confirmar" class="oe_highlight" attrs="{'invisible':[('state', '=', 'done')]}"/>  
+			    <field name="state" widget="statusbar"/>                        
+            </header>
+			 <sheet>
+				<group string="Periodo" col="2">
+			    	<field name="fiscalyear_id"/> 	
+					<field name="period_id"/> 
+				</group>
+				<group string="Totales">
+            		<field name="wage"/>
+            		<!--<field name="expenses_amount"/>   -->          		
+            		<field name="incomes_amount"/>
+            		<field name="subquery"/>
+            	</group>         		           	
+            	<group>
+            		<field name="detalle" invisible="1"/>
+            	    <button type="object" name="load_rule" string="Generar" icon="gtk-execute" attrs="{'invisible':[('detalle', '=', True)]}"/>  
+            	</group>
+            	<group string="Retenciones Terceros" col="2">
+              		<field name="anticipos_remuneracion"/>
+              		<field name="retenciones" string="Total Retención"/>
+            		<field name="subquery1"/>
+            	</group>    
+            	<group string="Provisiones" col="2">	
+            		<field name="dec3_amount"/>
+            		<field name="dec4_amount"/>
+            		<field name="fr_amount"/>
+            		<field name="vacacion_amount"/>
+            	</group>
+            	<group>
+            	<field name="total_prov_ret"/>
+            	</group>           	
+            	<!-- <notebook>
+                  <page string="Detalle">
+                    <field name="plantilla_lines">
+                       <form string="Lineas de Rol">
+                          <group>
+                            <field name="period_id" invisible="1"/>
+                            <field name="rule_id" invisible="1"/>                            
+                            <field name="rule_name"/>
+                            <field name="amount" sum='Total'/>
+                            <field name="rule_namer"/>
+                            <field name="amountr" sum='Total'/>
+                          </group>
+                       </form>
+                       <tree string="Ingresos" editable="bottom">
+                          <field name="rule_name"/>
+                          <field name="amount" sum='Total I/OI'/>
+                          <field name="rule_namer"/>
+                          <field name="amountr" sum='Total'/>
+                       </tree>
+                     </field>
+                  </page>
+                </notebook> -->
+            </sheet>
+            </form>
+		</field>
+	</record>
+			
+	<record model="ir.ui.view" id="view_hr_employee_plantilla_tree">
+        <field name="name">hr.employee.plantilla</field>
+        <field name="model">hr.employee.plantilla</field>
+        <field name="arch" type="xml">
+        <tree>
+        	<field name="period_id"/> 
+            <field name="incomes_amount"/>
+            <field name="anticipos_remuneracion"/>            
+            <field name="retenciones"/> 
+            <field name="dec3_amount"/>
+            <field name="dec4_amount"/> 
+            <field name="fr_amount"/>
+            <field name="vacacion_amount"/>
+            <field name="total_prov_ret"/> 
+            <field name="state"/>                       
+         </tree>
+        </field>
+   	</record>  
+		
+	<record model="ir.actions.act_window" id="hr_employee_plantilla_act_window">
+		<field name="name">Plantilla</field>
+		<field name="res_model">hr.employee.plantilla</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+	
+	<!--><menuitem id="menu_payslip_plantilla" name="Plantilla Contable" parent="hr_payroll.menu_hr_root_payroll" groups="base.group_hr_user" sequence="25"/>		
+	  -->
+	<menuitem id="hr_employee_plantilla_contable" name="Plantilla Contable" parent="hr_payroll.menu_hr_root_payroll" action="hr_employee_plantilla_act_window" groups="base.group_hr_user" sequence="25"/>
+	
+   </data>
+</openerp>

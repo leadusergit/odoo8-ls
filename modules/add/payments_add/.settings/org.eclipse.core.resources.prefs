@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//code/account_invoice.py=utf-8
+encoding//code/cash_management.py=utf-8
+encoding//report/generic_payment_cheque.py=utf-8
+encoding//report/move_comprobante_diario_stm.py=utf-8
+encoding//report/move_ingreso_caja.py=utf-8
+encoding//report/payment_transfer_report.py=utf-8
+encoding//wizard/wizard_payment_regenerate_cash.py=utf-8
+encoding//wizard/wizard_payment_report.py=utf-8
+encoding/__init__.py=utf-8
+encoding/__openerp__.py=utf-8
+encoding/payment.py=utf-8

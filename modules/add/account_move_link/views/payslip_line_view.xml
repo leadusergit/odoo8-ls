@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+	  <record model="ir.ui.view" id="view_payslip_line_tree">
+        <field name="name">payslip.line.tree</field>
+        <field name="model">hr.payslip.line</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+        <tree create="false" on_write="on_create_write" delete="false">
+        	<field name="slip_id"  invisible="1"/> 
+            <field name="employee_id"/>
+            <field name="code" invisible="1"/> 
+            <field name="name"/>
+            <field name="amount"/>
+            <field name="create_date" invisible="1"/> 
+            <field name="contract_id" invisible="1"/> 
+            <field name="company_id"  invisible="1"/>   
+            <field name="category_id" invisible="1"/> 
+            <field name="salary_rule_id" invisible="1"/>         
+         </tree>
+        </field>
+    </record>
+    
+    <record id="payslip_line_graph" model="ir.ui.view">
+            <field name="name">payslip.line.graph</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="arch" type="xml">
+                <graph string="Estadisticas" type="pivot" stacked="True">
+                    <field name="create_date" type="row" />
+                    <field name="employee_id" type="row" />
+                    <field name="name" type="col"/> 
+                    <field name="amount" operator="+"/>
+                </graph>
+            </field>
+     </record>
+    
+    <record id="view_payslip_line_search" model="ir.ui.view">
+            <field name="name">Detalle Rol-Empleado</field>
+            <field name="model">hr.payslip.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Items">
+                    <filter icon="terp-camera_test" string="Sueldos y Salarios" domain="[('code','=','BASIC')]"/>                    
+ 	                <filter icon="terp-camera_test" string="Anticipos de Remuneración" domain="[('code','=','ANTI')]"/>                                  
+                    <filter icon="terp-camera_test" string="Salario Neto" domain="[('code','=','SUBT_NET')]"/>
+                    <filter icon="terp-camera_test" string="Costo Empleado" domain="[('code','=','SUBT_COSTO_TOTAL')]"/>                    
+                    <filter icon="terp-camera_test" string="DCuarto" domain="[('code','=','PROV DCUARTO')]"/>
+                    <filter icon="terp-camera_test" string="DTercero" domain="[('code','=','PROV DTERCERO')]"/>
+                    <filter icon="terp-camera_test" string="FondosReserva" domain="[('code','=','PROV FOND RESERV')]"/>                                      
+                  	<field  name="create_date"/>
+                  	
+                  <group expand="0" string="Group By">
+                    <filter name="filter_periodo" string="Periodo" icon="terp-folder-orange" domain="[('amount','>',0)]" context="{'group_by':'create_date'}"/>                    
+                    <filter name="filter_categoria" string="Categoria Salarial"  icon="terp-folder-green" domain="[('amount','>',0)]" context="{'group_by':'category_id'}"/>
+                    <filter name="filter_empleado" string="Empleado" icon="terp-partner" domain="[('amount','>',0)]" context="{'group_by':'employee_id'}"/>
+                    <filter name="filter_nregla" string="Regla Salarial"  icon="terp-folder-green" context="{'group_by':'name'}"/>
+                </group>
+                </search>
+            </field>
+    </record>
+
+    
+	<record id="action_payslip_line_all_a" model="ir.actions.act_window">
+            <field name="name">Reporte Detalle Roles</field>
+            <field name="res_model">hr.payslip.line</field>
+            <field name="view_id" ref="view_payslip_line_tree"/>
+            <field name="search_view_id" ref="view_payslip_line_search"/>
+            <field name="view_mode">tree,graph</field>
+            <field name="context">{"search_default_filter_periodo":1,"search_default_filter_empleado":1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Seleccione  los filtros que se requieran.
+              </p><p>
+                This view can be used by accountants in order to quickly.
+              </p>
+            </field>
+     </record>
+      
+     <menuitem action="action_payslip_line_all_a" id="menu_payslip_line" name="Reporte(Detalle Roles)" parent="hr_payroll.menu_hr_root_payroll" groups="base.group_hr_user" sequence="29"/>
+        
+     <record id="action_payslip_line_all_tree" model="ir.actions.act_window">
+         <field name="name">Reporte Roles</field>
+         <field name="res_model">hr.payslip.line</field>
+         <field name="view_id" ref="view_payslip_line_tree"/>
+         <field name="search_view_id" ref="view_payslip_line_search"/>
+     </record>
+</data>
+</openerp>

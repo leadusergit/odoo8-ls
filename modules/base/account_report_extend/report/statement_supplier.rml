@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<document filename="Test.pdf">
+  <template pageSize="(595.0,842.0)" title="Estado de Cuenta" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="57.0" y1="40" width="481" height="728"/>
+       <pageGraphics>
+			<setFont name="Helvetica-Bold" size="9"/>
+		    <drawCentredString x="10.5cm" y="28.7cm">[[ company.partner_id.name ]]</drawCentredString>
+		    <setFont name="Helvetica" size="8"/>
+	        <drawCentredString x="10.5cm" y="28.4cm">Dirección: [[ company.partner_id.address and company.partner_id.address[0].street or  '' ]] Y [[ company.partner_id.address and company.partner_id.address[0].street2 or  '' ]]</drawCentredString>
+	        <drawCentredString x="10.5cm" y="28.1cm">RUC:[[ company.partner_id.ident_num ]]</drawCentredString>
+	        <setFont name="Helvetica-Bold" size="8"/>
+	        <drawCentredString x="10.5cm" y="27.7cm">ESTADO DE CUENTA DE PROVEEDOR</drawCentredString>
+	        <setFont name="Helvetica" size="8"/>
+	        <drawRightString x="6.15cm" y="27.3cm">[[ time.strftime('%d de %B del %Y').upper() ]]  Hora:  [[ time.strftime('%H:%M:%S') ]]</drawRightString>
+	        <drawCentredString x="9.0cm" y="27.3cm">Desde: [[ data['form']['date_from'] ]]</drawCentredString>
+	        <drawCentredString x="13.5cm" y="27.3cm">Hasta: [[ data['form']['date_to'] ]]</drawCentredString>
+	        <drawRightString x="20,2cm" y="27.3cm">Pág. <pageNumber/> / <pageCount/></drawRightString>
+	        <lineMode width="0.8"/>
+			<lines>0.3cm 27.2cm 20.5cm 27.2cm</lines>
+	   </pageGraphics>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    
+    <blockTableStyle id="Cabecera">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Saldo">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Detalle">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Totales">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="3,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Encabezado">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="1,0" stop="1,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="1,0" stop="1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="1,-1" stop="1,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="2,0" stop="2,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,-1" stop="2,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="3,0" stop="3,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="3,0" stop="3,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="3,-1" stop="3,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="4,0" stop="4,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="4,0" stop="4,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,-1" stop="4,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="5,0" stop="5,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="5,0" stop="5,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="5,-1" stop="5,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="6,0" stop="6,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="6,0" stop="6,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="6,0" stop="6,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,-1" stop="6,-1"/>
+      <lineStyle kind="LINEBEFORE" colorName="#000000" start="7,0" stop="7,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="7,0" stop="7,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="7,0" stop="7,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="7,-1" stop="7,-1"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Linea">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,-1" stop="0,-1" thickness="1.5"/>
+    </blockTableStyle>
+    
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <!--Encabezado-->
+    <paraStyle name="P1" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT"/>
+    
+    <!--Cabecera-->
+    <paraStyle name="P2" fontName="Helvetica-Bold" fontSize="8" leading="10" alignment="CENTER" />
+    <paraStyle name="WH" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" />
+    
+    <!--SALDO-->
+    <paraStyle name="P3" fontName="Helvetica-Bold" fontSize="8" leading="10" alignment="RIGHT" />
+    <!--LINEAS-->
+    <paraStyle name="P4" fontName="Helvetica" fontSize="8.0" leading="10"  alignment="LEFT"/>
+    <paraStyle name="P4C" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P6" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    
+  </stylesheet>
+  <story>
+    <section>
+        <para>[[ repeatIn(supplier(data['form']),'partner') ]]</para>
+        <blockTable colWidths="400,150" style="Cabecera">
+          <tr>
+            <td><para style="P1">Nombre Cliente: [[ partner['supplier'] ]]</para></td>
+            <td><para style="P1">Codigo Contable: [[ partner['codcontable'] ]]</para></td>
+          </tr>
+          <tr>
+            <td><para style="P1">Cuenta Cliente: [[ partner['cod'] ]]</para></td>
+            <td><para style="P1">Ciudad: [[ partner['city'] ]]</para></td>
+          </tr>
+        </blockTable>
+	    <blockTable colWidths="50.0,40.0,50,40,200,50.0,50,50" style="Encabezado">
+	        <tr>
+	          <td><para style="P2">Emision</para></td>
+	          <td><para style="P2">Cod.M</para></td>
+	          <td><para style="P2">No.Fact</para></td>
+	          <td><para style="P2">Vence</para></td>
+	          <td><para style="P2">Detalle</para></td>
+	          <td><para style="P2">Debito</para></td>
+	          <td><para style="P2">Credito</para></td>
+	          <td><para style="P2">Saldo</para></td>
+	        </tr>
+	    </blockTable>
+	    <spacer length="5"/>
+	    <blockTable colWidths="489,50" style="Saldo">
+	        <tr>
+	          <td>
+	            <para style="P3">Saldo Anterior:</para>
+	          </td>
+	          <td>
+	            <para style="P3">[[ formatLang(saldo(partner['id'], data['form'])) ]]</para>
+	          </td>
+	        </tr>
+	    </blockTable>
+	    <section>
+	        <para>[[ repeatIn(move_line(partner['id'],data['form']),'move') ]]</para>
+	        <blockTable colWidths="60.0,40.0,40,50,200,50.0,50,50" style="Detalle">
+	          <tr>
+	            <td><para style="P4">[[ move['emision'] ]]</para></td>
+	            <td><para style="P4C">[[ move['cod'] ]]</para></td>
+	            <td> <para style="P5">[[ move['nro'] ]]</para></td>
+	            <td><para style="P4">[[ move['vence'] ]]</para></td>
+	            <td><para style="P4">[[ detalle(move['det']) ]]</para></td>
+	            <td><para style="P5">[[ formatLang(move['debit']) ]]</para></td>
+	            <td><para style="P5">[[ formatLang(move['credit']) ]]</para></td>
+	            <td><para style="P5">[[ formatLang(move['saldo']) ]]</para></td>
+	          </tr>
+	        </blockTable>
+	    </section>
+	    <section>
+	        <blockTable colWidths="391.0,50.0,50.0,50.0" style="Totales">
+	          <tr>
+	            <td><para style="WH"><font color="white"> </font></para></td>
+	            <td><para style="P5">[[ formatLang(subtotales()[0]) ]]</para></td>
+	            <td><para style="P5">[[ formatLang(subtotales()[1]) ]]</para></td>
+	            <td><para style="P5">[[ formatLang(subtotales()[2]) ]]</para></td>
+	          </tr>
+	        </blockTable>
+	    </section>
+	    <spacer length="5"/>
+	    <blockTable colWidths="550" style="Linea">
+          <tr>
+            <td><para style="WH"><font color="white"> </font></para></td>
+          </tr>
+    	</blockTable>
+    </section>
+	<section>
+	    <blockTable colWidths="391.0,50.0,50.0,50.0" style="Totales">
+	          <tr>
+	            <td><para style="P6">TOTAL GENERAL:</para></td>
+	            <td><para style="P6">[[ formatLang(totales()[0]) ]]</para></td>
+	            <td><para style="P6">[[ formatLang(totales()[1]) ]]</para></td>
+	            <td><para style="P6">[[ formatLang(totales()[2]) ]]</para></td>
+	          </tr>
+	        </blockTable>
+	</section>
+  </story>
+</document>
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+		  <record id="hr_ec_employee_view_inherit" model="ir.ui.view">
+            <field name="name">hr.ec.employee.view.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='HR Settings']" position="after">
+                	<page string="Información Academica" groups="base.group_hr_user">
+                		<separator string="Formación Academica" colspan="4"/>
+                		<field name="formacion_ids" nolabel="1" colspan="4">
+                			<tree string="Formación Academica" editable="botoom">
+                                  <field name="name" required="1"/>
+                                  <field name="nivel_estudios" required="1"/>
+                                  <field name="estado" required="1"/>
+                                  <field name="titulo_obtenido" required="1"/>
+                			</tree>
+                			<form>
+                				<group>
+                					<field name="name"/>
+                                  	<field name="nivel_estudios"/>
+                                  	<field name="estado"/>
+                                  	<field name="titulo_obtenido"/>
+                				</group>
+                			</form>
+                		</field>
+                		<separator string="Cursos Realizados" colspan="4"/>
+                		<field name="cursos_realizados_ids" nolabel="1" colspan="4">
+                			<tree string="Cursos Realizados" editable="botoom" >
+                                  <field name="name" required="1"/>
+                                  <field name="nivel" required="0"/>
+                                  <field name="terminado" required="0"/>
+                                  <field name="fecha" />
+                                  <field name="horas" />
+                			</tree>
+                			<form>
+                				<group>
+                					<field name="name" required="1"/>
+                                  <field name="nivel" required="0"/>
+                                  <field name="terminado" required="0"/>
+                                  <field name="fecha" />
+                                  <field name="horas" />
+                				</group>
+                			</form>
+                		</field>
+                		<separator string="Experiencia Laboral" colspan="4"/>
+                		<field name="experiencia_laboral_ids" nolabel="1" colspan="4">
+                			<tree string="Experiencia Laboral" editable="botoom" >
+                                  <field name="name" required="1"/>
+                                  <field name="cargo" required="1"/>
+                                  <field name="fecha_inicio" required="0"/>
+                                  <field name="fecha_fin" />
+                                  <field name="motivo_salida" />
+                			</tree>
+                			<form>
+                				<group>
+                				  <field name="name" required="1"/>
+                                  <field name="cargo" required="1"/>
+                                  <field name="fecha_inicio" required="0"/>
+                                  <field name="fecha_fin" />
+                                  <field name="motivo_salida" />
+                				</group>
+                			</form>
+                		</field>
+                	</page>
+                </xpath>
+            </field>
+          </record>
+    </data>
+</openerp>

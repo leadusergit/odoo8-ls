@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<document filename="ingresoegreso.pdf">
+  <template pageSize="(21.0cm,29.7cm)" title="Test" author="Israel Paredes" allowSplitting="20" showBoundary="0">
+    <pageTemplate id="first">
+      <pageGraphics>
+      	<image x="0.0cm" y="26.39cm" width="21.0cm">[[ company.logo or removeParentNode('image') ]]</image>
+      	<setFont name="Helvetica-Bold" size="14"/>
+      	<drawString x="2.0cm" y="25.6cm">Banco: [[ data['form']['banco'] ]]</drawString>
+      	<setFont name="Helvetica" size="10"/>
+      	<drawString x="2.0cm" y="25.1cm">Cuenta: [[ data['form']['cuenta'] ]]</drawString>
+      	<drawString x="2.0cm" y="24.6cm">Periodo: [[ o.period_id.name ]]</drawString>
+      	<drawString x="2.0cm" y="24.1cm">Fecha: [[ o.date ]]</drawString>
+      	<!--drawString x="2.0cm" y="23.6cm">[[ o.partner_id and o.partner_id.name or removeParentNode('drawString') ]]</drawString-->
+      	<setFont name="Helvetica" size="8.5"/>
+      	<rect x="14.0cm" y="23.7cm" width="5.0cm" height="2.5cm" fill="no" stroke="yes" round="0.5cm"/>
+      	<drawCentredString x="16.5cm" y="25.6cm">Comprobante de [[ data['form']['type'] == 'in' and 'Ingreso' or 'Egreso' ]] No.</drawCentredString>
+      	<lines>14.0cm 25.2cm 19.0cm 25.2cm</lines>
+      	<setFont name="Helvetica-Bold" size="16"/>
+      	<drawCentredString x="16.5cm" y="24.35cm">[[ o.no_comp ]]</drawCentredString>
+      	
+      	<!-- PIE DE PAGINA 1 -->
+      	<rect x="1.0cm" y="1.0cm" width="19.0cm" height="2.0cm" fill="no" stroke="yes" round="0.5cm">[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</rect>
+      	<lines>1.0cm 1.75cm 16.5cm 1.75cm [[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</lines>
+      	<lines>4.5cm 1.0cm 4.5cm 3.0cm [[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</lines>
+      	<lines>8.0cm 1.0cm 8.0cm 3.0cm [[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</lines>
+      	<lines>11.5cm 1.0cm 11.5cm 3.0cm [[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</lines>
+      	<lines>16.5cm 1.0cm 16.5cm 3.0cm [[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</lines>
+      	<lines>16.5cm 2.0cm 20.0cm 2.0cm [[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</lines>
+      	<setFont name="Helvetica-Bold" size="8.5"/>
+      	<drawCentredString x="2.75cm" y="1.45cm">Elaborado[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawCentredString>
+      	<drawCentredString x="6.25cm" y="1.45cm">Revisado[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawCentredString>
+      	<drawCentredString x="9.75cm" y="1.45cm">Autorizado[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawCentredString>
+      	<drawCentredString x="14.0cm" y="2.70cm">RECIBÍ CONFORME[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawCentredString>
+      	<setFont name="Helvetica" size="8.5"/>
+      	<drawString x="11.6cm" y="1.48cm">Nombre:[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawString>
+      	<drawString x="16.6cm" y="1.73cm">No. Cédula:[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawString>
+      	<drawString x="16.6cm" y="2.73cm">Fecha de cobro:[[ data['form']['type'] == 'in' and removeParentNode('lines') ]]</drawString>
+
+      	<!-- PIE DE PAGINA 2 -->
+      	<lines>4.2cm 2.0cm 8.4cm 2.0cm [[ data['form']['type'] == 'out' and removeParentNode('lines') ]]</lines>
+      	<lines>12.6cm 2.0cm 16.8cm 2.0cm [[ data['form']['type'] == 'out' and removeParentNode('lines') ]]</lines>
+      	<setFont name="Helvetica-Bold" size="8"/>
+      	<drawCentredString x="6.3cm" y="1.65cm">Elaborado:[[ data['form']['type'] == 'out' and removeParentNode('lines') ]]</drawCentredString>
+      	<drawCentredString x="6.3cm" y="1.32cm">[[ data['form']['type'] == 'out' and removeParentNode('lines') ]][[ user.name ]]</drawCentredString>
+      	<drawCentredString x="14.7cm" y="1.65cm">Revisado:[[ data['form']['type'] == 'out' and removeParentNode('lines') ]]</drawCentredString>
+      </pageGraphics>
+      <frame id="first" x1="2.0cm" y1="5.0cm" width="17.75cm" height="18.5cm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Tabla">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="GRID" colorName="#000000"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="-1,-1"/>
+      <!--lineStyle kind="LINEBEFORE" colorName="#000000" start="0,0" stop="0,-1"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,-1" stop="0,-1"/>
+      <lineStyle kind="LINEAFTER" colorName="#000000" start="3,0" stop="3,-1"/-->
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="Heading" fontName="Courier-Bold" alignment="CENTER" fontSize="14.0" leading="10" spaceBefore="1.0cm" spaceAfter="1.0cm"/>
+    <paraStyle name="Standard" fontName="Helvetica" fontSize="7.5"/>
+    <paraStyle name="Text body" fontName="Helvetica" alignment="JUSTIFY" fontSize="6.0" leftIndent="1.0cm" rightIndent="1.0cm" firstLineIndent="2.5cm"/>
+    <paraStyle name="Decimal" fontName="Helvetica" fontSize="7.5" alignment="RIGHT"/>
+    <images/>
+  </stylesheet>
+  <story>
+    [[ repeatIn(objects, 'o') ]]
+    <blockTable style="Tabla1">
+      <tr>
+      	<td><para style="Standard"><font name="Helvetica-Bold">[[ data['form']['type'] == 'in' and 'Recibido de' or 'Beneficiario' ]]: </font>[[ data['form'].get('beneficiario') ]]</para></td>
+      	<td><para style="Standard"><font name="Helvetica-Bold">[[ data['form'].get('doc') ]]: </font>[[ data['form'].get('doc_num') ]]</para></td>
+      </tr>
+    </blockTable>
+    <blockTable style="Tabla1">
+      <tr>
+      	<td><para style="Standard"><font name="Helvetica-Bold">[[ data['form']['type'] == 'in' and 'Cliente' or 'Proveedor' ]]: </font>[[ (o.partner_id or get_partner(o.line_id)).name ]]</para></td>
+      	<td><para style="Standard"><font name="Helvetica-Bold">Ciudad: </font>[[ (o.partner_id or get_partner(o.line_id)).address[0].city ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Standard"><font name="Helvetica-Bold">RUC: </font>[[ (o.partner_id or get_partner(o.line_id)).ident_num ]]</para></td>
+      	<td><para style="Standard"><font name="Helvetica-Bold">Teléfono: </font>[[ (o.partner_id or get_partner(o.line_id)).address[0].phone ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Standard"><font name="Helvetica-Bold">Dirección: </font>[[ ((o.partner_id or get_partner(o.line_id)).address[0].street or 'SN') + ' y ' + ((o.partner_id or get_partner(o.line_id)).address[0].street2 or 'SN') ]]</para></td>
+      </tr>
+    </blockTable>
+    <blockTable style="Tabla1">
+      <tr>
+      	<td><para style="Standard"><font name="Helvetica-Bold">Descripción: </font>[[ o.other_info ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Standard"><font color="white">[[ '** '*100 ]]</font></para></td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="3.0cm,4.71cm,3.54cm,3.0cm,3.0cm" style="Tabla1">
+      <tr>
+        <td>
+          <para style="Standard"><font name="Helvetica-Bold">Código</font></para>
+        </td>
+        <td>
+          <para style="Standard"><font name="Helvetica-Bold">Cuenta</font></para>
+        </td>
+        <td>
+          <para style="Standard"><font name="Helvetica-Bold">Referencia</font></para>
+        </td>
+        <td>
+          <para style="Decimal"><font name="Helvetica-Bold">Debe</font></para>
+        </td>
+        <td>
+          <para style="Decimal"><font name="Helvetica-Bold">Haber</font></para>
+        </td>
+      </tr>
+      <tr>
+        [[ repeatIn(o.line_id, 'line') ]]
+        <td>
+          <para style="Standard">[[ line.account_id.code ]]</para>
+        </td>
+        <td>
+          <para style="Standard">[[ line.account_id.name ]]</para>
+        </td>
+        <td>
+          <para style="Standard">[[ line.ref or line.move_id.ref ]]</para>
+        </td>
+        <td>
+          <para style="Decimal">[[ line.debit or '0.00' ]]</para>
+        </td>
+        <td>
+          <para style="Decimal">[[ line.credit or '0.00' ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="3.0cm,4.71cm,3.54cm,3.0cm,3.0cm">
+      <tr>
+        <td>
+          <para style="Standard"><font color="white"> </font></para>
+        </td>
+        <td>
+          <para style="Standard"><font color="white"> </font></para>
+        </td>
+        <td>
+          <para style="Standard"><font name="Helvetica-Bold">Total</font></para>
+        </td>
+        <td>
+          <para style="Decimal"><font name="Helvetica-Bold">[[ '%.2f'%sum([line.debit for line in o.line_id]) ]]</font></para>
+        </td>
+        <td>
+          <para style="Decimal"><font name="Helvetica-Bold">[[ '%.2f'%sum([line.credit for line in o.line_id]) ]]</font></para>
+        </td>
+      </tr>
+    </blockTable>
+    <para style="Standard"><font color="white"> </font></para>
+    <para style="Standard"><font name="Helvetica-Bold">Son: [[ amount2text(o.amount) ]]</font></para>
+  </story>
+</document>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="True">
+    	
+    	<!--
+   	========
+   	METODOS
+   	========
+-->
+		<record model="hr.method" id="hr_method1">
+            <field name="name">Obtener sueldos y salarios</field>
+            <field name="reference">get_wage()</field>
+            <field name="object_id" ref="hr_nomina.model_hr_employee"/>
+        </record>
+        
+        <record model="hr.method" id="hr_method2">
+            <field name="name">Obtener fondos de reserva</field>
+            <field name="reference">_get_fondos_reserva()</field>
+            <field name="object_id" ref="hr_nomina.model_hr_provision"/>
+        </record>
+        
+        <record model="hr.method" id="hr_method3">
+            <field name="name">Obtener XIII Sueldo</field>
+            <field name="reference">_get_decimo_tercero()</field>
+            <field name="object_id" ref="hr_nomina.model_hr_provision"/>
+        </record>
+        
+        <record model="hr.method" id="hr_method4">
+            <field name="name">Obtener XIV Sueldo</field>
+            <field name="reference">_get_decimo_cuarto()</field>
+            <field name="object_id" ref="hr_nomina.model_hr_provision"/>
+        </record>
+        
+        <!--
+   	=========
+   	INGRESOS
+   	=========
+-->
+		<record model="hr.adm.incomes" id="income_1">
+            <field name="name">Sueldo</field>
+            <field name="obtain_method">method_func</field>
+            <field name="code">SUE</field>
+            <field name="payroll_label">Sueldo</field>
+            <field name="orden">1</field>
+            <field name="type">obtained_value</field>
+            <field name="aporte_iess" eval="True"/>
+            <field name="impuesto_renta" eval="True"/>
+            <field name="fondo_reserva" eval="True"/>
+            <field name="date_proportional" eval="True"/>
+            <field name="method_id" ref="hr_method1"/>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_2">
+            <field name="name">Comisiones</field>
+            <field name="obtain_method">none</field>
+            <field name="code">COM</field>
+            <field name="payroll_label">Comisiones</field>
+            <field name="orden">5</field>
+            <field name="type">static_value</field>
+            <field name="aporte_iess" eval="True"/>
+            <field name="impuesto_renta" eval="True"/>
+            <field name="fondo_reserva" eval="True"/>
+            <field name="date_proportional" eval="False"/>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_3">
+            <field name="name">Fondos de reserva</field>
+            <field name="obtain_method">method_func</field>
+            <field name="code">FON</field>
+            <field name="payroll_label">Fondos de reserva</field>
+            <field name="orden">10</field>
+            <field name="type">obtained_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="True"/>
+            <field name="method_id" ref="hr_method2"/>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_4">
+            <field name="name">Décimo Tercer Sueldo</field>
+            <field name="obtain_method">method_func</field>
+            <field name="code">XIII</field>
+            <field name="payroll_label">Décimo Tercer Sueldo</field>
+            <field name="orden">15</field>
+            <field name="type">obtained_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="True"/>
+            <field name="method_id" ref="hr_method3"/>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_5">
+            <field name="name">Décimo Cuarto Sueldo</field>
+            <field name="obtain_method">method_func</field>
+            <field name="code">XIV</field>
+            <field name="payroll_label">Décimo Cuarto Sueldo</field>
+            <field name="orden">20</field>
+            <field name="type">obtained_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="True"/>
+            <field name="method_id" ref="hr_method4"/>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_6">
+            <field name="name">Alimentación</field>
+            <field name="obtain_method">none</field>
+            <field name="code">ALI</field>
+            <field name="payroll_label">Alimentación</field>
+            <field name="orden">25</field>
+            <field name="type">static_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="False"/>
+            <field name="default_value">80</field>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_7">
+            <field name="name">Movilización</field>
+            <field name="obtain_method">none</field>
+            <field name="code">MOV</field>
+            <field name="payroll_label">Movilización</field>
+            <field name="orden">30</field>
+            <field name="type">static_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="True"/>
+            <field name="default_value">20</field>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_8">
+            <field name="name">Devoluciones</field>
+            <field name="obtain_method">none</field>
+            <field name="code">DEV</field>
+            <field name="payroll_label">Devoluciones</field>
+            <field name="orden">35</field>
+            <field name="type">static_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="False"/>
+        </record>
+        
+        <record model="hr.adm.incomes" id="income_9">
+            <field name="name">Viáticos</field>
+            <field name="obtain_method">none</field>
+            <field name="code">VIA</field>
+            <field name="payroll_label">Viáticos</field>
+            <field name="orden">40</field>
+            <field name="type">static_value</field>
+            <field name="aporte_iess" eval="False"/>
+            <field name="impuesto_renta" eval="False"/>
+            <field name="fondo_reserva" eval="False"/>
+            <field name="date_proportional" eval="False"/>
+        </record>
+        
+        <!--
+   	========
+   	EGRESOS
+   	========
+-->
+		<record model="hr.expense.type" id="expense_1">
+            <field name="code">APIES</field>
+            <field name="description">Cálculo del 9.35% de la Materia Gravada descontado al Empleado</field>
+            <field name="name">Aporte Personal</field>
+        </record>
+        
+        <record model="hr.expense.type" id="expense_2">
+            <field name="description">Multas a los empleados</field>
+            <field name="name">Multas</field>
+        </record>
+        
+        <record model="hr.expense.type" id="expense_3">
+            <field name="description">Descuentos relacionados con la empresa</field>
+            <field name="name">Descuentos</field>
+        </record>
+        
+        <!--
+   	============
+   	PROVISIONES
+   	============
+-->
+		<record model="hr.provision.type" id="provision_1">
+            <field name="description">Aporte Patronal</field>
+            <field name="name">Aporte Patronal</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_aporte_patronal"/>
+        </record>
+        
+        <record model="hr.provision.type" id="provision_2">
+            <field name="description">Fondo de Reserva</field>
+            <field name="name">Fondo de Reserva</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_fondo_reserva"/>
+        </record>
+        
+        <record model="hr.provision.type" id="provision_3">
+            <field name="description">Décima cuarta remuneración</field>
+            <field name="name">Décima cuarta remuneración</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_decimo4to"/>
+        </record>
+        
+        <record model="hr.provision.type" id="provision_4">
+            <field name="description">Décima tercera remuneración</field>
+            <field name="name">Décima tercera remuneración</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_decimo3ro"/>
+        </record>
+        
+        <record model="hr.provision.type" id="provision_5">
+            <field name="description">Vacaciones</field>
+            <field name="name">Vacaciones</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_vacaciones"/>
+        </record>
+        
+        <record model="hr.provision.type" id="provision_6">
+            <field name="description">IECE</field>
+            <field name="name">IECE</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_iece"/>
+        </record>
+        
+        <record model="hr.provision.type" id="provision_7">
+            <field name="description">SECAP</field>
+            <field name="name">SECAP</field>
+            <field name="field_name" ref="hr_nomina.field_hr_provision_secap"/>
+        </record>
+        
+    </data>
+</openerp>

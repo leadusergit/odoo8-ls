@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- LIQUIDACION  -->
+        <!--  search -->
+    	<record id="m_liquidation_search" model="ir.ui.view">
+            <field name="name">m.liquidation.search</field>
+            <field name="model">m.liquidation</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" string="Liquidación" />
+                    <field name="client_id" string="Cliente" />
+
+					<group string="Agrupar por...">
+						<filter string="Cliente" icon="terp-personal"
+							context="{'group_by': 'client_id'}" name="cliente"/>
+                        <filter string="Estado" icon="terp-personal"
+							context="{'group_by': 'state'}" name="state"/>
+					</group>
+                </search>
+            </field>
+        </record>
+
+        <!-- tree -->
+		<record id="m_liquidation_tree" model="ir.ui.view">
+			<field name="name">Liquidación</field>
+			<field name="model">m.liquidation</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+                    <field name="name" />
+					<field name="client_id" />
+					<field name="generate_date" />
+					<field name="total_liquidation" />
+					<field name="liquidation_date" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+    	<!-- form -->
+		<record id="m_liquidation_form" model="ir.ui.view">
+			<field name="name">Liquidación</field>
+			<field name="model">m.liquidation</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Liquidación">
+					<header>
+                        <!-- CONFIRMAR -->
+                        <button name="m_confirm" states="draft" string="Confirmar" class="oe_highlight" id="m_confirm"/>
+
+                        <!-- LIQUIDAR -->
+                        <button name="m_liquidation" states="confirm" string="Liquidar" class="oe_highlight" id="m_liquidation"/>
+
+                        <!-- CANCELAR -->
+                        <button name="m_cancel" states="draft,confirm" string="Cancelar" class="oe_highlight" id="m_cancel"
+                                confirm="¿Esta usted seguro que quiere cancelar la solicitud?"/>
+
+                        <!-- ENVIAR CORREO -->
+                        <button name="m_send_mail" type="object" states="confirm,liquidation" string="Enviar Correo" class="oe_highlight" id="m_send_mail"/>
+
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm,liquidation,paidout"/>
+                    </header>
+                    <sheet string="Liquidación">
+                         <div class="oe_title">
+                            <h1>
+                                <label string="Liquidación "/>
+                                <field name="name" class="oe_inline" readonly="1"/>
+                            </h1>
+                        </div>
+						<group col="4">
+							<group>
+                                <field name="client_id"/>
+                                <field name="email"/>
+                            </group>
+							<group>
+                                <field name="generate_date"/>
+                                <field name="liquidation_date"/>
+                            </group>
+						</group>
+                        <notebook>
+                            <page string="Ventas y Devoluciones">
+                                <group class="oe_subtotal_footer oe_right">
+                                    <button name="btn_reload" class="oe_highlight" states="draft" string="Actualizar" type="object" help="Actualizar Datos"/>
+                                </group>
+                                <div class="oe_grey">
+                                    Listado de ventas y devoluciones.
+                                </div>
+                                <field name="line_id" nolabel="1">
+                                    <tree string="Ventas y Devoluciones" create="false" editable="false">
+                                        <field name="invoice"/>
+                                        <field name="invoice_date" />
+                                        <field name="type"/>
+                                        <field name="customer_id" />
+                                        <field name="invoice_state" />
+                                        <field name="total" />
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="calc_min_max"/>
+                                        <field name="calc_rate"/>
+                                        <field name="calc_percent" lass="oe_subtotal_footer_separator"/>
+                                        <field name="calc_formule"/>
+                                    </group>
+                                    <group class="oe_subtotal_footer">
+                                        <field name="total_sale" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="total_dev" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="total_liquidation" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="total_payment" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                </group>
+
+                                <!--group class="oe_subtotal_footer oe_right">
+                                    <field name="total_sale"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_dev"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_liquidation" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="total_payment" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                                </group -->
+
+
+                                <div class="oe_clear">
+                                    <label for="comment"/>
+                                </div>
+                            </page>
+                            <page string="Factura" states="liquidation,paidout" >
+                                <div class="oe_grey">
+                                    Información de la factura generada al cliente y pagos realizados.
+                                </div>
+
+                                <group col="4">
+                                    <group>
+                                        <field name="invoice_id"/>
+                                        <field name="invoice_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="invoice_total"/>
+                                    </group>
+                                </group>
+
+                                <field name="payment_ids">
+                                    <tree string="Payments">
+                                        <field name="date"/>
+                                        <field name="move_id"/>
+                                        <field name="ref"/>
+                                        <field name="name"/>
+                                        <field name="journal_id" groups="base.group_user"/>
+                                        <field name="debit"/>
+                                        <field name="credit"/>
+                                        <field name="amount_currency" groups="base.group_multi_currency"/>
+                                        <field name="currency_id" groups="base.group_multi_currency"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+					</sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+			</field>
+		</record>
+
+    	<!-- action -->
+    	<record id="action_m_liquidation" model="ir.actions.act_window">
+			<field name="name">Liquidación</field>
+			<field name="res_model">m.liquidation</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+        <!-- menu -->
+        <menuitem id="m_liquidation_menu"
+                  name="Liquidación"
+                  parent="m_general"
+                  action="action_m_liquidation"/>
+
+    </data>
+</openerp>

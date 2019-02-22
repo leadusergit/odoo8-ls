@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="plantilla_rol"
+            model="hr.employee.plantilla"
+            string="Plantilla Contable"
+            report_type="qweb-pdf"
+            name="hr_employee_plantillac.report_plantilla" 
+            file="hr_employee_plantillac.report_plantilla"
+        />
+    </data>
+</openerp>

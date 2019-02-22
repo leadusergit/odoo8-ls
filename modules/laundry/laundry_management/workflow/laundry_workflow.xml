@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data noupdate="1">
+
+		<!-- Workflow definition -->
+
+		<record model="workflow" id="wkf_laundry">
+			<field name="name">wkf.laundry.management</field>
+			<field name="osv">laundry.management</field>
+			<field name="on_create">True</field>
+		</record>
+		<record model="workflow.activity" id="act_hsk_R">
+			<field name="wkf_id" ref="wkf_laundry" />
+			<field name="flow_start">True</field>
+			<field name="name">R</field>
+		</record>
+		<record model="workflow.activity" id="act_hsk_ENV">
+			<field name="wkf_id" ref="wkf_laundry" />
+			<field name="name">ENV</field>
+			<field name="kind">function</field>
+			<field name="action">laundry_enviado()</field>
+			<field name="split_mode">OR</field>
+		</record>
+		<record model="workflow.activity" id="act_hsk_cancel">
+			<field name="wkf_id" ref="wkf_laundry" />
+			<field name="name">C</field>
+			<field name="kind">function</field>
+			<field name="action">laundry_cancel()</field>
+		</record>
+		<record model="workflow.activity" id="act_hsk_ET">
+			<field name="wkf_id" ref="wkf_laundry" />
+			<field name="name">ET</field>
+			<field name="flow_stop">True</field>
+			<field name="kind">stopall</field>
+			<field name="action">laundry_entransito()</field>
+		</record>
+		<record model="workflow.activity" id="act_hsk_EP">
+			<field name="wkf_id" ref="wkf_laundry" />
+			<field name="name">EP</field>
+			<field name="kind">function</field>
+			<field name="action">laundry_enproceso()</field>
+			<field name="split_mode">OR</field>
+		</record>
+
+		<!-- Transition -->
+
+		<record model="workflow.transition" id="hsk1">
+			<field name="act_from" ref="act_hsk_recibido" />
+			<field name="act_to" ref="act_hsk_enviado" />
+			<field name="signal">ENV</field>
+		</record>
+		<record model="workflow.transition" id="hsk2">
+			<field name="act_from" ref="act_hsk_enviado" />
+			<field name="act_to" ref="act_hsk_enproceso" />
+			<field name="signal">EP</field>
+		</record>
+		<record model="workflow.transition" id="hsk3">
+			<field name="act_from" ref="act_hsk_enproceso" />
+			<field name="act_to" ref="act_hsk_entransito" />
+			<field name="signal">ET</field>
+		</record>
+		<record model="workflow.transition" id="hsk4">
+			<field name="act_from" ref="act_hsk_cancelado" />
+			<field name="act_to" ref="act_hsk_recibido" />
+			<field name="signal">settorecibido</field>
+		</record>
+		<record model="workflow.transition" id="hsk5">
+			<field name="act_from" ref="act_hsk_entransito" />
+			<field name="act_to" ref="act_hsk_listo" />
+			<field name="signal">L</field>
+		</record>
+		<record model="workflow.transition" id="hsk6">
+			<field name="act_from" ref="act_hsk_listo" />
+			<field name="act_to" ref="act_hsk_entregado" />
+			<field name="signal">E</field>
+		</record>
+		<record model="workflow.transition" id="hsk7">
+			<field name="act_from" ref="act_hsk_entregado" />
+			<field name="act_to" ref="act_hsk_cancelado" />
+			<field name="signal">C</field>
+		</record>
+	</data>
+</openerp>

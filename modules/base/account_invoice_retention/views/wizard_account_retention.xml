@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		#Form
+		<record id="view_account_retention" model="ir.ui.view">
+            <field name="name">wizard.account.retention</field>
+            <field name="model">wizard.account.retention</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import Entries">
+                    <group colspan="4" expand="1">
+                        <separator string="Payable and Receivables" colspan="4"/>
+                        <field height="300" width="700" name="line_ids" colspan="4" nolabel="1" domain="[('account_id.type','in',['receivable','payable']), ('reconcile_partial_id','=',False), ('state', '=', 'valid')]"/>
+                    </group>
+                    <group colspan="4" col="6">
+                        <label string ="" colspan="2"/>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button icon="gtk-execute" string="Ok" name="_get_move_line" type="object"/>
+                   </group>
+               </form>
+            </field>
+        </record>
+        
+		#Actions
+        <record id="action_view_account_retention" model="ir.actions.act_window">
+            <field name="name">Import Entries</field>
+            <field name="res_model">wizard.account.retention</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_retention"/>
+            <field name="target">new</field>
+            <field name="context">{'retention_id': active_id}</field>
+        </record>
+
+	</data>
+</openerp>

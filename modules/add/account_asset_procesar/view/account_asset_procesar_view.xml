@@ -1,0 +1,33 @@
+<openerp>
+    <data>
+
+        <record id="asset_asset_confirm_view" model="ir.ui.view">
+            <field name="name">asset.asset.confirm.form</field>
+            <field name="model">asset.asset.confirm</field>
+            <field name="arch" type="xml">
+                <form string="Confirm">
+                    <p class="oe_grey">
+                        Se cambia al estado de los activos seleccionados
+                    </p>
+                    <footer>
+                        <button string="Confirmar" name="confirm_asset" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cambiar a Borrador" name="draft_asset" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cerrar" name="close_asset" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_asset_asset_confirm"
+            multi="True"
+            key2="client_action_multi" name="Procesar Activo"
+            res_model="asset.asset.confirm" src_model="account.asset.asset"
+            view_mode="form" target="new" view_type="form" />
+   
+    </data>
+</openerp>
+

@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="0.0" y1="57.0" width="567" height="757"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+  
+    <blockTableStyle id="Cheque">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+     <blockTableStyle id="FechaCheque">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="MIDDLE"/>
+    </blockTableStyle>
+  
+    <blockTableStyle id="Encabezado">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Header">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="5,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="5,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Lineas">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="H1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,0"/>
+    </blockTableStyle>
+    
+   <blockTableStyle id="Pie">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,0" stop="4,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,0" stop="6,0"/>
+    </blockTableStyle>
+    
+    
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    
+    <!-- Encabezado -->
+    <paraStyle name="P1" fontName="Helvetica" fontSize="9" leading="10" alignment="LEFT"/>
+    <paraStyle name="P3C" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P3L" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="P3R" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    
+    <!-- Lineas-->
+    <paraStyle name="P20" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P21" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P22" fontName="Helvetica-Bold" fontSize="9" leading="10" alignment="LEFT"/>
+    
+    <!--Titulo-->
+    <paraStyle name="P4" fontName="Helvetica-Bold" fontSize="9" leading="14" alignment="CENTER"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER"/>
+    
+    <paraStyle name="P6" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT"/>
+    <paraStyle name="P8" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+    <paraStyle name="P9" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+
+    <!--Formato de Cheque-->
+    <paraStyle name="P2" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P11" fontName="Helvetica-Bold" fontSize="10.0" leading="20"/>
+    <paraStyle name="P11A" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT"/>
+    <paraStyle name="P12" fontName="Helvetica" fontSize="6.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="PA" fontName="Helvetica-Bold" fontSize="9.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="PA1" fontName="Helvetica-Bold" fontSize="10.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="P13A" fontName="Helvetica" fontSize="2.0" leading="8" alignment="LEFT"/>
+
+    <paraStyle name="P15" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P16" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P17" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="P18" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P19" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    
+    <paraStyle name="P24" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P25" fontName="Helvetica" fontSize="9" leading="10" alignment="LEFT"/>
+    
+    <images/>
+  </stylesheet>
+  <story>
+    <para style="P1">[[repeatIn(objects, 'o')]] <font face="Times-Roman" size="6.0">[[ cambiar_estado(o.id,time.strftime("%Y-%m-%d")) ]]</font></para>
+    <blockTable colWidths="90,280.0,65.0,170" style="Cheque">
+      <tr>
+        <td><para style="P13A"><font color="white"> </font></para></td>
+      	<td><para style="PA">[[ o.name ]]</para></td>
+        <td><para style="PA1">*[[ formato(o.amount) ]]*</para></td>
+        <td><para style="P13A"><font color="white"> </font></para></td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="25,524.0" rowHeights="42" style="Cheque">
+      <tr>
+        <td>
+          <para style="P2"><font color="white"> </font></para>
+        </td>
+        <td>
+          <para style="P11">[[ obt_texto(o.amount) ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="552.0" style="FechaCheque">
+      <tr>
+        <td>
+          <para style="P11">QUITO,  [[ time.strftime("%Y / %m / %d") ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    
+    <nextPage/>
+
+    <section>
+      <para style="P4">[[ get_company()[0] ]] [[ time.strftime('%Y') ]]</para>
+      <para style="P5">Dirección: [[ get_company()[1] ]]</para>
+      <para style="P5">RUC: [[ get_company()[2] ]]</para>
+      <para style="P4">CAJA/BANCOS</para>
+      <para style="P4">Comprobante de Egreso: [[ o.num_exit_voucher]]</para>
+      
+      <blockTable colWidths="30,350,230" style="Encabezado">
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">[[ get_date_invoice(o) ]]</font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Fecha Impresion: [[time.strftime('%d de %B del %Y', time.strptime(o.payment_date, '%Y-%m-%d'))]] Hora:  [[ time.strftime('%H:%M:%S') ]]</font> </para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Fecha Generacion: Quito, [[time.strftime('%d de %B del %Y', time.strptime(o.generation_date, '%Y-%m-%d'))]]</font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Asiento: [[ o.move ]]</font> </para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Cliente / Proveedor: [[ o.partner_id and o.partner_id.name or o.name ]]</font> </para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">RUC: [[ o.ruc ]]</font></para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Banco: [[ str(o.bank).upper() ]]</font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Monto: [[ o.amount_cheque ]]</font></para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Cuenta Bancaria: [[o.acc_num ]]</font> </para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Cheque Número: [[o.num_cheque or '']]</font> </para></td>
+        </tr>
+      </blockTable>
+      <spacer length='5.00'/>
+      <blockTable colWidths="84.0,150.0,170.0,50.0,50.0,50.0" style="Header">
+        <tr>
+          <td><para style="P3L">CODIGO</para></td>
+          <td><para style="P3L">CUENTA</para></td>
+          <td><para style="P3L">PROVEEDORES</para></td>
+          <td><para style="P3L">FACTURA</para></td>
+          <td><para style="P3L">DEBITOS</para></td>
+          <td><para style="P3L">CREDITOS</para>
+          </td>
+        </tr>
+      </blockTable>
+      <blockTable colWidths="84.0,150.0,170.0,50.0,50.0,50.0" style="Lineas">
+        <tr>
+          <td> <para style="P22">[[ repeatIn(debit(o.cheque_det_ids),'d') ]] [[ d['code'] ]]</para></td>
+          <td><para style="P22">[[ d['account'] ]]</para></td>
+          <td><para style="P22">[[ d['proveedor'] ]]</para></td>
+          <td><para style="P20">[[ d['factura'] ]]</para></td>
+          <td><para style="P21">[[ formato(d['debit']) ]]</para></td>
+          <td><para style="P21">0.00</para></td>
+        </tr>
+      </blockTable>
+       <blockTable colWidths="84.0,150.0,170.0,50.0,50.0,50.0" style="Lineas">
+        <tr>
+         <td> <para style="P22">[[ repeatIn(credit(o.cheque_det_ids),'c') ]] [[ c['code'] ]]</para></td>
+          <td><para style="P22">[[ c['account'] ]]</para></td>
+          <td><para style="P22">[[ c['proveedor'] ]]</para></td>
+          <td><para style="P20">[[ c['factura'] ]]</para></td>
+          <td><para style="P21">0.00</para></td>
+          <td><para style="P21">[[ formato(c['credit']) ]]</para></td>
+        </tr>
+      </blockTable>
+      <spacer length='3.00'/>
+      <blockTable colWidths="450,50.0,50.0" style="Header">
+        <tr>
+          <td><para style="P16">TOTALES: </para></td>
+          <td><para style="P16">[[ formato(total()[0]) ]]</para></td>
+          <td><para style="P16">[[ formato(total()[1]) ]]</para></td>
+        </tr>
+      </blockTable>
+      <spacer length='3.00'/>
+      <blockTable colWidths="550" style="H1">
+        <tr>
+          <td>
+            <para style="P25"><font face="Helvetica-Bold">OBSERVACIONES: </font>[[ o.observation ]]</para>
+          </td>
+        </tr>
+      </blockTable>
+      
+      <spacer length='10'/>
+      <blockTable colWidths="120,10,100.0,10,100,10,150" style="Pie">
+        <tr>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15">[[usuario()]]</para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15">[[ o.name ]]</para></td>
+        </tr>
+        <tr>
+          <td><para style="P15">Aprobado</para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15">Contador</para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15">Digitado</para></td>
+          <td><para style="P15"><font color="white"></font></para></td>
+          <td><para style="P15">Recibí Conforme</para></td>
+        </tr>
+      </blockTable>
+     </section> 
+  </story>
+</document>

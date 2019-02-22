@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!--
+	==========================
+	Company
+	==========================
+-->
+
+	 <record model="ir.ui.view" id="view_company_base30_form">
+			<field name="name">res.company.base30.form</field>
+			<field name="model">res.company</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="base.view_company_form"/>
+			<field name="arch" type="xml">
+				<field name="parent_id" position="after">
+					<field name="pagos_base_30_dias"/>
+				</field>
+			</field>
+		</record>
+		
+		<!--
+	==========================
+	Employee Category Modified
+	==========================
+-->
+
+		<record model="ir.ui.view" id="view_employee_cat_form">
+			<field name="name">hr.employee.category.form</field>
+			<field name="model">hr.employee.category</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_category_form"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="code"/>
+					<field name="level_id"/>
+				</field>
+			</field>
+		</record>
+
+		<!--
+	==============
+	Empleados
+	==============
+-->	
+		<record model="ir.ui.view" id="view_employee_tree_inhe">
+			<field name="name">hr.view.employee.tree.inhe</field>
+			<field name="model">hr.employee</field>
+			<field name="type">tree</field>
+			<field name="inherit_id" ref="hr.view_employee_tree"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="birthday" select="1"/>
+					<field name='fecha_inic' select="1"/>
+					<field name='fecha_sali' select="1"/>
+					<field name='fnt_tipo_contrato' select="1"/>
+					<field name='fnt_num_cuenta' select="1"/>
+					<field name='fnt_tipo_cuenta' select="1"/>
+					<field name='fnt_nombre_banco' select="1"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_employee_form">
+			<field name="name">hr.employee.form</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<group string="Contact Information" position="inside">
+					<field name="discapacidad_s" attrs="{'invisible':[('discapacidad','=', False)]}"/>
+					<field name="tipo_discapacidad" attrs="{'invisible':[('discapacidad','=', False)], 'required':[('discapacidad','!=',False)]}"/>
+					<field name="porciento_discapacidad" attrs="{'invisible':[('discapacidad','=', False)], 'required':[('discapacidad','!=',False)]}"/>
+					<field name="carnet_conadis" attrs="{'invisible':[('discapacidad','=', False)], 'required':[('discapacidad','!=',False)]}"/>
+					<field name="tipo_sustituto" attrs="{'invisible':[('discapacidad_s','!=', 'surrogate')], 'required':[('discapacidad_s','=', 'surrogate')]}"/>
+					<field name="indent_sustituto" attrs="{'invisible':[('discapacidad_s','!=', 'surrogate')], 'required':[('discapacidad_s','=', 'surrogate')]}"/>
+				</group>				
+			</field>
+		</record>
+
+		
+		<record id="view_hr_employee_bank_form" model="ir.ui.view">
+			<field name="name">hr.employee.bank.form</field>
+			<field name="model">hr.employee.bank</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Cta. Bancaria">
+					<field name="name" select="1"/>
+					<field name="type" select="1" required="1"/>
+					<field name="res_bank_id" required="1" select="1"/>
+				</form>
+			</field>
+		</record>
+		
+		<!--
+	===============================
+	Cuentas bancarias de empleados
+	===============================
+-->
+		<record id="view_hr_employee_bank_tree" model="ir.ui.view">
+			<field name="name">hr.employee.bank.form</field>
+			<field name="model">hr.employee.bank</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Cta. Bancaria">
+					<field name="name" select="1"/>
+					<field name="type" select="1" required="1"/>
+					<field name="res_bank_id" required="1" select="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<!--
+	==========
+	Levels
+	==========
+-->
+		<record model="ir.ui.view" id="hr_level_tree_view">
+			<field name="name">hr.level.tree</field>
+			<field name="model">hr.level</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Niveles">
+					<field name="name"/>
+					<field name="description"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="hr_level_form_view">
+			<field name="name">hr.level.form</field>
+			<field name="model">hr.level</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Nivel">
+					<field name="name" required="1"/>
+					<separator colspan="4" string="Descripcion"/>
+					<field name="description" colspan="4" nolabel="1"/>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_level_tree_view">
+			<field name="name">Niveles</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.level</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="hr_level_tree_view"/>
+		</record>
+
+		
+		<!--
+	=====================
+	tabla de porcentajes de beneficios para discapacitados
+	=====================
+-->
+		#datos iniciales
+		<record id="hr_employee_disability_01" model="hr.employee.disability">
+            <field name="min_value">40</field>
+            <field name="max_value">49</field>
+			<field name="benefit">60</field>
+        </record>
+		<record id="hr_employee_disability_02" model="hr.employee.disability">
+            <field name="min_value">50</field>
+            <field name="max_value">74</field>
+			<field name="benefit">70</field>
+        </record>
+		<record id="hr_employee_disability_03" model="hr.employee.disability">
+            <field name="min_value">75</field>
+            <field name="max_value">84</field>
+			<field name="benefit">80</field>
+        </record>
+		<record id="hr_employee_disability_04" model="hr.employee.disability">
+            <field name="min_value">85</field>
+            <field name="max_value">100</field>
+			<field name="benefit">100</field>
+        </record>
+
+		<record model="ir.ui.view" id="hr_employee_disability_tree_view">
+			<field name="name">hr.employee.disability.tree</field>
+			<field name="model">hr.employee.disability</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Porcentaje de beneficio por discapacidad">
+					<field name="min_value"/>
+					<field name="max_value"/>
+					<field name="benefit"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="hr_employee_disability_form_view">
+			<field name="name">hr.employee.disability.form</field>
+			<field name="model">hr.employee.disability</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Porcentaje de beneficio por discapacidad">
+					<sheet>
+						<group colspan="4" col="6" string="Porcentaje de beneficio por discapacidad">
+							<field name="min_value"/>
+							<field name="max_value"/>
+							<field name="benefit"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_employee_disability_tree_view">
+			<field name="name">Porcentaje de beneficio por discapacidad</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.employee.disability</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="hr_employee_disability_tree_view"/>
+		</record>
+
+	</data>
+</openerp>

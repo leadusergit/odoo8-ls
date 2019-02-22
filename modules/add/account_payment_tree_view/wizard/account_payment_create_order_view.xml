@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    	 
+    	 <record id="view_tree_create_payment_order_lines" model="ir.ui.view">
+         <field name="name">payment.tree.order.create</field>
+         <field name="model">payment.order.create</field>
+         <field name="inherit_id" ref="account_payment.view_create_payment_order"/>
+		 <field name="arch" type="xml">
+		 <form>
+			<xpath expr="//field[@name='duedate']" position="after">
+				<group>
+					 <field name="entries" widget="many2many_tag"
+					 	domain="[('date_created', '=', duedate),('account_id.type', '=', 'payable'), ('credit', '>', 0), ('account_id.reconcile', '=', True)]"/>
+					  
+					 <!--domain="[('date_maturity', '=', duedate),('reconcile_id', '=', False), ('account_id.type', '=', 'payable'), ('credit', '>', 0), ('account_id.reconcile', '=', True)]"/>  -->
+				 </group>
+			</xpath>
+            <xpath expr="//button[@name='search_entries']" position="replace">
+                    <button name="create_payment" string="_Add to payment order" type="object" class="oe_highlight"/>
+            </xpath>
+		</form>
+		</field>
+        </record>
+       	
+    	
+    	<!--
+    	<record id="view_tree_create_payment_order_lines" model="ir.ui.view">
+        <field name="name">payment.tree.order.create</field>
+        <field name="model">payment.order.create</field>
+        <field name="inherit_id" ref="account_payment.view_create_payment_order_lines"/>
+		<field name="arch" type="xml">
+		<form>
+			<xpath expr="//field[@name='Search Payment lines']" position="replace">
+			<group>
+				<field name="entries" widget="many2many_tag">
+    				<tree>
+        				<field name="ref"/>
+        				<field name="no_comp"/>
+        				<field name="partner_id"/>
+    				</tree>
+			</field>
+			</group>
+			</xpath>
+		</form>
+		</field>
+        </record>
+    	   
+         <record id="view_tree_create_payment_order_lines" model="ir.ui.view">
+         <field name="name">payment.tree.order.create</field>
+         <field name="model">payment.order.create</field>
+         <field name="inherit_id" ref="account_payment.view_create_payment_order_lines"/>
+		 <field name="arch" type="xml">
+			<form>
+				<xpath expr="//field[@name='entries']" position="replace">
+				  <group>
+					 <field name="entries" widget="many2many_tag"/>
+				  </group>
+				</xpath>
+			</form>
+		</field>
+        </record>-->
+
+    </data>
+</openerp>

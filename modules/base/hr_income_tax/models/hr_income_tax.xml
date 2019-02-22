@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ============
+    Anio Fiscal
+    ============
+-->
+		<record model="ir.ui.view" id="view_hr_fiscalyear_form">
+			<field name="name">hr.fiscalyear.form</field>
+			<field name="model">hr.fiscalyear</field>
+			<field name="inherit_id" ref="hr_ec.view_account_fiscalyear_form"/>
+			<field name="arch" type="xml">
+				<field name="period_ids" position="replace"/>
+				<separator string="Periodos" position="replace">
+					<notebook colspan="4">
+						<page string="Periodos">
+							<field colspan="4" name="period_ids" nolabel="1" widget="one2many_list">
+			                    <form string="Periodo">
+			                        <field name="name" select="1"/>
+			                        <field name="date_start"/>
+			                        <field name="date_stop"/>
+			                    </form>
+			                </field>
+						</page>
+						<page string="Impuesto a la renta">
+							<group col="4">
+								<group string="Máximos">
+									<field name="max_percentage"/>
+									<field name="basic_amount"/>
+									<label for="total_max"/>
+									<div>
+										<field name="total_max" class="oe_inline"/> veces = 
+										<field name="total_max_amount" class="oe_inline"/>
+									</div>
+								</group>
+								<group string="Máximos deducibles">
+									<label for="housing_max"/>
+									<div>
+										<field name="housing_max" class="oe_inline"/> veces = 
+										<field name="housing_max_amount" class="oe_inline"/>
+									</div>
+									<label for="education_max"/>
+									<div>
+										<field name="education_max" class="oe_inline"/> veces = 
+										<field name="education_max_amount" class="oe_inline"/>
+									</div>
+									<label for="food_max"/>
+									<div>
+										<field name="food_max" class="oe_inline"/> veces = 
+										<field name="food_max_amount" class="oe_inline"/>
+									</div>
+									<label for="clothing_max"/>
+									<div>
+										<field name="clothing_max" class="oe_inline"/> veces = 
+										<field name="clothing_max_amount" class="oe_inline"/>
+									</div>
+									<label for="health_max"/>
+									<div>
+										<field name="health_max" class="oe_inline"/> veces = 
+										<field name="health_max_amount" class="oe_inline"/>
+									</div>
+								</group>
+							</group>
+							<field name="income_tax_table">
+			                    <tree editable="buttom">
+			                        <field name="base"/>
+			                        <field name="excess"/>
+			                        <field name="base_tax"/>
+			                        <field name="excess_tax"/>
+			                    </tree>
+			                </field>
+						</page>
+					</notebook>
+				</separator>
+			</field>
+		</record>
+		
+		<!--
+	==================
+	Gastos Personales
+	==================
+-->
+		<record model="ir.ui.view" id="hr_employee_personal_expenses_search">
+			<field name="name">hr.employee.personal.expenses.search</field>
+			<field name="model">hr.employee.personal.expenses</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="employee_id"/>
+					<field name="fiscalyear_id"/>
+					<field name="incomes_amount"/>
+					<field name="state"/>
+					<filter name="my_declaration" string="Mis declaraciones" domain="[('employee_id.user_id','=',uid)]"/>
+				</search>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="hr_employee_personal_expenses_tree">
+			<field name="name">hr.employee.personal.expenses.tree</field>
+			<field name="model">hr.employee.personal.expenses</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="employee_id"/>
+					<field name="fiscalyear_id"/>
+					<field name="incomes_amount"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="hr_employee_personal_expenses_form">
+			<field name="name">hr.employee.personal.expenses.form</field>
+			<field name="model">hr.employee.personal.expenses</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button type="object" name="validate" string="Validar"
+							class="oe_highlight" states="draft" confirm="¿Está seguro de que los datos registrados han sido los correctos?"/>
+						<button type="object" name="return_draft" string="Modificar" states="validated"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<group>
+								<field name="employee_id" class="oe_inline"/>
+								<field name="contract_id" class="oe_inline" domain="[('employee_id','=',employee_id)]"/>
+								<field name="fiscalyear_id"/>
+							</group>
+						</div>
+						<group>
+							<!-- group string="Ingresos" class="oe_subtotal_footer">
+								<field name="wage"/>
+								<field name="other_incomes"/>
+								<field name="incomes_amount" class="oe_subtotal_footer_separator"/>
+							</group -->
+							<group string="Gastos" class="oe_subtotal_footer">
+								<div><h4>
+									<label for="housing" class="oe_inline"/>
+									(Max. <field name="max_housing" class="oe_inline"/>):
+								</h4></div>
+								<field name="housing" nolabel="1"/>
+								<div><h4>
+									<label for="education" class="oe_inline"/>
+									(Max. <field name="max_education" class="oe_inline"/>):
+								</h4></div>
+								<field name="education" nolabel="1"/>
+								<div style="width: 200px"><h4>
+									<label for="food" class="oe_inline"/>
+									(Max. <field name="max_food" class="oe_inline"/>):
+								</h4></div>
+								<field name="food" nolabel="1"/>
+								<div><h4>
+									<label for="clothing" class="oe_inline"/>
+									(Max. <field name="max_clothing" class="oe_inline"/>):
+								</h4></div>
+								<field name="clothing" nolabel="1"/>
+								<div><h4>
+									<label for="health" class="oe_inline"/>
+									(Max. <field name="max_health" class="oe_inline"/>):
+								</h4></div>
+								<field name="health" nolabel="1"/>
+								<field name="expenses_amount" class="oe_subtotal_footer_separator"/>
+							</group>
+							<group string="Información">
+								<field name="tax_id" invisible="1"/>
+								<field name="incomes_amount"/>
+								<field name="max_expenses"/>
+								<field name="base_amount"/>
+								<field name="table_base_amount"/>
+								<field name="table_base_tax"/>
+								<field name="excess_amount"/>
+								<field name="excess_tax"/>
+								<field name="tax_amount"/>
+								<field name="collected_amount"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="hr_employee_personal_act_window">
+			<field name="name">Gastos personales</field>
+			<field name="res_model">hr.employee.personal.expenses</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'search_default_my_declaration': True}</field>
+		</record>
+		
+		<menuitem id="hr_employee_personal_expenses_menu" name="Gastos personales" parent="hr.menu_hr_main" action="hr_employee_personal_act_window"/>
+		
+		<!--
+	================
+	Tipo de Egresos
+	================
+-->
+		<record model="ir.ui.view" id="hr_expense_type_form_view">
+			<field name="name">hr.expense.type.form</field>
+			<field name="model">hr.expense.type</field>
+			<field name="inherit_id" ref="hr_nomina.hr_expense_type_form_view"/>
+			<field name="arch" type="xml">
+				<field name="code" position="after">
+					<field name="impuesto_renta"/>
+				</field>
+			</field>
+		</record>
+
+    </data>
+</openerp>

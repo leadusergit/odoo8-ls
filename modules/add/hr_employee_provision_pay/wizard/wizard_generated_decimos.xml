@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+		<!-- wizard genera voucher decimos opcion generar Registro pago decimos en payslip//mas wizard employees -->
+         
+        <record id="hr_payments_decimos_desde_employee_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payments.decimos.desde.employee.wizard.form</field>
+            <field name="model">hr.payments.decimos.desde.employee.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Employees">
+                	"Este wizard genera el voucher de pago para los empleados seleccionados
+                   	a los que se les adeudan los decimos."
+                	<group colspan="4" col="2">
+                		<field name="date"/> 
+						<field name="journal_id"/>
+						<field name="ref"/>
+						<field name="pago_dc" attrs="{'invisible': [('pago_dt','=',True)]}"/>
+						<field name="pago_dt" attrs="{'invisible': [('pago_dc','=',True)]}"/>                      		                    			
+						<field name="employee_ids" nolabel="1" colspan="2" widget="many2many_tags"/>	                    		                      		
+					</group>                  
+                	<footer>
+                        <button icon="gtk-execute" string="Generate" name="compute_decimos" type="object" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+
+               </form>
+            </field>
+        </record>
+		
+		<act_window id="action_hr_payments_decimos_desde_employee_wizard"
+            multi="True"
+            key2="client_action_multi" name="Generar Registro Pago Decimos"
+            res_model="hr.payments.decimos.desde.employee.wizard" src_model="hr.employee"
+            view_mode="form" target="new" view_type="form"/>
+	</data>
+</openerp>

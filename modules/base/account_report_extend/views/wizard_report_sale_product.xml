@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		#Reporte de Productos por Vendedor
+		<record id="wizard_sale_product" model="ir.ui.view">
+			<field name="name">wizard.report.sale.product</field>
+			<field name="model">wizard.report.sale.product</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form col="4" string="Reporte de Productos por Vendedor.">
+					<!-- Form 1 -->
+					<separator colspan="4" string="Reporte de Productos por Vendedor" />
+					<field name="date_start" />
+					<field name="date_finish" />
+					<field name="product_id" />
+					<field name="user_id" />
+					<!-- Buttons -->
+					<separator colspan="4" />
+					<group col="2" colspan="4">
+						<button icon="gtk-ok" name="check_report" string="Generar" type="object" />
+						<button icon="gtk-close" name="act_destroy" special="cancel" string="Salir" type="object" />
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<!-- Actions -->
+		<record id="action_wizard_sale_product" model="ir.actions.act_window">
+			<field name="name">Reporte de Productos por Vendedor</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.sale.product</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_sale_product"/>
+			<field name="target">new</field>
+		</record>
+		
+		<!-- Menu -->
+		<menuitem action="action_wizard_sale_product" 
+		id="menu_wizard_sale_product" icon="STOCK_PRINT"
+		parent="menu_reporte_sale" />
+	
+	</data>
+</openerp>

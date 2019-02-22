@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+         <record id="view_employee_family_ec_cab_form333" model="ir.ui.view">
+            <field name="name">view.employee.family.ec.cab.form333</field>
+            <field name="model">hr.family.item</field>
+            <field name="type">form</field>
+            <!-- field eval="16" name="priority"/-->
+			<field name="arch" type="xml">
+                <form string="Cargas">
+					<field name="fnt_cedula_empleado" />
+					<field name="fnt_nombre_empleado" select="1"/>
+                    <field name="name" />
+                    <field name="fnt_direccion_empleado" />
+                    <field name="birth" />
+                    <field name="parentezco" />
+                    <field name='phone'/>
+                    <field name='address'/>
+                </form>
+
+            </field>
+        </record>
+		<record id="view_employee_family_ec_cab_tree111" model="ir.ui.view">
+            <field name="name">view.employee.family.ec.cab.form.tree111</field>
+            <field name="model">hr.family.item</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree >
+                	<!-- field name="fnt_depart_empleado" /-->
+                	<field name="fnt_cedula_empleado" />
+                	<field name="fnt_nombre_empleado"/>
+                	<field name="name" />
+                	<field name="fnt_direccion_empleado" />
+                	<field name="birth" />
+                	<field name="parentezco"/>
+                </tree>
+            </field>
+        </record>     
+            
+	</data>
+</openerp>

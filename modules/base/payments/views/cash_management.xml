@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ================
+    Cash Management
+    ================
+-->
+		<record id="payment_cash_management_tree_view" model="ir.ui.view">
+			<field name="name">payment.cash.management.tree</field>
+			<field name="model">payment.cash.management</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="journal_id"/>
+					<field name="date"/>
+					<field name="bank_account_id"/>
+					<field name="amount"/>
+					<field name="transfers"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+	
+		<record id="payment_cash_management_form_view" model="ir.ui.view">
+			<field name="name">payment.cash.management.form</field>
+			<field name="model">payment.cash.management</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button type="object" name="validar" string="Validar" class="oe_highlight" states="draft"/>
+						<button type="object" name="generar_cash_produbanco" string="Cash Produbanco" states="done" class="oe_highlight"/>
+						<button type="object" name="generar_cash_proamerica" string="Cash Proamerica" states="done" class="oe_highlight"/>
+						<button type="object" name="generar_cash_guayaquil" string="Cash Guayaquil" states="done" class="oe_highlight"/>
+						<button type="object" name="borrador" string="Borrador" states="done"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<div>
+							<label for="name" class="oe_edit_only"/>
+							<h1><field name="name"/></h1>
+							<label for="journal_id" class="oe_edit_only"/>
+							<h4><field name="journal_id"/></h4>
+							<label for="bank_account_id" class="oe_edit_only"/>
+							<h4><field name="bank_account_id"/></h4>
+						</div>
+						<separator/>
+						<group string="Detalles">
+							<field name="date"/>
+							<field name="amount"/>
+						</group>
+						<field name="transfers" context="{'default_date_generation':date,'default_bank_account_dest_id':bank_account_id}">
+							<tree editable="buttom">
+								<field name="partner_id" on_change="onchange_parnter_id(partner_id)"/>
+								<field name="name"/>
+								<field name="ident_type" required="1"/>
+								<field name="ident_num" required="1"/>
+								<field name="move" on_change="onchange_move(move)"
+									domain="[('tipo_comprobante','=','Egreso'),('journal_id','=',parent.journal_id)]"/>
+								<field name="amount" sum="Total"/>
+								<field name="date_generation" invisible="1"/>
+								<field name="bank_account_dest_id"/>
+								<field name="bank_account_id" required="1"/>
+								<field name="email"/>
+								<field name="num_exit_voucher" attrs="{'invisible':[('state','!=','done')]}"/>
+								<field name="date_payment" attrs="{'invisible':[('state','!=','done')]}"/>
+								<field name="state"/>
+							</tree>
+						</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	
+		<!--record id="payment_cash_management_search_view" model="ir.ui.view">
+			<field name="name">payment.cash.management.search</field>
+			<field name="model">payment.cash.management</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" string="Name" filter_domain="[()]"/>
+					<separator/>
+					<filter string="Open" name="open" domain="[('state','!=','cancel')]"
+						help="Open"/>
+	
+					<group expand="0" string="Agrupar por">
+						<filter string="Diario" context="{'group_by':'journal_id'}"/>
+					</group>
+				</search>
+			</field>
+		</record-->
+	
+		<record model="ir.actions.act_window" id="action_payment_cash_management_view">
+			<field name="name">Cash management</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">payment.cash.management</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<!--field name="search_view_id" ref="view_payment_cash_management_search"/-->
+			<!-- <field name="domain">[('field_name','condition',criteria)]</field> -->
+		</record>
+    
+    </data>
+</openerp>

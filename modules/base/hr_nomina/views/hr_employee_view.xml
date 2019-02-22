@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+	==========================
+	Employee Category Modified
+	==========================
+-->
+
+		<record model="ir.ui.view" id="view_employee_cat_form">
+			<field name="name">hr.employee.category.form</field>
+			<field name="model">hr.employee.category</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_category_form"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="code"/>
+					<field name="level_id"/>
+				</field>
+			</field>
+		</record>
+
+		<!--
+	==============
+	Empleados
+	==============
+-->
+		<record model="ir.ui.view" id="view_employee_filter">
+			<field name="name">hr.employee.search.view</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_filter"/>
+			<field name="arch" type="xml">
+				<field name="category_ids" position="after">
+					<field name="fecha_inic"/>
+					<field name="fecha_sali"/>
+				</field>
+				<group position="before">
+					<filter string="Este año" domain="[('fecha_inic','&gt;=',time.strftime('%%Y-01-01'))]"/>
+					<filter string="Este mes" domain="[('fecha_inic','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+				</group>
+				<group position="inside">
+					<filter string="Año de ingreso" context="{'group_by':'fecha_inic:year'}"/>
+					<filter string="Mes de ingreso" context="{'group_by':'fecha_inic:month'}"/>
+				</group>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_employee_tree_inhe">
+			<field name="name">hr.view.employee.tree.inhe</field>
+			<field name="model">hr.employee</field>
+			<field name="type">tree</field>
+			<field name="inherit_id" ref="hr.view_employee_tree"/>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="birthday" select="1"/>
+					<field name='fecha_inic' select="1"/>
+					<field name='fecha_sali' select="1"/>
+					<field name='fnt_tipo_contrato' select="1"/>
+					<field name='fnt_num_cuenta' select="1"/>
+					<field name='fnt_tipo_cuenta' select="1"/>
+					<field name='fnt_nombre_banco' select="1"/>
+				</field>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_employee_form">
+			<field name="name">hr.employee.form</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<group string="Contact Information" position="inside">
+					<field name="tiposangre"/>
+					<field name="discapacidad"/>
+				</group>
+				<field name="bank_account_id" position="replace"/>
+				<group string="Citizenship &amp; Other Info" position="inside">
+					<field name="modo_pago" select="1"/>
+					<field name="bank_account_id" string="Cta. Bancaria" attrs="{'required':[('modo_pago','=','transferencia')]}"/>
+				</group>
+				
+				<!--field name="active" position="replace">
+					<field name='state_emp' select="1"/>
+				</field-->
+
+				<!--field name="coach_id" position="attributes">
+					<attribute name="string">Director</attribute>
+				</field-->
+
+				<field name="job_id" position="attributes">
+					<attribute name="string">Puesto</attribute>
+				</field>
+
+				<field name="job_id" position="before">
+					<field name="department_id"/>
+				</field>
+
+				<field name="identification_id" position="before">
+					<field name="tipoid" required="1" colspan="1"/>
+				</field>
+				<field name="identification_id" position="replace">
+					<field name="identification_id" colspan="1"
+						attrs="{'invisible':[('tipoid','not in',['c'])], 'required': [('tipoid', 'in', ['c'])]}"/>
+				</field>
+				<field name="passport_id" position="replace">
+					<field name="passport_id" colspan="1"
+						attrs="{'invisible':[('tipoid','not in',['p'])], 'required': [('tipoid', 'in', ['p'])]}"/>
+				</field>
+				<group string="Active" position="inside">
+					<field name="maintain_reserve_funds" string="Acumula fondos de reserva"/>
+					<field name="pago_provisiones"/>
+				</group>
+
+				<field name="work_location" position="replace"/>
+				<notebook position="inside">
+					<page string="Informacion Familiar">
+						<field colspan="4" name="cargas_ids" nolabel="1"
+							context="{'default_fnt_nombre_empleado':name,'default_fnt_direccion_empleado':address,'default_fnt_cedula_empleado':identification_id}">
+							<tree string="Carga Familiar">
+								<field name="name"/>
+								<field name="birth"/>
+								<field name="age"/>
+								<field name="parentezco"/>
+							</tree>
+						</field>
+					</page>
+					<page string="Historial Novedades">
+						<field colspan="4" name="departments_ids" nolabel="1" mode="tree">
+							<tree string="Historial de Departamentos">
+								<field name="date"/>
+								<field name="tipo_novedad"/>
+								<field name="tipo_contrato"/>
+								<field name="valor_anterior"/>
+								<field name="valor_nuevo"/>
+								<field name="sueldo"/>
+							</tree>
+						</field>
+					</page>
+					<page string="Ingresos">
+						<field name="incomes_ids" colspan="4" nolabel="1" mode="tree">
+							<tree string="Ingresos Básicos">
+								<field name="payroll_label"/>
+								<field name="code"/>
+								<field name="aporte_iess"/>
+								<field name="impuesto_renta"/>
+								<field name="default_value"/>
+							</tree>
+						</field>
+					</page>
+				</notebook>
+
+				<field name="work_phone" position="replace"/>
+
+				<field name="company_id" position="replace">
+					<field name="company_id" readonly="1"/>
+				</field>
+
+				<field name="department_id" position="replace"/>
+
+				<field name="address_home_id" position="replace">
+					<label for="address_home_id" string="Empresa"/>
+					<div>
+					<field name="address_home_id" invisible="0"/>
+					</div>
+					<label for="address" string="Domicilio"/>
+					<div>
+						<field name='address' placeholder='Calle principal' class="oe_inline"/>
+						<field name='address_numero' placeholder="N23-93" class="oe_inline"/> y 
+						<field name='addres_calle2' placeholder='Calle secundaria' class="oe_inline"/>
+					</div>
+					<label for="nationality_id" string="Localización"/>
+					<div>
+						<field name='nationality_id' placeholder="País" class="oe_inline"/> - 
+						<field name='state_id' placeholder="Provincia" class="oe_inline"/> - 
+						<field name='canton' placeholder="Cantón" class="oe_inline"/> - 
+						<field name='parroquia' placeholder="Parroquia" class="oe_inline"/> - 
+						<field name='barrio' placeholder="Barrio" class="oe_inline"/>
+					</div>
+					<label for="telefono1" string="Contactos"/>
+					<div>
+						<field name='telefono1' placeholder="Teléfono 1" class="oe_inline"/> - 
+						<field name='telefono2' placeholder="Teléfono 2" class="oe_inline"/> - 
+						<field name='celular' placeholder="Celular" class="oe_inline"/>
+					</div>
+				</field>
+
+				<field name="address_id" position="replace"/>
+
+				<field name="country_id" position="replace"/>
+
+				<field name="mobile_phone" position="replace">
+					<field name="ssnid" string="Código Sectorial"/>
+					<field name="caso_emergencia"/>
+					<field name="parentes_emergencia"/>
+				</field>
+
+				<!--field name="sinid" position="replace"/-->
+
+
+			</field>
+		</record>
+
+		<!-- Borrar tab varios -->
+		<!--record model="ir.ui.view" id="hr_hr_employee_view_form2">
+			<field name="name">hr.hr.employee.view.form2</field>
+			<field name="model">hr.employee</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+			<field name="arch" type="xml">
+				<field name="parent_id" position="replace">
+            		<field name="parent_id" invisible="1"/>
+		    	</field>
+			</field> 
+		</record-->
+		
+		<record id="view_hr_employee_bank_form" model="ir.ui.view">
+			<field name="name">hr.employee.bank.form</field>
+			<field name="model">hr.employee.bank</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Cta. Bancaria">
+					<field name="name" select="1"/>
+					<field name="type" select="1" required="1"/>
+					<field name="res_bank_id" required="1" select="1"/>
+				</form>
+			</field>
+		</record>
+		
+		<!--
+	===============================
+	Cuentas bancarias de empleados
+	===============================
+-->
+		<record id="view_hr_employee_bank_tree" model="ir.ui.view">
+			<field name="name">hr.employee.bank.form</field>
+			<field name="model">hr.employee.bank</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Cta. Bancaria">
+					<field name="name" select="1"/>
+					<field name="type" select="1" required="1"/>
+					<field name="res_bank_id" required="1" select="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<!--
+	==========
+	Levels
+	==========
+-->
+		<record model="ir.ui.view" id="hr_level_tree_view">
+			<field name="name">hr.level.tree</field>
+			<field name="model">hr.level</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Niveles">
+					<field name="name"/>
+					<field name="description"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="hr_level_form_view">
+			<field name="name">hr.level.form</field>
+			<field name="model">hr.level</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Nivel">
+					<field name="name" required="1"/>
+					<separator colspan="4" string="Descripcion"/>
+					<field name="description" colspan="4" nolabel="1"/>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_level_tree_view">
+			<field name="name">Niveles</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.level</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="hr_level_tree_view"/>
+		</record>
+
+		<!--
+	=====================
+	Notification Settings
+	=====================
+-->
+		<record model="ir.ui.view" id="hr_notification_mail_settings_tree_view">
+			<field name="name">hr.notification.mail.settings.tree</field>
+			<field name="model">hr.notification.mail.settings</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Notificación de caducidad de contratos">
+					<field name="subject"/>
+					<field name="default"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="hr_notification_mail_settings_form_view">
+			<field name="name">hr.notification.mail.settings.form</field>
+			<field name="model">hr.notification.mail.settings</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Notificación de caducidad de contratos">
+					<group colspan="4" col="4">
+						<field name="subject" required="1" colspan="4"/>
+						<field name="default"/>
+						<separator colspan="4" string="Empleados a Notificar"/>
+						<field name="employees_ids" colspan="4" nolabel="1">
+							<tree string="Empleados a Notificar">
+								<field name="name"/>
+								<field name="work_email"/>
+							</tree>
+							<form string="Empleados a Notificar">
+								<field name="name"/>
+								<field name="work_email"/>
+							</form>
+						</field>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_notification_mail_settings_tree_view">
+			<field name="name">Configurar notificación de caducidad</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.notification.mail.settings</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="hr_notification_mail_settings_tree_view"/>
+		</record>
+
+	</data>
+</openerp>

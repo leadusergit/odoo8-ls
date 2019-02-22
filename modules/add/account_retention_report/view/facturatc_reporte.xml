@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="reporte_invoice_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div>
+                <div  class="row mt32 mb32" style="font-size:12px;font-family:Times">
+              	  <div class="col-xs-8">
+              		<p t-if="o.partner_id.name"><strong>Cliente: </strong><span t-field="o.partner_id.name"/></p>
+              		<p t-if="o.partner_id.ident_num"><strong>CI/Ruc: </strong><span t-field="o.partner_id.ident_num"/></p>
+					<p t-if="o.partner_id.street"><strong>Dirección: </strong><span t-field="o.partner_id.street"/></p>              			
+              		<p t-if="o.partner_id.phone"><strong>Telf: </strong><span t-field="o.partner_id.phone"/></p> 
+              		<p t-if="o.date_invoice"><strong>Fecha: </strong><span t-field="o.date_invoice"/></p> 
+              	  </div>
+               </div>
+            </div>
+
+            <table class="table table-condensed" style="font-size:12px;font-family:Times">
+                <thead>
+                    <tr>                        
+                    	<th>Cantidad</th>
+                        <th>Descripcion</th>
+                        <!-- <th class="text-right">Impto</th>                        
+                        <th class="text-right" groups="sale.group_discount_per_so_line">Dscto(%)</th>--> 
+                        <th class="text-right">V.Unitario</th>
+                        <th class="text-right">V.Total</th>
+
+                    </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                    <tr t-foreach="o.invoice_line" t-as="l">
+                        <td>
+                            <span t-field="l.quantity"/>
+                            <!--<span t-field="l.uos_id"  groups="product.group_uom"/>
+							<span t-esc="', '.join(map(lambda x: x.name, l.invoice_line_tax_id))"/>-->                            
+                        </td>
+						<td><span t-field="l.name"/></td>                        
+                        <td class="text-right">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                       <!-- <td class="text-right">
+                            <span t-esc="', '.join(map(lambda x: x.name, l.invoice_line_tax_id))"/>
+                        </td>
+                        <td class="text-right" groups="sale.group_discount_per_so_line"><span t-field="l.discount"/></td>-->
+                        <td class="text-right">
+                            <span t-field="l.price_subtotal"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div class="col-xs-6 pull-right">
+                    <table class="table table-condensed" style="font-size:12px;font-family:Times">
+                        <tr class="border-black">
+                          <td><strong>Subtotal</strong></td>
+                          <td class="text-left">
+                            <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                          </td>
+                        </tr>                        
+                        <tr class="border-black">
+                            <td><strong>Base:IVA12%</strong></td>
+                          <td class="text-left">
+                            <span t-field="o.t_bi_iva" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                          </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Base:IVA0%</strong></td>
+                          <td class="text-left">
+                            <span t-field="o.t_b_0_iva" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                          </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Total:IVA12%</strong></td>
+                          <td class="text-left">
+                            <span t-field="o.t_iva" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                          </td>
+                        </tr>
+                        <tr class="border-black">
+                           <td><strong>TOTAL</strong></td>
+                            <td class="text-left">
+                              <span t-field="o.amount_pay" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="facturatc_reporte">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'account_retention_report.reporte_invoice_document')"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

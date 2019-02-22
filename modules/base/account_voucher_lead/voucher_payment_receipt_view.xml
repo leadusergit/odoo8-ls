@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="low_priority_payment_form2" model="ir.ui.view">
+            <field name="name">low.priority.payment.form2</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                    <form string="Credit Card Settlement">
+                        <header>
+                            <button name="proforma_voucher" string="Validate" states="draft" class="oe_highlight"/>
+                            <button name="cancel_voucher" string="Cancel Receipt" states="draft,proforma"/>
+                            <button name="cancel_voucher" string="Unreconcile" type="object" states="posted" confirm="Are you sure to unreconcile and cancel this record ?"/>
+                            <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft"/>
+                            <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                        </header>
+                        <group col="6">
+                            <field name="id" />
+                            <field name="partner_id" required="1" on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" string="Supplier" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1, 'invoice_currency': currency_id, 'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                            <field name="nro_cupon" on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" context="{'invoice_currency': currency_id, 'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                            <field name="amount" on_change="onchange_amount_new(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" context="{'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                            <!--<field name="journal_id" domain="[('type','in',['bank', 'cash'])]" widget="selection" on_change="onchange_journal(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, context)" string="Payment Method"/>-->
+                            <field name="journal_id" domain="[('type','in',['bank', 'cash'])]" widget="selection" on_change="onchange_journal_filters(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" string="Payment Method" context="{'invoice_currency': currency_id, 'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                            <field name="tipo_tarjeta" on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date,{'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" context="{'invoice_currency': currency_id, 'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                            <field name="date" on_change="onchange_date(date, currency_id, payment_rate_currency_id, amount, company_id, context)"/>
+                            <field name="reference" string="Payment Ref"/>
+                            <field name="name" colspan="2"/>
+                            <field name="account_id"
+                                widget="selection"
+                                invisible="True"/>
+                            <field name="pre_line" invisible="1"/>
+                            <field name="type" invisible="True"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Payment Information">
+                                <label for="line_dr_ids"/>
+                                <!--on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, context)"-->
+                                <field name="line_dr_ids" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" colspan="4" nolabel="1" height="140">
+                                    <tree string="Open Supplier Journal Entries" editable="bottom" colors="gray:amount==0">
+                                        <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id, 'currency_id':parent.currency_id, 'special_display_name': True}"
+                                            on_change="onchange_move_line_id_new(move_line_id)"
+                                            domain="[('account_id.type','=','payable'), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"/>
+                                        <field name="account_id" domain="[('type','=','payable')]"/>
+                                        <field name="date_original" readonly="1"/>
+                                        <field name="date_due" readonly="1"/>
+                                        <field name="amount_original" readonly="1"/>
+                                        <field name="amount_unreconciled" readonly="1"/>
+                                        <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)"/>
+                                        <field name="amount" sum="Total Allocation"/>
+                                    </tree>
+                                </field>
+                                <group col="4">
+                                    <field name="date_filterFrom" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" context="{'invoice_currency': currency_id, 'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                                    <field name="date_filterTo" attrs="{'readonly':[('state','!=','draft')]}" on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}, context)" context="{'invoice_currency': currency_id, 'tipo_tarjeta': tipo_tarjeta, 'nro_cupon': nro_cupon, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                                </group>
+                                <label for="line_cr_ids" attrs="{'invisible': [('type', '=', 'payment')]}"/>
+                                <field name="line_cr_ids" attrs="{'invisible': [('type', '=', 'payment')]}" context="{'journal_id':journal_id, 'partner_id':partner_id}">
+                                    <tree string="Open Customer Journal Entries" editable="bottom" colors="gray:amount==0">
+                                        <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}"
+                                            on_change="onchange_move_line_id(move_line_id)"
+                                            domain="[('account_id.type','=','payable'), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"/>
+                                        <field name="account_id" domain="[('type','=','payable')]"/>
+                                        <field name="date_original" readonly="1"/>
+                                        <field name="date_due" readonly="1"/>
+                                        <field name="amount_original" readonly="1"/>
+                                        <field name="amount_unreconciled" readonly="1"/>
+                                        <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)"/>
+                                        <field name="amount" sum="Total Allocation"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group string="Internal Notes">
+                                        <field name="narration" nolabel="1" colspan="2"/>
+                                    </group>
+                                    <group>
+                                        <button name="update_values" colspan="2" states="draft" string="(update)" class="oe_link oe_edit_only" type="object" help="Recompute values" context="{'partner_id':partner_id,'journal_id':journal_id,'amount':amount, 'rate':payment_rate, 'currency_id':currency_id, 'type':type, 'date':date, 'payment_rate_currency_id':payment_rate_currency_id, 'company_id':company_id, 'line_type_filters': {'cr':['tipo_tarjeta', 'nro_cupon', 'date_filterFrom', 'date_filterTo']}}"/>
+                                        <field name="writeoff_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="payment_option" required="1" attrs="{'invisible':[('writeoff_amount','=',0)]}"/>
+                                        <field name="writeoff_acc_id" attrs="{'invisible':['|', ('payment_option','!=','with_writeoff'), ('writeoff_amount','=',0)], 'required':[('payment_option','=','with_writeoff')]}" domain="[('type','=','other')]"/>
+                                        <field name="comment" attrs="{'invisible':['|', ('payment_option','!=','with_writeoff'), ('writeoff_amount','=',0)]}"/>
+                                        <field name="analytic_id" groups="analytic.group_analytic_accounting" attrs="{'invisible':['|', ('payment_option','!=','with_writeoff'), ('writeoff_amount','=',0)]}"/>
+                                    </group>
+                                    <group string="Other Information" col="4">
+                                        <field name="currency_id" colspan="4" groups="base.group_multi_currency"/>
+                                        <field name="payment_rate" required="1" colspan="3" on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
+                                        <field name="payment_rate_currency_id" colspan="1" nolabel="1" on_change="onchange_payment_rate_currency(currency_id, payment_rate, payment_rate_currency_id, date, amount, company_id, context)" groups="base.group_multi_currency"/>
+                                        <field name="paid_amount_in_company_currency" colspan="4" invisible="1"/>
+                                        <field name="number" colspan="4"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Move">
+                                <field name="payment_card_move_ids"/>
+                            </page>
+                        </notebook>
+                    </form>
+           </field>
+        </record>
+
+        <record id="action_view_credit_card_settlement" model="ir.actions.act_window">
+            <field name="name">Credit Card Settlement</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="context">{'type':'receipt'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_view_account_voucher_lead_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="pagos_tarjeta_credito-master.view_pagos_tarjeta_tree"/>
+            <field name="act_window_id" ref="action_view_credit_card_settlement"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_view_account_voucher_lead_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="low_priority_payment_form2"/>
+            <field name="act_window_id" ref="action_view_credit_card_settlement"/>
+        </record>
+
+        <menuitem action="action_view_credit_card_settlement" id="menu_credit_card_settlement"
+            parent="account.menu_finance_bank_and_cash"/>
+
+        <record model="ir.ui.view" id="view_vendor_receipt_form2">
+            <field name="name">account.voucher.receipt.form2</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Receipt']/sheet/group/group/field[@name='partner_id']" position="replace">
+                    <field name="partner_id" domain="[('customer','=',True)]" required="1" string="Customer"
+                           on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'dr':['date_filterFrom', 'date_filterTo']}, context)"
+                           context="{'search_default_customer': 1,'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                </xpath>
+                <xpath expr="//form[@string='Receipt']/sheet/group/group/field[@name='amount']" position="replace">
+                    <field name="amount" class="oe_inline" string="Paid Amount" widget="monetary" options="{'currency_field': 'currency_id'}"
+                           on_change="onchange_amount_new(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, {'cr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'dr':['date_filterFrom', 'date_filterTo']}, context)"
+                           context="{'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                </xpath>
+                <xpath expr="//form[@string='Receipt']/sheet/group/group/field[@name='journal_id']" position="replace">
+                    <field name="journal_id"
+                                domain="[('type','in',['bank', 'cash'])]"
+                                widget="selection"
+                                on_change="onchange_journal_filters(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, {'cr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'dr':['date_filterFrom', 'date_filterTo']}, context)"
+                                string="Payment Method"
+                                context="{'invoice_currency': currency_id, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                </xpath>
+                <xpath expr="//form[@string='Receipt']/sheet/notebook/page[@string='Payment Information']/label" position="replace">
+                    <group col="4">
+                        <field name="date_filterFrom" attrs="{'readonly':[('state','!=','draft')]}"
+                               on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'dr':['date_filterFrom', 'date_filterTo']}, context)"
+                               context="{'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        <!--on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, None, context)" context="{'invoice_currency': currency_id, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"-->
+                        <field name="date_filterTo" attrs="{'readonly':[('state','!=','draft')]}"
+                               on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'dr':['date_filterFrom', 'date_filterTo']}, context)"
+                               context="{'partner_id':partner_id, 'journal_id': journal_id, 'amount': amount, 'currency_id': currency_id, 'type': type, 'date': date, 'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        <label string="Credits" class="oe_force_bold" invisible="context.get('line_type', False)" colspan="4"/>
+                        <!--for="line_cr_ids"-->
+                        <field name="invoice_filters_ids" colspan="4" widget="many2many_tags" attrs="{'readonly':[('state','!=','draft')]}"
+                               domain="[('state','=','open'),('partner_id','=',partner_id)]"
+                               on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'cr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'dr':['date_filterFrom', 'date_filterTo']}, context)"
+                               context="{'partner_id':partner_id, 'journal_id': journal_id, 'amount': amount, 'currency_id': currency_id, 'type': type, 'date': date, 'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        <!--<div align="right">
+                            <button name="barrido_facturas" states="draft" string="Aplicar Filtro" type="object" icon="gtk-find" class="oe_link" context="{'partner_id':partner_id, 'journal_id': journal_id, 'amount': amount, 'currency_id': currency_id, 'type': type, 'date': date, 'line_type': None, 'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        </div>-->
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_view_vendor_payment_form_02" model="ir.ui.view">
+            <field name="name">account.voucher.form.inht</field>
+            <field name="model">account.voucher</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Voucher Payment']/sheet/group/group/field[@name='amount']" position="replace">
+                    <field name="amount" invisible="context.get('line_type', False)" class="oe_inline" widget='monetary' options='{"currency_field": "currency_id"}'
+                       on_change="onchange_amount_new(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, {'dr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'cr':['date_filterFrom', 'date_filterTo']}, context)"
+                       context="{'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                </xpath>
+                <xpath expr="//form[@string='Voucher Payment']/sheet/group/group/field[@name='journal_id']" position="replace">
+                    <field name="journal_id"
+                                domain="[('type','in',['bank', 'cash'])]"
+                                invisible="context.get('line_type', False)"
+                                widget="selection"
+                                on_change="onchange_journal_filters(journal_id, line_dr_ids, False, partner_id, date, amount, type, company_id, {'dr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'cr':['date_filterFrom', 'date_filterTo']}, context)"
+                                string="Payment Method"
+                                context="{'invoice_currency': currency_id, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                </xpath>
+                <xpath expr="//form[@string='Voucher Payment']/sheet/notebook/page[@string='Payment Information']/label" position="replace">
+                    <group col="4">
+                        <field name="date_filterFrom" attrs="{'readonly':[('state','!=','draft')]}"
+                               on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'dr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'cr':['date_filterFrom', 'date_filterTo']}, context)"
+                               context="{'invoice_currency': currency_id, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        <field name="date_filterTo" attrs="{'readonly':[('state','!=','draft')]}"
+                               on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'dr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'cr':['date_filterFrom', 'date_filterTo']}, context)"
+                               context="{'invoice_currency': currency_id, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        <label string="Debits" class="oe_force_bold" invisible="context.get('line_type', False)" colspan="4"/>
+                        <field name="invoice_filters_ids" colspan="4" widget="many2many_tags" attrs="{'readonly':[('state','!=','draft')]}" domain="[('state','=','open'),('partner_id','=',partner_id)]"
+                               on_change="onchange_nro_cupon(partner_id, journal_id, amount, currency_id, type, date, {'dr':['invoice_filters_ids', 'date_filterFrom', 'date_filterTo'], 'cr':['date_filterFrom', 'date_filterTo']}, context)"
+                                context="{'partner_id':partner_id, 'journal_id': journal_id, 'amount': amount, 'currency_id': currency_id, 'type': type, 'date': date, 'invoice_filters_ids':invoice_filters_ids, 'date_filterFrom':date_filterFrom, 'date_filterTo':date_filterTo}"/>
+                        <!--<div align="right">
+                            <button name="barrido_facturas" states="draft" string="Aplicar Filtro" type="object" icon="gtk-find" class="oe_link"/>
+                        </div>-->
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

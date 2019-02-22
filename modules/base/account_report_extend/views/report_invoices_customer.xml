@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+      <record id="wizard_report_invoices_customer_views" model="ir.ui.view">
+			<field name="name">wizard.report.invoices.customer</field>
+			<field name="model">wizard.report.invoices.customer</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form col="4" string="REPORTE DE FACTURAS">
+					<separator colspan="2" string="Seleccione el tipo de Reporte que desea.! " />
+					<field name="type_report" colspan="2" on_change="on_change_tipo(type_report)"/>
+					<field name="date_start" readonly="1"/>
+					<group col="2" colspan="4" attrs="{'invisible':[('type_report','=','all')]}">
+						<group col="2" attrs="{'invisible':[('type_report','in',['seller', 'all'])]}">
+						    <separator colspan="2" string="Seleccione el Cliente " />
+							<field name="partner_id" colspan="2"/>
+						</group>
+						<group col="2" attrs="{'invisible':[('type_report','in',['customer', 'all'])]}">
+						    <separator colspan="2" string="Seleccione el Vendedor" />
+						    <field name="seller_id" colspan="2"/>
+						</group>
+						<newline/>
+						<label string="(Dejar vacio para mostrar todos)" colspan="4" align="0.0"/>
+					</group>
+					<newline/>
+					<field name="tipo" required="1"/>
+					<field name="filter" required="1"/>
+					<group col="4" colspan="4" attrs="{'invisible':[('filter','=','period')]}">
+						<separator colspan="4" string="Filtrar por Fechas" />
+						<field name="date_from" attrs="{'required':[('filter','=','date')]}"/>
+						<field name="date_to" attrs="{'required':[('filter','=','date')]}"/>
+					</group>
+					<newline/>
+					<group col="2" colspan="4" attrs="{'invisible':[('filter','=','date')]}">
+						<separator colspan="4" string="Filtrar por Periodo" />
+						<field name="period_id" attrs="{'required':[('filter','=','period')]}"/>
+					</group>
+					<newline/>
+					<separator colspan="4" />
+					<group col="6" colspan="4">
+						<button icon="gtk-ok" name="report_invoices" string="Imprimir " type="object" attrs="{'invisible':[('tipo','in',['out_refund','all','cancel'])]}"/>
+						<button icon="gtk-ok" name="report_refunds" string="Imprimir" type="object" attrs="{'invisible':[('tipo','in',['out_invoice','all','cancel'])]}"/>
+						<button icon="gtk-ok" name="report_all" string="Imprimir" type="object" attrs="{'invisible':[('tipo','in',['out_invoice','out_refund','cancel'])]}"/>
+						<button icon="gtk-ok" name="report_cancel" string="Imprimir" type="object" attrs="{'invisible':[('tipo','in',['out_invoice','out_refund','all'])]}"/>
+						<button icon="gtk-ok" name="export_excel" string="Exporta a Excel " type="object" />
+						<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+					</group>
+					<newline/>
+					<separator colspan="4" />
+					<newline/>
+					<field name="name" readonly="1"/>
+					<field name="data" readonly="1"/>
+				</form>
+			</field>
+		</record>
+		
+		<!-- Actions -->
+		
+		<record id="action_wizard_report_invoices_customer" model="ir.actions.act_window">
+			<field name="name">Reporte de Facturas de Clientes</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.invoices.customer</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_report_invoices_customer_views"/>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem action="action_wizard_report_invoices_customer"
+		id="menu_action_wizard_report_invoices_customer" icon="STOCK_PRINT"
+		parent="menu_reporte_sale" />
+		
+		
+	</data>
+</openerp>

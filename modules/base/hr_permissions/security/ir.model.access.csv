@@ -1,0 +1,9 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_model_hr_permission_admin","access_model_hr_permission_admin","model_hr_permission","base.group_hr_manager",1,1,1,1
+"access_model_hr_permission_user","access_model_hr_permission_user","model_hr_permission","base.group_hr_user",1,0,0,0
+"access_model_hr_permission_jefe","access_model_hr_permission_jefe","model_hr_permission","hr_ec.group_hr_employee_jefe",1,1,0,0
+"access_hr_permission_support","access_hr_permission_support_user","model_hr_permission_support","base.group_hr_user",1,1,1,0
+"access_hr_permission_support_manager","hr_permission_support_user_manager","model_hr_permission_support","base.group_hr_manager",1,0,0,0
+"access_model_hr_permission_emp","access_model_hr_permission_emp","model_hr_permission","base.group_user",1,1,1,0
+"access_model_hr_permission_support_emp","access_hr_permission_support_emp","model_hr_permission_support","base.group_user",1,1,1,0
+"access_hr_permission_jefatura","hr_permission_jefatura","model_hr_permission","hr_ec.group_hr_employee_jefe",1,1,1,0

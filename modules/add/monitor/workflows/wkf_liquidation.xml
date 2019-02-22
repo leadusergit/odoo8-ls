@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wkf_liquidation" model="workflow">
+            <field name="name">Flujo base Liquidacion</field>
+            <field name="osv">m.liquidation</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <!-- BORRADOR -->
+        <record id="m_act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_liquidation"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'draft'})</field>
+        </record>
+
+        <!-- CONFIRMADO -->
+        <record id="m_act_confirm" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_liquidation"/>
+            <field name="name">confirm</field>
+            <field name="kind">function</field>
+            <field name="action">wkf_action_confirm()</field>
+        </record>
+
+        <!-- LIQUIDADO -->
+        <record id="m_act_liquidation" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_liquidation"/>
+            <field name="name">liquidation</field>
+            <field name="kind">function</field>
+            <field name="action">wkf_action_liquidation()</field>
+        </record>
+
+        <!-- PAGADO -->
+        <record id="m_act_paidout" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_liquidation"/>
+            <field name="name">paidout</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">function</field>
+            <field name="action">wkf_action_paidout()</field>
+        </record>
+
+        <!-- CANCELADO -->
+        <record id="m_act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_liquidation"/>
+            <field name="name">cancel</field>
+            <field name="flow_stop">True</field>
+            <field name="kind">function</field>
+            <field name="action">wkf_action_cancel()</field>
+        </record>
+
+
+        <!-- BORRADOR -> CONFIRMADO -->
+        <record id="m_trans_draft_confirm" model="workflow.transition">
+            <field name="act_from" ref="m_act_draft"/>
+            <field name="act_to" ref="m_act_confirm"/>
+            <field name="signal">m_confirm</field>
+        </record>
+        <!-- BORRADOR -> CANCEL -->
+        <record id="m_trans_draf_cancel" model="workflow.transition">
+            <field name="act_from" ref="m_act_draft"/>
+            <field name="act_to" ref="m_act_cancel"/>
+            <field name="signal">m_cancel</field>
+        </record>
+        <!-- CONFIRMADO -> LIQUIDATION -->
+        <record id="m_trans_confirm_liquidation" model="workflow.transition">
+            <field name="act_from" ref="m_act_confirm"/>
+            <field name="act_to" ref="m_act_liquidation"/>
+            <field name="signal">m_liquidation</field>
+        </record>
+        <!-- CONFIRMADO -> CANCEL -->
+        <record id="m_trans_confirm_cancel" model="workflow.transition">
+            <field name="act_from" ref="m_act_confirm"/>
+            <field name="act_to" ref="m_act_cancel"/>
+            <field name="signal">m_cancel</field>
+        </record>
+        <!-- LIQUIDATION -> PAIDOUT -->
+        <record id="m_trans_liquidation_paidout" model="workflow.transition">
+            <field name="act_from" ref="m_act_liquidation"/>
+            <field name="act_to" ref="m_act_paidout"/>
+            <field name="signal">m_paidout</field>
+        </record>
+
+    </data>
+</openerp>

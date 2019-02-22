@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<!-- Sequences for retentions -->
+		<record forcecreate="1" id="retention_voucher_seq" model="ir.sequence.type">
+			<field name="name">retention_v_seq</field>
+			<field name="code">retention_voucher_seq</field>
+		</record>
+		<record forcecreate="1" id="seq_retention_voucher" model="ir.sequence">
+			<field name="name">Retention Voucher</field>
+			<field name="code">retention_voucher_seq</field>
+			<field name="prefix"/>
+			<field eval="7" name="padding"/>
+		</record>		
+	</data>
+</openerp>
+
+

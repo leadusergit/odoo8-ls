@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+    	
+   		<!--
+   	=====================
+   	Secuencia del Diario
+   	=====================
+-->
+    	<record id="seq_nomina_journal_type" model="ir.sequence.type">
+			<field name="name">Nomina Journal Sequence</field>
+			<field name="code">nomina.journal.sequence</field>
+		</record>
+		<record id="seq_nomina_journal" model="ir.sequence">
+			<field name="name">Nomina Journal Seq</field>
+			<field name="code">nomina.journal.sequence</field>
+			<field name="padding">7</field>
+		</record>
+		
+		<!--
+   	===========================
+   	Diario analítico de Nómina
+   	===========================
+-->
+		<record id="nomina_analytic_journal" model="account.analytic.journal">
+            <field name="name">Diario de Nómina</field>
+            <field name="code">NMJ</field>
+            <field name="type">general</field>
+        </record>
+		
+		<!--
+   	==========================
+   	Diario contable de Nómina
+   	==========================
+-->
+    	
+    	<record forcecreate="1" id="nomina_journal" model="account.journal">
+            <field name="name">Diario de Nómina</field>
+            <field name="code">NMJ</field>
+            <field name="type">general</field>
+            <field name="update_posted" eval="True"/>
+            <!--field name="view_id" ref="account.account_journal_view"/-->
+            <field name="sequence_id" ref="seq_nomina_journal"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="analytic_journal_id" ref="nomina_analytic_journal"/>
+        </record>
+        
+        <!--
+   	===========================================
+   	Propiedad genérica de la cuenta de Sueldos
+   	===========================================
+-->
+        <record model="ir.property" id="property_employee_credit_account">
+		    <field name="name">property_employee_credit_account</field>
+		    <field name="fields_id" search="[('model','=','hr.employee'),
+		      ('name','=','credit_account')]"/>
+<!--       		<field name="value" eval="'account.account,'+str(list0)"/> -->
+		</record>
+		
+		<!--
+   	=================
+   	Reglas de acceso
+   	=================
+-->
+		<record id="hr_employee_category_account_valuation_rule" model="ir.rule">
+	        <field name="name">Category account valuation rule</field>
+	        <field name="model_id" ref="model_hr_employee_category_account_valuation"/>
+	        <field name="global" eval="True"/>
+	        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+	    </record>
+    	
+    </data>
+</openerp>

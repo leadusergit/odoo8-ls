@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record id="invoice_retention_account_code_tree" model="ir.ui.view">
+			<field name="name">invoice.retention.account.code.tree</field>
+			<field name="model">account.code</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Retenciones">
+					<field name="name" />
+					<field name="code" />
+					<field name="info" />
+					<field name="parent_id" />
+					<field name="account_id" />
+					<!--field name="balance" /-->
+				</tree>
+			</field>
+		</record>
+
+		<record id="invoice_retention_account_code_form" model="ir.ui.view">
+			<field name="name">invoice.retention.account.code.form</field>
+			<field name="model">account.code</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="name" />
+					<field name="code" />
+					<field name="parent_id" />
+					<field name="account_id" />
+					<!-- field name="balance" /-->
+					<field name="info" colspan="4" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_account_code_ind">
+			<field name="name">Account Code</field>
+			<field name="res_model">account.code</field>
+			<field name="view_type">tree</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+
+
+		<record model="ir.actions.act_window" id="action_account_code_ind_nuevo">
+			<field name="name">Account Code Nuevo</field>
+			<field name="res_model">account.code</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="invoice_retention_account_code_form" />
+		</record>
+
+		<record id="action_account_code_view1" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="invoice_retention_account_code_tree" />
+			<field name="act_window_id" ref="action_account_code_ind" />
+		</record>
+
+		<record id="action_account_code_view2" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="invoice_retention_account_code_form" />
+			<field name="act_window_id" ref="action_account_code_ind" />
+		</record>
+
+		<menuitem id="menu_account_code" parent="account.menu_finance_accounting"
+			action="action_account_code_ind" />
+		<menuitem id="menu_account_code_nuevo" parent="account.menu_finance_accounting"
+			action="action_account_code_ind_nuevo" />
+
+		<record id="invoice_retention_account_document_line_anexo_tree"
+			model="ir.ui.view">
+			<field name="name">invoice.retention.account.document.line.anexo.tree
+			</field>
+			<field name="model">account.document.anexo.line</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Anexo">
+					<field name="name" />
+					<field name="group_transaction" />
+					<field name="code" />
+					<field name="sequence" />
+					<field name="type" />
+					<field name="document_anexo_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="invoice_retention_account_document_line_anexo_form"
+			model="ir.ui.view">
+			<field name="name">invoice.retention.account.document.line.anexo.form
+			</field>
+			<field name="model">account.document.anexo.line</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="name" />
+					<field name="group_transaction" />
+					<field name="code" />
+					<field name="sequence" />
+					<field name="type" />
+					<field name="document_anexo_id" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_document_anexo_line_ind">
+			<field name="name">Documentos Anexo</field>
+			<field name="res_model">account.document.anexo.line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+
+		<menuitem id="menu_document_anexo_line" name="Documentos Anexo Transaccional"
+			parent="account.menu_finance_accounting" action="action_document_anexo_line_ind" />
+
+
+
+		<record id="invoice_retention_account_document_anexo_tree"
+			model="ir.ui.view">
+			<field name="name">invoice.retention.account.document.anexo.tree
+			</field>
+			<field name="model">account.document.anexo</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Anexo">
+					<field name="name" />
+					<field name="description" />
+					<field name="type_invoice" />
+					<field name="type" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="invoice_retention_account_document_anexo_form"
+			model="ir.ui.view">
+			<field name="name">invoice.retention.account.document.anexo.form
+			</field>
+			<field name="model">account.document.anexo</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form>
+					<field name="name" />
+					<field name="description" />
+					<field name="type_invoice" />
+					<field name="type" />
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_document_anexo_ind">
+			<field name="name">Documentos Anexo</field>
+			<field name="res_model">account.document.anexo</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" eval="False" />
+		</record>
+
+		<menuitem id="menu_document_anexo"
+			name="Configuracion de documentos Anexo Transaccional" parent="account.menu_finance_accounting"
+			action="action_document_anexo_ind" />
+
+
+	</data>
+</openerp>

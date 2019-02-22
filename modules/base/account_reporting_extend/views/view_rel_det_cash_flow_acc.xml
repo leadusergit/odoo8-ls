@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record id="view_cash_flow_detail_rel_form" model="ir.ui.view">
+			<field name="name">view.cash.flow.detail.rel.form</field>
+			<field name="model">account.cash.flow.detail</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Relacion del Estado Flujo de Efectivo">
+					<group col="4" colspan="4">
+						<field name="name" required="1" />
+						<field name="pertenece_a" required="1" />
+						<field name="orden" required="1" />
+					</group>
+					<field name="accounts_rel_ids" colspan="4" nolabel="1"
+						string="Detalles Estado Flujo Efectivo" attrs="{'invisible':[('totales','=',True)]}">
+						<tree>
+							<field name="operator" />
+							<field name="account_id" />
+							<field name="letra" />
+						</tree>
+					</field>
+					<field name="totales" />
+					<field name="actividades_operacion" attrs="{'required':[('totales','=',True)]}" />
+					<field name="totales_operaciones" />
+					<field name="valores_periodo_base" />
+					<field name="state" colspan="4" />
+				</form>
+			</field>
+		</record>
+
+		<record id="view_cash_flow_rela_form" model="ir.ui.view">
+			<field name="name">view.cash.flow.rela.form</field>
+			<field name="model">account.cash.flow.relation</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Relacion Valores Variacion">
+					<field name="operator" />
+					<field name="account_id" />
+					<field name="letra" required="1" />
+				</form>
+			</field>
+		</record>
+
+		<record id="view_cash_flow_rela_tree" model="ir.ui.view">
+			<field name="name">view.cash.flow.rela.tree</field>
+			<field name="model">account.cash.flow.relation</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Relacion Valores Variacion">
+					<field name="operator" />
+					<field name="account_id" />
+					<field name="letra" required="1" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="view_cash_flow_detail_rel_tree" model="ir.ui.view">
+			<field name="name">view.cash.flow.detail.rel.tree</field>
+			<field name="model">account.cash.flow.detail</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="DetalleFlujoEfectivo">
+					<field name="name" required="1" />
+					<field name="pertenece_a" required="1" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_cash_flow_detail" model="ir.actions.act_window">
+			<field name="name">Detalle Estado Flujo de Efectivo</field>
+			<field name="res_model">account.cash.flow.detail</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+	</data>
+</openerp>

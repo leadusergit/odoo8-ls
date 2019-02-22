@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+	
+	    #Form
+		<record id="view_wizard_account_ats" model="ir.ui.view">
+            <field name="name">wizard.account.ats</field>
+            <field name="model">wizard.account.ats</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Anexo Transaccional Simplificado">
+                <label align="0.0" string="Exportar a Excel Anexo Transaccional (ATS)" colspan="4"/>
+                <separator string="Seleccione el Periodo" colspan="2"/>
+                    <field name="period_id" required="1"/>
+                    <newline/>
+                    <group colspan="4" col="2">
+                        <button icon="gtk-ok" string="Exportar Excel" name="generate_file" type="object"/>
+                        <button icon="gtk-cancel" special="cancel" string="Cancelar"/>
+                   </group>
+                   <separator colspan="4"/>
+                   <field name="name" readonly="1" />
+                   <field name="data" readonly="1" />
+               </form>
+            </field>
+        </record>
+        
+		#Actions
+        <record id="action_view_wizard_account_ats" model="ir.actions.act_window">
+            <field name="name">Anexo Transaccional(ATS)</field>
+            <field name="res_model">wizard.account.ats</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_wizard_account_ats"/>
+            <field name="target">new</field>
+        </record>
+        
+        #Menu
+        <!-- menuitem id="menu_wizard_anexo" 
+          action="action_view_wizard_account_ats" 
+          parent="account.menu_finance_reporting" 
+          icon="STOCK_EXECUTE" groups="account_ec.group_account_no_option"
+        /-->
+		
+	</data>
+</openerp>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_laundry_order_make_invoice" model="ir.ui.view">
+            <field name="name">Crear Facturas</field>
+            <field name="model">laundry.make.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Create invoices">
+                    <separator colspan="4" string="¿Esta seguro de crear factura(s)?" />
+                    <group>
+                        <field name="grouped"/>
+                        <field name="invoice_date"/>
+                    </group>
+                    <footer>
+                        <button name="make_invoices" string="Crear Factura" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_laundry_order_make_invoice" model="ir.actions.act_window">
+            <field name="name">Crear Factura Agrupada</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">laundry.make.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_laundry_order_make_invoice"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+
+        <record model="ir.values" id="laundry_order_make_invoice">
+            <field name="model_id" ref="laundry_management.model_laundry_management" />
+            <field name="name">Crear Factura Agrupada</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_laundry_order_make_invoice'))" />
+            <field name="key">action</field>
+            <field name="model">laundry.management</field>
+        </record>
+    </data>
+</openerp>

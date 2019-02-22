@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+	<record id="wizard_report_invoice_ret_view" model="ir.ui.view">
+            <field name="name">wizard.report.invoice.ret.form</field>
+            <field name="model">wizard.report.invoice.ret</field>
+            <field name="arch" type="xml">
+                <form string="ListadoFacturas">
+                <group>
+					<group colspan="1">
+						<field name="date_from"/> - <field name="date_to"/>
+					</group>                  
+                </group>
+                <field name="invoice_ids" invisible="1"/>
+					<footer>
+						<button name="run_sql" string="RetencionesCompras" class="oe_highlight" type="object"/>
+						ó
+						<button name="run_sql_customer" string="RetencionesVentas" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_report_invoice_ret"
+            multi="True"
+            key2="client_action_multi" name="Generar(Reporte Retenciones)"
+            res_model="wizard.report.invoice.ret" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" />
+	</data>
+</openerp>

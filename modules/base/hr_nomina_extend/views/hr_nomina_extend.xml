@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ===========
+    Utilidades
+    ===========
+-->
+		<record id="hr_utilities_search_view" model="ir.ui.view">
+			<field name="name">hr.utilities.search</field>
+			<field name="model">hr.utilities</field>
+			<field name="arch" type="xml">
+				<search string="Utilidades">
+					<field name="fiscalyear_id"/>
+					<group string="Filtros">
+						<filter string="Validados" domain="[('state','=','valid')]" name="valid"/>
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record id="hr_utilities_tree_view" model="ir.ui.view">
+			<field name="name">hr.utilities.tree</field>
+			<field name="model">hr.utilities</field>
+			<field name="arch" type="xml">
+				<tree string="Utilidades">
+					<field name="fiscalyear_id"/>
+					<field name="employee_utilities"/>
+					<field name="state" widget="statusbar"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="hr_utilities_form_view" model="ir.ui.view">
+			<field name="name">hr.utilities.form</field>
+			<field name="model">hr.utilities</field>
+			<field name="arch" type="xml">
+				<form string="Utilidad">
+					<header>
+						<button type="object" name="get_values" string="Calcular Utilidades" class="oe_highlight"/>						
+						<button name="change_state" string="Validar" type="object" class="oe_highlight" states="draft"/>
+						<button name="change_state" string="Cambiar a borrador" type="object" states="valid"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group string="Periodos" col="2">
+							<field name="fiscalyear_id"/>
+							<field name="date_start"/>
+							<field name="date_end"/>
+						</group>
+						<group>
+							<field name="amount"/>
+							<field name="amount15"/>
+							<field name="amount10"/>
+							<field name="amount5"/>
+							<field name="ponderado"/>
+							<field name="num_employee"/>
+						</group>
+						<group string="Utilidades de los colaboradores">
+							<field name="employee_utilities" nolabel="1">
+								<tree string="Utilidades de los colaboradores" editable="top">
+									<field name="employee_id"/>
+									<!-- <field name="contract_id" domain="[('employee_id','=',employee_id)]"/> -->
+									<field name="num_dias10" sum="Total Dias 10"/>
+									<field name="num_cargas" sum="Total Cargas"/>									
+									<field name="value_10" sum="Total 10%"/>
+									<field name="value_5" sum="Total 5%"/>
+									<field name="amount" sum="Total"/>
+								</tree>
+							</field>
+						</group>
+						<group string="Notas">
+						<field name="description"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_utilities_view">
+			<field name="name">Utilidades</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.utilities</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="hr_utilities_search_view"/>
+			<field name="context">{'search_default_valid': True}</field>
+		</record>
+		
+		<menuitem id="hr_utilities_menu" name="Utilidades" parent="hr_nomina.remuneration_menu" action="action_hr_utilities_view"/>    
+    
+    </data>
+</openerp>

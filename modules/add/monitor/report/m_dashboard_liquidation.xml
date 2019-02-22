@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_m_dashboard_liquidation_search" model="ir.ui.view">
+        <field name="name">m.dashboard.liquidation.search</field>
+        <field name="model">m.dashboard.liquidation</field>
+        <field name="arch" type="xml">
+            <search string="Análisis de Liquidación">
+
+            </search>
+        </field>
+    </record>
+
+    <!-- graph -->
+    <record id="view_m_dashboard_liquidation_graph_search" model="ir.ui.view">
+         <field name="name">m.dashboard.liquidation.graph</field>
+         <field name="model">m.dashboard.liquidation</field>
+         <field name="arch" type="xml">
+             <graph string="Análisis de Liquidación" type="pivot">
+                 <field name="generate_date"  interval="year" type="col"/>
+                 <field name="generate_date"  interval="month" type="col"/>
+
+                 <field name="cliente" type="row"/>
+                 <field name="state" type="row"/>
+                 <field name="factura" type="row"/>
+
+                 <field name="total_sale" type="measure"/>
+                 <field name="total_dev" type="measure"/>
+                 <field name="total_liquidation" type="measure"/>
+                 <field name="total_payment" type="measure"/>
+
+             </graph>
+         </field>
+    </record>
+
+    <!-- action -->
+    <record id="action_m_dashboard_liquidation" model="ir.actions.act_window">
+        <field name="name">Análisis de Liquidación</field>
+        <field name="res_model">m.dashboard.liquidation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">graph</field>
+        <!--field name="search_view_id" ref="view_m_dashboard_liquidation_search"/-->
+        <field name="help">Análisis de liquidación</field>
+    </record>
+
+    <!-- menu -->
+    <menuitem id="m_dashboard_liquidation_menu"
+              name="Análisis de Liquidación"
+              parent="m_inform"
+              action="action_m_dashboard_liquidation"/>
+
+</data>
+</openerp>

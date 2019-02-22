@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data noupdate="0">
+		
+		<!--
+	=======================
+	Secuencia de préstamos
+	=======================
+-->
+		<record model="ir.sequence.type" id="loan_sequence_type">
+			<field name="name">Loan Sequence</field>
+			<field name="code">hr.employee.loan</field>
+		</record>
+		<record model="ir.sequence" id="loan_sequence">
+			<field name="name">Loan Sequence</field>
+			<field name="code">hr.employee.loan</field>
+			<field name="prefix">PR-COL-</field>
+			<field name="padding">4</field>
+			<field name="implementation">no_gap</field>
+		</record>
+		
+		<!--
+	====================
+	Egreso de préstamos
+	====================
+-->
+		<record model="hr.expense.type" id="loan_expense_type">
+			<field name="name">Préstamo empresarial</field>
+			<field name="description">Egreso generado automáticamente por el módulo de préstamos a colaboradores</field>
+			<field name="code">LOAN</field>
+		</record>
+
+	</data>
+    <data>
+    
+    	<!--
+    ===========================
+    Préstamos de colaboradores
+    ===========================
+-->
+    
+    	<record id="hr_employee_loan_search_view" model="ir.ui.view">
+			<field name="name">hr.employee.loan.search</field>
+			<field name="model">hr.employee.loan</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="employee_id"/>
+					<field name="amount"/>
+					<separator/>
+					<filter string="Validado" name="valid" domain="[('state','=','valid')]"/>
+				</search>
+			</field>
+		</record>
+
+		<record id="hr_employee_loan_tree_view" model="ir.ui.view">
+			<field name="name">hr.employee.loan.tree</field>
+			<field name="model">hr.employee.loan</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Préstamos a colaboradores">
+					<field name="employee_id"/>
+					<field name="contract_id"/>
+					<field name="amount"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="hr_employee_loan_form_view" model="ir.ui.view">
+			<field name="name">hr.employee.loan.form</field>
+			<field name="model">hr.employee.loan</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button type="object" name="validar" string="Validar" class="oe_highlight" states="draft" groups="base.group_hr_manager"/>
+						<button type="object" name="confirm" string="Confirmar" class="oe_highlight" states="open" groups="base.group_hr_manager"/>
+						<button type="object" name="edit" string="Modificar" states="valid" groups="base.group_hr_manager"/>
+						<button type="object" name="cancel" string="Cancelar" states="open" groups="base.group_hr_manager" confirm="¿Está seguro de cancelar el préstamo?"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<div class="oe_title">
+							<label for="employee_id" class="oe_edit_only oe_inline"/>
+							<label for="contract_id" string="[Contrato]" class="oe_edit_only oe_inline"/>
+							<h1><field name="employee_id" class="oe_inline"/>
+							[<field name="contract_id" class="oe_inline" domain="[('employee_id', '=', employee_id)]"/>]</h1>
+						</div>
+						<group>
+							<div>
+								El plan de recaudo de un préstamo se calculará en base al monto y plazo definido en el mismo. Presione el botón para generar el plan de recaudo automáticamente se generará en la tabla siguiente:
+							</div>
+						</group>
+						<group col="4">
+							<group string="Detalles">
+								<field name="period_from"/>
+								<label for="amount" string="Monto del préstamo"/>
+								<div>$<field name="amount" class="oe_inline"/></div>
+								<label for="time"/>
+								<div><field name="time" class="oe_inline"/>meses plazo.</div>
+							</group>
+							<group string="Contabilidad">
+								<field name="journal_id"/>
+								<field name="account_id"/>
+								<field name="date"/>
+								<field name="move_id" attrs="{'invisible':[('state','=','draft')]}"/>
+							</group>
+						</group>
+						<group string="Plan de recaudo" col="1" states="open,valid">
+							<div class="oe_button_box oe_right" states="open">
+								<button type="object" name="create_plan" string="Generar plan" class="oe_highlight"/>
+								<button type="object" name="lock_all" string="Bloquear todos" icon="terp-locked"/>
+								<button type="object" name="unlock_all" string="Editables todos" icon="terp-stock_align_left_24"/>
+							</div>
+							<field name="plan_ids" nolabel="1">
+								<tree editable="top">
+									<button type="object" name="change_state" icon="terp-stock_align_left_24" string="Bloquear" states="unlocked"/>
+									<button type="object" name="change_state" icon="terp-locked" string="Desbloquear" states="locked"/>
+									<field name="period_id"/>
+									<field name="amount" sum="Suma"/>
+									<field name="state" invisible="1"/>
+								</tree>
+							</field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_hr_employee_loan_view">
+			<field name="name">Préstamos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hr.employee.loan</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="hr_employee_loan_search_view" />
+		</record>
+	
+		<menuitem id="hr_employee_loan_menu" name="Préstamos" parent="hr.menu_hr_main" action="action_hr_employee_loan_view"/>
+		
+    </data>
+</openerp>

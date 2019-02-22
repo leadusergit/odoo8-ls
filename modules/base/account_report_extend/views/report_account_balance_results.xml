@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_report_account_results_views" model="ir.ui.view">
+			<field name="name">wizard.report.account.balance.results</field>
+			<field name="model">wizard.report.account.balance.results</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form col="4" string="Balance de Resultados">
+					<!-- Form 1 -->
+					<separator colspan="4" string="Reporte de Balance de Resultados" />
+					<group col="2" colspan="4">
+						<field name="fiscalyear" required="1" />
+						<newline/>
+						<field name="periods" required="1" />
+						<newline/>
+						<!-- Buttons -->
+						<separator colspan="4" />
+						<group col="3" colspan="4">
+							<button icon="gtk-ok" name="generate_report" string="Imprimir" type="object" />
+							<button icon="gtk-ok" name="export_excel" string="Exporta a Excel" type="object" />
+							<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+						</group>
+					</group>
+					<separator colspan="4" />
+					<field name="name" readonly="1"/>
+					<field name="data" readonly="1"/>
+				</form>
+			</field>
+		</record>
+		
+		<!-- Actions -->
+		
+		<record id="action_wizard_report_account_results" model="ir.actions.act_window">
+			<field name="name">Balance de Resultados</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.account.balance.results</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_report_account_results_views"/>
+			<field name="target">new</field>
+		</record>
+
+		<record model="ir.values" id="report_balance_results_values">
+	            <field name="model_id" ref="account_reporting.model_account_report_bs" />
+	            <field name="object" eval="1" />
+	            <field name="name">report.balance.results.values</field>
+	            <field name="key2">client_action_multi</field>
+	            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_report_account_results'))" />
+	            <field name="key">action</field>
+	            <field name="model">account.report.bs</field>
+	    </record>
+	
+  </data>
+</openerp>

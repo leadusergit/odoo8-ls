@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- HISTORY  -->
+        <!--  search -->
+    	<record id="m_liquidation_schedule_history_search" model="ir.ui.view">
+            <field name="name">m.liquidation.schedule.history.search</field>
+            <field name="model">m.liquidation.schedule.history</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="client_id" string="Cliente" />
+                    <field name="m_liquidation_id" string="Liquidacion" />
+
+					<group string="Agrupar por...">
+						<filter string="Cliente" icon="terp-personal"
+							context="{'group_by': 'client_id'}" name="cliente"/>
+					</group>
+                </search>
+            </field>
+        </record>
+
+        <!-- tree -->
+		<record id="m_liquidation_schedule_history_tree" model="ir.ui.view">
+			<field name="name">Historico de ejecucion</field>
+			<field name="model">m.liquidation.schedule.history</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree create="false" edit="false">
+                    <field name="m_liquidation_id" />
+					<field name="client_id" />
+					<field name="date_execute" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+    	<!-- action -->
+    	<record id="action_m_liquidation_schedule_history" model="ir.actions.act_window">
+			<field name="name">historico de ejecucion</field>
+			<field name="res_model">m.liquidation.schedule.history</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+        <!-- menu -->
+        <menuitem id="m_liquidation_schedule_history_menu"
+                  name="Histórico de ejecución"
+                  parent="m_configuration"
+                  action="action_m_liquidation_schedule_history"/>
+
+    </data>
+</openerp>

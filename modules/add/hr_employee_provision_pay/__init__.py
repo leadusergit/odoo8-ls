@@ -1,0 +1,3 @@
+import hr_employee_provision_pay
+import hr_payslip_payments_decimos
+import wizard

@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<document filename="invoice.pdf">
+  <template pageSize="(21.0cm,29.7cm)" title="Test" author="Israel Paredes" allowSplitting="20">
+    <pageTemplate id="first">
+      <pageGraphics>
+      	<image x="1.3cm" y="26.6cm" height="3.0cm" >[[ company.logo or removeParentNode('image') ]]</image>
+      	<setFont name="Helvetica-Bold" size="14"/>
+      	<drawString x="4.5cm" y="28.6cm">[[ company.name ]]</drawString>
+      	<setFont name="Helvetica" size="10"/>
+      	<drawString x="4.5cm" y="28.1cm">[[ company.partner_id.name_comercial or removeParentNode('drawString') ]]</drawString>
+      	<drawString x="4.5cm" y="27.6cm">[[ '; '.join(['%s y %s'%(aux.street, aux.street2) for aux in company.partner_id.address]) ]]</drawString>
+      	<drawString x="4.5cm" y="27.1cm">[[ company.partner_id.city.capitalize() + ' - ' + company.partner_id.country.name.capitalize() ]]</drawString>
+      	<setFont name="Helvetica" size="8"/>
+      	<rect x="14.0cm" y="26.7cm" width="5.0cm" height="2.5cm" fill="no" stroke="yes" round="0.5cm"/>
+      	<drawCentredString x="16.5cm" y="28.83cm">RUC. [[ company.partner_id.ident_num ]]</drawCentredString>
+      	<lines>14.0cm 28.7cm 19.0cm 28.7cm</lines>
+      	<drawCentredString x="16.5cm" y="28.33cm">FACTURA [[ '%s-%s'%(o.auth_ret_id.serie_entidad, o.auth_ret_id.serie_emision) ]]</drawCentredString>
+      	<lines>14.0cm 27.5cm 19.0cm 27.5cm</lines>
+      	<drawCentredString x="16.5cm" y="27.15cm">AUT. SRI. [[ o.auth_ret_id.name ]]</drawCentredString>
+      	<drawCentredString x="16.5cm" y="26.80cm">Fecha Aut. [[ o.auth_ret_id.expiration_date or removeParentNode('drawCentredString') ]]</drawCentredString>
+      	<setFont name="Helvetica-Bold" size="16"/>
+      	<drawCentredString x="16.5cm" y="27.75cm">N° [[ o.factura ]]</drawCentredString>
+      </pageGraphics>
+      <frame id="first" x1="2.0cm" y1="2.5cm" width="17.0cm" height="24.0cm"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+  	<blockTableStyle id="header">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="BOX" thickness="0.5" colorName="#BDBDBD"/>
+      <lineStyle kind="LINEBELOW" thickness="0.5" colorName="#BDBDBD"/>
+      <blockSpan start="1,-1" stop="-1,-1"/>
+    </blockTableStyle>
+    <blockTableStyle id="details">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="BOX" thickness="0.5" colorName="#BDBDBD" start="0,0" stop="-1,-7"/>
+      <lineStyle kind="LINEBELOW" thickness="0.5" colorName="#BDBDBD" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEAFTER" thickness="0.5" colorName="#BDBDBD" start="0,0" stop="-1,-7"/>
+      <lineStyle kind="GRID" thickness="0.5" colorName="#BDBDBD" start="-2,-7" stop="-1,-1"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="Heading" fontName="Helvetica-Bold" alignment="CENTER" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Helvetica" alignment="CENTER" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+    <paraStyle name="Table Contents" fontName="Helvetica" fontSize="8.0"/>
+    <paraStyle name="Table Heading" fontName="Helvetica-Bold" fontSize="8.0" alignment="CENTER"/>
+    <images/>
+  </stylesheet>
+  <story>
+    [[ repeatIn(objects, 'o') ]]
+    <blockTable colWidths="2.0cm, 6.5cm, 2.0cm, 6.5cm" style="header">
+      <tr>
+      	<td><para style="Table Heading" alignment="LEFT">Fecha:</para></td>
+      	<td><para style="Table Contents">[[ o.date_invoice ]]</para></td> 
+      	<td><para style="Table Heading" alignment="LEFT">RUC/C.I.:</para></td>
+      	<td><para style="Table Contents">[[ o.partner_id.ident_num ]]</para></td>
+      </tr>
+      <tr>
+      	<td><para style="Table Heading" alignment="LEFT">Cliente:</para></td>
+      	<td><para style="Table Contents">[[ o.partner_id.name ]]</para></td>
+      	<td><para style="Table Heading" alignment="LEFT">Telf.:</para></td>
+      	<td><para style="Table Contents">[[ o.address_invoice_id.phone ]]</para></td> 
+      </tr>
+      <tr>
+      	<td><para style="Table Heading" alignment="LEFT">Dirección:</para></td>
+      	<td><para style="Table Contents">[[ (o.address_invoice_id.street + ' y ' + o.address_invoice_id.street2).upper() ]]</para></td> 
+      	<td> </td>
+      	<td> </td>
+      </tr>
+    </blockTable>
+    <para style="Table Heading"><font color="WHITE">CORTE</font></para>
+    <blockTable colWidths="2.0cm, 9.0cm, 3.0cm, 3.0cm" style="details">
+      <tr>
+      	<td><para style="Table Heading">Cantidad</para></td>
+      	<td><para style="Table Heading">Descripción</para></td>
+      	<td><para style="Table Heading">Valor unitario</para></td>
+      	<td><para style="Table Heading">Total</para></td>
+      </tr>
+      <tr>
+      	[[ repeatIn(o.invoice_line, 'line') ]]
+        <td><para style="Table Contents" alignment="CENTER">[[ line.quantity ]]</para></td>
+        <td><para style="Table Contents">[[ line.name ]]</para></td>
+        <td><para style="Table Contents" alignment="RIGHT">[[ line.price_unit ]]</para></td>
+        <td><para style="Table Contents" alignment="RIGHT">[[ line.price_subtotal ]]</para></td>
+      </tr>
+      <tr>
+        <td> </td><td> </td>
+        <td><para style="Table Heading" alignment="RIGHT">Subtotal <font size="6">(12%)</font></para></td>
+        <td><para style="Table Heading" alignment="RIGHT">[[ '%.2f'%o.t_bi_iva ]]</para></td>
+      </tr>
+      <tr>
+        <td> </td><td> </td>
+        <td><para style="Table Heading" alignment="RIGHT">Subtotal <font size="6">(0%)</font></para></td>
+        <td><para style="Table Heading" alignment="RIGHT">[[ '%.2f'%o.t_b_0_iva ]]</para></td>
+      </tr>
+      <tr>
+        <td> </td><td> </td>
+        <td><para style="Table Heading" alignment="RIGHT">Subtotal <font size="6">(No iva)</font></para></td>
+        <td><para style="Table Heading" alignment="RIGHT">[[ '%.2f'%o.t_b_excenta_iva ]]</para></td>
+      </tr>
+      <tr>
+        <td> </td><td> </td>
+        <td><para style="Table Heading" alignment="RIGHT">Descuento</para></td>
+        <td><para style="Table Heading" alignment="RIGHT">[[ '%.2f'%o.amount_discount ]]</para></td>
+      </tr>
+      <tr>
+        <td> </td><td> </td>
+        <td><para style="Table Heading" alignment="RIGHT">IVA <font size="6">(12%)</font></para></td>
+        <td><para style="Table Heading" alignment="RIGHT">[[ '%.2f'%o.t_iva ]]</para></td>
+      </tr>
+      <tr>
+        <td> </td><td> </td>
+        <td><para style="Table Heading" alignment="RIGHT">Total</para></td>
+        <td><para style="Table Heading" alignment="RIGHT">[[ o.amount_pay ]]</para></td>
+      </tr>
+    </blockTable>
+  </story>
+</document>

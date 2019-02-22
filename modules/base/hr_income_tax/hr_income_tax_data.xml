@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="True">
+    	
+        <!--
+   	========
+   	EGRESOS
+   	========
+-->
+		<record model="hr.expense.type" id="hr_income_tax_expense">
+            <field name="code">IMREN</field>
+            <field name="description">Cálculo del impuesto a la renta en el periodo</field>
+            <field name="name">Impuesto a la renta</field>
+        </record>
+        
+    </data>
+</openerp>

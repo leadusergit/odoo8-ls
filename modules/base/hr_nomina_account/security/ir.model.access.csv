@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_expense_type_account_manager","expense.type.account.manager","hr_nomina.model_hr_expense_type","account.group_account_manager",1,1,1,0
+"access_provision_type_account_manager","provision.type.account.manager","hr_nomina.model_hr_provision_type","account.group_account_manager",1,0,0,0
+"access_adm_incomes_account_manager","adm.incomes.account.manager","hr_nomina.model_hr_adm_incomes","account.group_account_manager",1,1,1,0
+"access_method_account_manager","method.account.manager","hr_nomina.model_hr_method","account.group_account_manager",1,1,1,0
+"access_adm_incomes_account_account_manager","adm.incomes.account.account.manager","model_hr_adm_incomes_account","account.group_account_manager",1,1,1,1
+"access_hr_employee_category_account_valuation_manager","hr.employee.category.account.valuation.manager","model_hr_employee_category_account_valuation","account.group_account_manager",1,1,1,1

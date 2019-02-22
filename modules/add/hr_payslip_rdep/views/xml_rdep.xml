@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- xml RDEP -->
+    <template id="hr_payslip_rdep.rdep_xml">
+        <rdep>
+            <numRuc><t t-esc="company.partner_id.ident_num"/></numRuc>
+            <anio><t t-esc="fiscalyear.name"/></anio>
+            <retRelDep>
+                <datRetRelDep t-foreach="employees" t-as="employee">
+                    <empleado>
+                        <benGalpg>NO</benGalpg>
+                        <tipIdRet><t t-esc="employee.tipoid.upper() if employee.tipoid else ''"/></tipIdRet>
+                        <idRet><t t-esc="employee.identification_id or employee.passport_id"/></idRet>
+                        <apellidoTrab><t t-esc="employee.getEmployeeNombre()['lastname']"/></apellidoTrab>
+                        <nombreTrab><t t-esc="employee.getEmployeeNombre()['firstname']"/></nombreTrab>
+                        <estab>001</estab>
+                        <residenciaTrab>01</residenciaTrab>
+                        <paisResidencia>593</paisResidencia>
+                        <aplicaConvenio>NA</aplicaConvenio>
+                        <tipoTrabajDiscap><t t-esc="'02' if employee.discapacidad else '01'"/></tipoTrabajDiscap>
+                        <porcentajeDiscap><t t-esc="'%i'%employee.porciento_discapacidad if employee.discapacidad else '0'"/></porcentajeDiscap>
+                        <tipIdDiscap><t t-esc="'N' if not employee.discapacidad  or employee.discapacidad_s == 'own' else employee.tipo_sustituto.upper() "/></tipIdDiscap>
+                        <idDiscap><t t-esc="'999' if  not employee.discapacidad  or employee.discapacidad_s == 'own' else employee.indent_sustituto "/></idDiscap>
+                    </empleado>
+                    <suelSal><t t-esc="'%0.2f'%employee.get_salarios_anuales(fiscalyear)"/></suelSal>
+                    <sobSuelComRemu><t t-esc="'%0.2f'%employee.get_ingresos_anuales(fiscalyear)"/></sobSuelComRemu>
+                    <partUtil>0.00</partUtil>
+                    <intGrabGen><t t-esc="'%0.2f'%employee.getIngresosOtroEmpleador(fiscalyear)"/></intGrabGen>
+                    <impRentEmpl>0.00</impRentEmpl>
+                    <decimTer><t t-esc="'%0.2f'%employee.get_decimo_tercero_anual(fiscalyear)"/></decimTer>
+                    <decimCuar><t t-esc="'%0.2f'%employee.get_decimo_cuarto_anual(fiscalyear)"/></decimCuar>
+                    <fondoReserva><t t-esc="'%0.2f'%employee.get_fondos_reserva_anuales(fiscalyear)"/></fondoReserva>
+                    <salarioDigno>0</salarioDigno>
+                    <otrosIngRenGrav>0</otrosIngRenGrav>
+                    <ingGravConEsteEmpl><t t-esc="'%0.2f'%employee.getTotalIngresos(fiscalyear, fiscalyear_before)"/></ingGravConEsteEmpl>
+                    <sisSalNet>1</sisSalNet>
+                    <apoPerIess><t t-esc="'%0.2f'%employee.apoPerIess(fiscalyear)"/></apoPerIess>
+                    <aporPerIessConOtrosEmpls><t t-esc="'%0.2f'%employee.aporPerIessConOtrosEmpls(fiscalyear)"/></aporPerIessConOtrosEmpls>
+                    <deducVivienda><t t-esc="'%0.2f'%employee.get_gastos_personales(fiscalyear)['housing']"/></deducVivienda>
+                    <deducSalud><t t-esc="'%0.2f'%employee.get_gastos_personales(fiscalyear)['health']"/></deducSalud>
+                    <deducEduca><t t-esc="'%0.2f'%employee.get_gastos_personales(fiscalyear)['education']"/></deducEduca>
+                    <deducAliement><t t-esc="'%0.2f'%employee.get_gastos_personales(fiscalyear)['food']"/></deducAliement>
+                    <deducVestim><t t-esc="'%0.2f'%employee.get_gastos_personales(fiscalyear)['clothing']"/></deducVestim>
+                    <deducArtycult><t t-esc="'%0.2f'%employee.get_gastos_personales(fiscalyear)['arte']"/></deducArtycult>
+                    <exoDiscap>0.00</exoDiscap>
+                    <exoTerEd>0.00</exoTerEd>
+                    <basImp><t t-esc="'%0.2f'%employee.baseImponible(fiscalyear)"/></basImp>
+                    <impRentCaus><t t-esc="'%0.2f'%employee.get_tax_amount(fiscalyear)"/></impRentCaus>
+                    <valRetAsuOtrosEmpls><t t-esc="'%0.2f'%employee.valorRetenidoOtroEmpleador(fiscalyear)"/></valRetAsuOtrosEmpls>
+                    <valImpAsuEsteEmpl>0</valImpAsuEsteEmpl>
+                    <valRet><t t-esc="'%0.2f'%employee.valorRetenido(fiscalyear)"/></valRet>
+                </datRetRelDep>
+            </retRelDep>
+        </rdep>
+	</template>
+    </data>
+</openerp>

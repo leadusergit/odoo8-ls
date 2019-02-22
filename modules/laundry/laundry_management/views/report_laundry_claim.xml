@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_laundry_claim">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <table class="table table-condensed table-bordered">
+                    <tr>
+                        <td><span t-field="o.company_id.logo"  t-field-options='{"widget": "image"}'/></td>
+                    </tr>
+                    </table>
+                    <h2><span t-field="o.cod_asignado"/></h2>
+                    <table class="table table-condensed">
+                        <tr>
+                    		<td><strong>Etiqueta</strong></td>
+                    		<td><strong><span t-field="o.codigo_orden_reclamo"/></strong></td>
+                        </tr>
+                        <tr>
+                    		<td><strong>Orden de Servicio</strong></td>
+                    		<td><strong><span t-field="o.lorder_id"/></strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Punto de Atención:</strong></td>
+                    		<td><strong><span t-field="o.company_id"/></strong></td>
+                        </tr>
+                        <tr>
+                        	<td><strong>Fecha:</strong></td>
+                        	<td><span t-field="o.clean_start_time"/></td>                        	
+                        </tr>
+                        <tr>
+                        	<td><strong>Cliente:</strong></td>
+                            <td><span t-field="o.partner_id.name"/></td>
+                       </tr>
+                       <tr>
+                            <td><strong>Entrega:</strong></td>
+                            <td><span t-field="o.clean_end_time"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr class="border-black">
+                                <th>Prenda</th>
+                                <th>Tipo Reclamo</th>                                
+								<th>Cant.</th> 
+								<th>Observacion</th>                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-black" t-foreach="get_claim_lines(o.service_claim_lines)" t-as="p">
+                            	<td><span class="text-right" t-field="p.name"/></td>
+                            	<td><span class="text-right" t-field="p.product_uom_qty"/></td>
+                            	<td><span class="text-right" t-field="p.claim_type_id.descripcion_reclamo"/></td>                            	 
+                            	<td><span class="text-right" t-field="p.observacion"/></td>                              	                            	
+                            </tr>
+                        </tbody>
+                    </table>	
+           			<div class="row">
+           				<tr>
+                    		<td><strong>Observación General:</strong></td>
+                    		<td><span class="text-left" t-field="o.informacion"/></td>                    	
+                   		</tr> 
+           			</div> 
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

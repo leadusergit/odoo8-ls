@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+<record id="wizard_report_tax_view" model="ir.ui.view">
+      	<field name="name">wizard.report.tax</field>
+      	<field name="model">wizard.report.tax</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form col="4" string="Generar Reporte">
+				<!-- Form 1 -->
+				<separator colspan="4" string="Reporte de Impuestos"/>
+				
+				<field name="name" readonly="1"/>
+				<field name="data" readonly="1"/>
+				
+				<separator colspan="4"/>
+				<!-- Buttons -->
+				<separator colspan="4"/>
+				<group col="2" colspan="4" >
+					<button icon="gtk-ok" name="generate_report" string="Generar Reporte" type="object" />
+					<button icon="gtk-close" name="act_destroy" special="cancel" string="Salir" type="object" />
+				</group>
+			</form>
+		</field>
+	 </record>
+	 
+	<!--
+		Actions 
+		PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+	-->
+    <record id="action_wizard_tax_report" model="ir.actions.act_window">
+		<field name="name">Imprimir Impuesto</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wizard.report.tax</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="wizard_report_tax_view"/>
+		<field name="target">new</field>
+	</record>
+	
+    
+    <record model="ir.values" id="tax_report_values">
+            <field name="model_id" ref="account_report_extend.model_account_tax_header" />
+            <field name="object" eval="1" />
+            <field name="name"> </field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_tax_report'))" />
+            <field name="key">action</field>
+            <field name="model">account.tax.header</field>
+    </record>
+
+</data>
+</openerp>

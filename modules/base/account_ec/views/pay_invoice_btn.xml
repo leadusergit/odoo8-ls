@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_invoice_customer_payment" model="ir.ui.view">
+           <field name="name">account.invoice.customer.payment</field>
+           <field name="model">account.invoice</field>
+           <field name="type">form</field>
+           <field name="inherit_id" ref="account.invoice_form"/>
+           <field name="arch" type="xml">
+           <button name="invoice_open" position="after">
+               <button name="pagar_factura" type="object" string="Pagar Factura" states="open" icon="gtk-go-forward" invisible="1"/>
+           </button>
+           </field>
+        </record>
+    
+        <record id="view_invoice_supplier_payment" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.payment</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <button name="invoice_open" position="after">
+                    <button name="pagar_factura" type="object" string="Pagar Factura" states="open" icon="gtk-go-forward" invisible="1"/>
+                </button>
+            </field>
+        </record>
+        <!-- Quitar el boton de imprimir de las facturas -->
+        <!-- record id="view_invoice_customer_print" model="ir.ui.view">
+            <field name="name">account.invoice.customer.print</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page/group/group//button[@name='%(account.account_invoices)d']" position="replace">
+					<button name="%(account.account_invoices)d" invisible="1"/>
+				</xpath>
+            </field>
+        </record-->
+         
+    </data>
+</openerp>

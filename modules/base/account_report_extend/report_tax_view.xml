@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    
+    <!--
+       =======================
+       Account Tax Report
+        =======================
+      -->
+    <record id="action_report_taxes" model="ir.actions.act_window" >
+      <field name="name">Reporte Impuestos</field>
+      <field name="type">ir.actions.act_window</field>
+      		<field name="res_model">account.tax.fechas</field>
+     		<field name="view_type">form</field> 
+     		<field name="view_mode">form</field>
+      		<field name="target">new</field>
+    </record>
+    
+     <menuitem
+            id="menu_impuestos_report"
+            name="Impuestos"
+            groups="account.group_account_manager"
+            parent="account.menu_finance_legal_statement" sequence="7"/>
+
+	   <menuitem name="Reporte Impuestos" parent="menu_impuestos_report" id="menu_reporte_taxes" sequence="4" action="action_report_taxes" groups="account.group_account_user,account.group_account_manager"/>
+		
+		<record model="ir.ui.view" id="view_account_tax_fechas_form">
+			<field name="name">view.account.tax.fechas.form</field>
+			<field name="model">account.tax.fechas</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Fechas reporte impuestos">
+					<h1>Reporte impuestos</h1>
+					<group colspan="4" col="4">
+						<separator colspan="4" string="Seleccione las fechas para el reporte"/>
+						<field name="inicio"/>
+						<field name="fin"/>
+						<field name="company_id"/>
+					</group>
+					<footer>
+						<button name="llamar_reporte" string="Aceptar" class="oe_highlight"
+							type="object"/>
+						ó
+						<button special="cancel" string="Cerrar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+     
+     <record model="ir.ui.view" id="view_account_tax_header_form">
+       <field name="name">view.account.tax.header.form</field>
+       <field name="model">account.tax.header</field>
+       <field name="type">form</field>
+       <field name="arch" type="xml">
+	 <form string="Fechas">
+	   <group colspan="4">
+	     <separator colspan="4" string="  Reporte de impuestos  "/>
+	     <field name="inicio"/>
+	    <field name="fin"/>
+	    <separator colspan="3" />
+	    <!--   <button name="generar_xml" string="Generar XML" icon="gtk-execute" type="object"/> -->
+	    <!--  <button name="_generate_file" string="Generar XML" icon="gtk-execute" type="object"/>  -->
+	    <!--button name='%[wizard_declaracion_formularios]d' type='action' string='Generar Archivo XML' icon="gtk-convert"/-->
+	    <button type="object" name="print_xls" string="Imprimir XLS" icon="gtk-print"/>
+	   </group>
+	   <separator string="Lineas" colspan="4"/>
+	   <field name="tax_ids" colspan="4" nolabel="1"/>
+	 </form>
+       </field>
+     </record>
+
+     <record model="ir.ui.view" id="view_account_tax_type_form">
+       <field name="name">view.account.tax.type.form</field>
+       <field name="model">account.tax.type</field>
+       <field name="type">form</field>
+       <field name="arch" type="xml">
+	 <form string="Tipo de impuesto">
+	   <field name="name"/>
+	   <field name="lineas_ids" nolabel="1" colspan="4"/>
+	 </form>
+       </field>
+     </record>
+
+     <record model="ir.ui.view" id="view_account_tax_type_tree">
+       <field name="name">view.account.tax.type.tree</field>
+       <field name="model">account.tax.type</field>
+       <field name="type">tree</field>
+       <field name="arch" type="xml">
+	 <tree string="Tipo de impuesto">
+	   <field name="name"/>
+	   <field name="b_total"/>
+	   <field name="v_total"/>
+	   <field name="code"/>
+	   <field name="formulario"/>
+	   <field name="lineas_ids"/>
+	 </tree>
+       </field>
+     </record>
+
+<record model="ir.ui.view" id="view_tax_report_linea_tree">
+  <field name="name">account.tax.report.linea.tree</field>
+  <field name="model">account.tax.report.linea</field>
+  <field name="type">tree</field>
+  <field name="arch" type="xml">
+    <tree string="Lineas">
+      <field name="impuesto"/>
+      <field name="fecha"/>
+      <field name="documento"/>
+      <field name="nombre"/>
+      <field name="ruc"/>
+      <field name="b_imponible" sum="Imponible"/>
+      <field name="porcentaje"/>
+      <field name="valor" sum="Valor"/>
+    </tree>
+  </field>
+</record>
+
+    <report auto="False" id="report_tax_retention" model="account.tax.header" name="account.tax" rml="account_report_extend/report/tax_retention.rml" string="Imprimir" header="False"/>
+    
+   
+  </data>
+</openerp>
+

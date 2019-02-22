@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	  
+	
+
+	<!-- <delete model="ir.actions.wizard" search="[('wiz_name','=','populate_statement_from_inv')]"/> -->
+	
+	<!--wizard
+            id="wizard_populate_statement_from_inv"
+            string="Importar facturas"
+            model="account.bank.statement"
+            name="populate_statement_from_inv_ret"
+            menu="False"
+            
+         /-->
+	
+		<!--
+	================================
+	REPORTE DE ANTIGUEDAD DE SALDOS
+	================================
+-->
+		<record model="ir.ui.view" id="reporte_saldos_clientes_form_view">
+			<field name="name">reporte.saldos.clientes.form</field>
+			<field name="model">wizard.saldos.clientes</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Reporte de antigüedad de saldos">
+					<field name="state" invisible="1"/>
+					<group colspan="4" col="100">
+						<group colspan="29" col="1">
+<!-- 							<field name="config_logo" widget="image" nolabel="1"/> -->
+							<label string="Asistente para generar el reporte de atigüedad de saldos"/>
+							<label string="--o--"/>
+							<label string="Seleccione los filtros de búsqueda de facturas con los cuales se generará el reporte."/>
+						</group>
+						<separator orientation="vertical" colspan="1" rowspan="5"/>
+						<group colspan="70">
+							<group colspan="4" attrs="{'invisible':[('state','!=','draft')]}">
+								<field name="type"/>
+								<field name="date" string="A la fecha a evaluar"/>
+								<field name="partner_id" colspan="4"/>
+								<field name="period"/>
+								<field name="days"/>
+								<group colspan="4">
+									<separator string="Rango de fechas" colspan="4"/>
+									<field name="date_from"/>
+									<field name="date_to"/>
+								</group>
+							</group>
+							<group colspan="4" attrs="{'invisible':[('state','!=','done')]}">
+								<separator string="Archivo generado" colspan="4"/>
+								<field name="file" filename="filename" colspan="4" nolabel="1"/>
+								<field name="filename" nolabel="1"/>
+							</group>
+						</group>
+						<separator colspan="100"/>
+						<group colspan="100" col="8">
+							<label string=" " colspan="6"/>
+							<button type="object" name="generate" string="Generar" icon="gtk-print" states="draft"/>
+							<button special="cancel" string="Cerrar" icon="gtk-close"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+	
+		<record model="ir.actions.act_window" id="action_saldos_clientes_view">
+			<field name="name">Reporte de antigüedad de saldos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.saldos.clientes</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="reporte_saldos_clientes_form_view"/>
+		</record>
+
+		<!-- menuitem id="saldos_clientes_menu" parent="account.next_id_22" action="action_saldos_clientes_view"/-->
+		<menuitem id="saldos_clientes_menu" parent="account.next_id_22" action="action_saldos_clientes_view"/>
+		
+
+		<!--
+	===================
+	REPORTE TRIBUTARIO
+	===================
+-->
+	
+		<record model="ir.ui.view" id="reporte_tributario_form_view">
+			<field name="name">reporte.tributario.form</field>
+			<field name="model">wizard.reporte.tributario</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Asistente para generar el reporte tributario">
+					<field name="state" invisible="1"/>
+					<group colspan="4" col="100">
+						<group colspan="29" col="1">
+<!-- 							<field name="config_logo" widget="image" nolabel="1"/> -->
+							<label string="Asistente para generar el reporte tributario"/>
+							<label string="--o--"/>
+							<label string="Seleccione las fechas en las cuales desea generar el reporte tributario."/>
+						</group>
+						<separator orientation="vertical" colspan="1" rowspan="5"/>
+						<group colspan="70">
+							<group colspan="4" attrs="{'invisible':[('state','!=','draft')]}">
+								<separator string="Filtros de búsqueda" colspan="4"/>
+								<field name="type"/>
+								<newline/>
+								<field name="date_from"/>
+								<field name="date_to"/>
+							</group>
+							<group colspan="4" attrs="{'invisible':[('state','!=','done')]}">
+								<separator string="Archivo generado" colspan="4"/>
+								<field name="file" filename="filename" colspan="4" nolabel="1"/>
+								<field name="filename" nolabel="1"/>
+							</group>
+						</group>
+						<separator colspan="100"/>
+						<group colspan="100" col="6">
+							<label string=" " colspan="4"/>
+							<button type="object" name="generate" string="Imprimir" icon="gtk-print" states="draft"/>
+							<button special="cancel" string="Cerrar" icon="gtk-close"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+	
+		<record model="ir.actions.act_window" id="action_reporte_tributario_view">
+			<field name="name">Reporte tributario</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.reporte.tributario</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="reporte_tributario_form_view"/>
+		</record>
+	
+		<menuitem id="reporte_tributario_menu" parent="account.menu_tax_report" action="action_reporte_tributario_view"/>
+		
+		<!--
+	=================================
+	Asistente para cancelar vouchers
+	=================================
+-->
+		<record model="ir.ui.view" id="account_voucher_cancel_form_view">
+			<field name="name">wizard.account.voucher.cancel.form</field>
+			<field name="model">wizard.account.voucher.cancel</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Asistente para romper conciliación">
+					<separator colspan="4"/>
+					<label string="Con este asistente usted podrá romper la conciliación de un pago realizado a una factura" colspan="4"/>
+					<label string="Usted puede especificar al asistente si desea que se anule el asiento del pago registrado al romper la conciliación o si desea generar un asiento de reversa, este último no alterará al asiento del pago." colspan="4"/>
+					<separator colspan="4"/>
+					<group colspan="4" col="6">
+						<field name="reverse"/>
+						<field name="move_date" on_change="onchange_move_date(move_date)" attrs="{'invisible':[('reverse','=',False)]}"/>
+						<field name="period_id" attrs="{'invisible':[('reverse','=',False)]}"/>
+					</group>
+					<group colspan="4">
+						<separator colspan="2"/>
+						<button type="object" name="btn_ok" string="Aceptar" icon="gtk-apply"/>
+						<button special="cancel" string="Cancelar" icon="gtk-cancel"/>
+					</group>
+				</form>
+			</field>
+		</record>
+	
+		<record model="ir.actions.act_window" id="action_account_voucher_cancel_view">
+			<field name="name">Asistente para romper conciliación</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.account.voucher.cancel</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+			<field name="view_id" ref="account_voucher_cancel_form_view"/>
+		</record>
+		
+		<record model="ir.ui.view" id="view_vendor_receipt_form">
+			<field name="name">account.voucher.receipt.form</field>
+			<field name="model">account.voucher</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+			<field name="arch" type="xml">
+				<button string="Unreconcile" position="attributes">
+					<attribute name="type">action</attribute>
+					<attribute name="name">%(action_account_voucher_cancel_view)d</attribute>
+				</button>
+				<xpath expr="//field[@name='line_cr_ids']/tree/field[@name='move_line_id']" position="after">
+					<field name="nro_factura"/>
+				</xpath>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_vendor_payment_form">
+			<field name="name">account.voucher.payment.form</field>
+			<field name="model">account.voucher</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+			<field name="arch" type="xml">
+				<button string="Unreconcile" position="attributes">
+					<attribute name="type">action</attribute>
+					<attribute name="name">%(action_account_voucher_cancel_view)d</attribute>
+				</button>
+				<xpath expr="//field[@name='line_dr_ids']/tree/field[@name='move_line_id']" position="after">
+					<field name="nro_factura"/>
+				</xpath>
+			</field>
+		</record>
+		
+	</data>
+
+</openerp>

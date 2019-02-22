@@ -1,0 +1,210 @@
+
+/* SELECT CASHIER SCREEN */
+
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+	.pos-select-cashier {
+	    width: 100%;
+	    position: absolute;
+	    top: -51px;
+	    bottom: 0;
+	    background: #bdc3c7;
+	    display:flex;
+	    justify-content:center;
+	    align-items:center;
+	    z-index: 1;
+	}
+	
+	 .select-wrapper {
+	    width: 100%;
+   		height: 100%;
+   		margin: 0 auto;
+	}
+	
+	.select-title {
+		text-align: center;
+		padding: 40px 0;
+		font-size: 65px;
+		font-weight: bold;
+		color: #ecf0f1;
+		text-transform: uppercase;
+		background: #1abc9c;
+	}
+	
+	
+	.select-wrapper-item {
+		max-height: 80%;
+		overflow-y: auto;
+		overflow-x: hidden;
+	    width: 90%;
+    	margin: 40px auto;
+	}
+	
+	.cashier-item:nth-child(odd) {
+    	margin-right: 5%;
+	}
+
+}
+
+.cashier-item,
+.cashier-item-image,
+.cashier-item-info {
+	display: inline-block;
+	float: left;
+}
+
+.cashier-item {
+	height: 120px;
+	margin-bottom: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 47%;
+	
+}
+
+.cashier-item-image {
+	width: 120px;
+	height: 120px;
+}
+
+.cashier-item-image img {
+	width: 100%;
+	height: auto;
+	max-height: 100%;
+	border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.cashier-item-info {
+	height: 120px;
+	width: 60%;
+	color: #ecf0f1;
+	padding: 0 10px 0 10px;
+}
+
+.cashier-name {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width:100%;
+	height: 100%;
+	font-size: 30px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.pos .pos-branding {
+	width: 300px;
+}
+
+.pos .pos-rightheader {
+	left: 300px !important;
+}
+
+.pos .pos-branding .username {
+    margin-left: 10px;
+    margin-right: 10px;
+    float: left;
+    overflow: hidden;
+    width: 110px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display:inline-block;
+}
+
+.pos .pos-logo {
+	float: left;
+	max-height: 100%;
+    margin-left: 0px;
+    max-width: 100px;
+    height: auto;
+    over-flow: hidden;
+}
+
+.cashier-display {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    max-width: 180px;
+    overflow: hidden;	
+}
+
+.cashier-avatar {
+    width: auto;
+    height: 48px;
+    float: left;
+}
+
+/*
+	Show password
+*/
+.popup-password-confirm {
+	width: 270px !important;
+	height: 490px !important;
+	padding: 0px !important;
+	margin-top: 0px !important;
+	top: 20px !important;
+	left: 55% !important;
+	border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+.popup-password-confirm .message {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 25px;
+    font-weight: bold;
+    color: #ecf0f1;
+    text-transform: uppercase;
+    background: #1abc9c;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.popup-password-confirm .content {
+	padding: 10px;
+}
+
+.popup-password-confirm .numpad {
+    padding: 8px;
+}
+
+.popup-password-confirm table.table-numpad {
+    border-color: #ccc;
+}
+
+.popup-password-confirm table.table-numpad td {
+    padding: 16px;
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.popup-password-confirm table.table-numpad td:hover {
+    background: #1abc9c;
+    color: #FFF;
+}
+
+.popup-password-confirm #password_content {
+    width: 190px;
+    height: 40px;
+    border: 2px solid #DDD;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 20px;
+    padding: 0 15px;
+    outline: none;
+}
+
+.popup-password-confirm #password_content:focus {
+	border: 2px solid #1abc9c;
+}
+
+.popup-password-confirm .button {
+	margin-right: 11px !important;
+    width: 115px !important;
+    font-size: 16px !important;
+}

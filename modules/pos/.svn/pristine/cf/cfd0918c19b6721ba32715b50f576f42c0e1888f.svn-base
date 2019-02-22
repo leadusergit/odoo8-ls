@@ -1,0 +1,18 @@
+# Bitbucket Pipelines Build Configuration for Odoo Apps
+# This file will define the CI Unit Test Tasks for Odoo Apps
+#
+# To include additional git repositories needed for the current App you
+# have to add the following line for every repository after the line cd /opt/odoo/custom_addons/
+#          - git clone git@bitbucket.org:jamotion/<REPO Name>.git
+
+image: jamotion/odoo-ci:8.0
+
+pipelines:
+  default:
+    - step:
+        script:
+          - /ci-init-env.sh
+          - /ci-start-psql.sh
+          - cd /opt/odoo/custom_addons/
+          - python -m coverage run --source=/opt/odoo/custom_addons/point_of_sale_direct_reconcile --omit=*/__openerp__.py,*/__init__.py,*/test*/* --branch /usr/bin/odoo.py --test-enable --stop-after-init -i point_of_sale_direct_reconcile --log-handler=openerp.addons.point_of_sale_direct_reconcile:TEST --log-level=error
+          - python -m coverage report -m

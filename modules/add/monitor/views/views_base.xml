@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+		<!-- CONFIG TABLA PARA EL CALCULO DE LA LIQUIDACION  -->
+        <!-- tree -->
+		<record id="m_table_payment_conf_tree" model="ir.ui.view">
+			<field name="name">Tabla cálculo de liquidación</field>
+			<field name="model">m.table.payment.conf</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="mmin" />
+					<field name="mmax" />
+                    <field name="rate" />
+                    <field name="percent" />
+				</tree>
+			</field>
+		</record>
+
+    	<!-- form -->
+		<record id="m_table_payment_conf_form" model="ir.ui.view">
+			<field name="name">Tabla cálculo de liquidación</field>
+			<field name="model">m.table.payment.conf</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Tabla cálculo de liquidación">
+					<header>
+                    </header>
+                    <sheet string="Tabla cálculo de liquidación">
+						<group col="4">
+							<group>
+                                <field name="mmin"/>
+                                <field name="mmax"/>
+                            </group>
+							<group>
+                                <field name="rate"/>
+                                <field name="percent"/>
+                            </group>
+						</group>
+					</sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+			</field>
+		</record>
+
+    	<!-- action -->
+    	<record id="action_m_table_payment_conf" model="ir.actions.act_window">
+			<field name="name">Tabla cálculo de liquidación</field>
+			<field name="res_model">m.table.payment.conf</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+        <!-- menu -->
+        <menuitem id="m_table_payment_conf_menu"
+                  name="Cálculo de liquidación"
+                  parent="m_configuration"
+                  action="action_m_table_payment_conf"/>
+
+    </data>
+</openerp>

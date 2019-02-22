@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<openerp>
+    <data>     
+       <!-- <report
+            id="pos_reporte"
+            string="POS-Factura"
+            model="pos.order"
+            report_type="qweb-pdf"
+            name="pos_order_graph.reporte_pos_invoice"
+            file="pos_order_graph.reporte_pos_invoice"
+        /> -->
+        <report 
+            id="invoice_pos_reporte"
+            model="account.invoice"
+            string="Factura-POS"
+            report_type="qweb-pdf"
+            name="pos_order_graph.reporte_pos_invoice"
+            file="pos_order_graph.reporte_pos_invoice"
+        />  
+    </data>
+</openerp>

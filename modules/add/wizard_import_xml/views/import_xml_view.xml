@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+  <record id="view_account_invoice_modfr" model="ir.ui.view">
+		<field name="name">account.invoice.modfr</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account_invoice_retention.view_account_supplier_form_inherit"/>
+		<field name="arch" type="xml">
+			<data>
+				<xpath expr="//field[@name='auth_inv_id']" position="replace">
+					<field name="auth_inv_id"
+						attrs="{'readonly':[('type','in',['in_invoice','in_refund']),('state','in',['open','paid','cancel'])]}"
+						domain="[('type','=',type),('partner_id','=',partner_id)]"
+						context="{'default_partner_id':partner_id}"/>
+				</xpath>
+			</data>
+		</field>
+		</record>
+  
+  
+
+     <record id="view_wizard_import_xml_form" model="ir.ui.view">
+		<field name="name">view.wizard.import.xml.form</field>
+		<field name="model">wizard.load.xml</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		    <form string="Importar Archivo">
+    			<!--  <group colspan="4" col="4">
+    				<field name="path_import"/>       		
+    			</group>-->
+    			<group colspan="4" col="4">
+    				<field name="date"/>
+    				<field name="period_id"/>     		
+    			</group>
+    			<group colspan="4" col="4">
+	        		<separator string="Importar Archivo" colspan="4"/>
+	        		<field name="data"/>
+    			</group>
+				<footer>
+					<button class="oe_highlight" name="get_partner" string="Importar" type="object"/>
+					ó
+					<button special="cancel" string="Cerrar" class="oe_link"/>
+				</footer>
+			</form>
+		</field>
+	</record>			
+
+
+		<!-- Actions
+		<record id="action_wizard_import_xml_archivo" model="ir.actions.act_window">
+			<field name="name">Importar Archivos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.load.xml</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_wizard_import_xml_form"/>
+			<field name="target">new</field>
+		</record> -->
+ 		
+ 		
+ 		<act_window id="action_wizard_import_xml_archivo"
+            multi="True"
+            key2="client_action_multi" name="Importar Archivos"
+            res_model="wizard.load.xml" src_model="account.invoice"
+            view_mode="form" target="new" view_type="form" />	
+	</data>
+</openerp>

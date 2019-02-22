@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<!-- 
+		=========================================================================
+		Balance de comprobacion
+		=========================================================================
+		-->
+	    <!--wizard id="wizard_account_balance_report_fa"
+	     menu="False"
+	     model="stock.kardex"
+	     name="account.account.balance.report.fa"
+	     string="Balance de Comprobación"/-->
+        <!--menuitem icon="STOCK_PRINT" action="wizard_account_balance_report_fa" id="menu_account_balance_report_2" parent="account.next_id_22" type="wizard"/-->
+        
+        <!--wizard id="wizard_account_balance_report_fa" 
+                menu="False"
+                model="stock.kardex"
+                name="account.account.balance.report.fa"
+                string="Balance de Comprobación"/-->
+        
+        <!--menuitem icon="STOCK_PRINT" 
+        action="wizard_account_balance_report_fa" 
+        id="menu_account_balance_report_2" 
+        parent="account.next_id_22" type="wizard"/-->
+        
+        <!-- 
+		=========================================================================
+		Reporte de ventas por producto 
+		=========================================================================
+		-->
+	  	<!--record id="action_wizard_sale_x_product" model="ir.actions.wizard">
+		  <field name="name">Reporte de Ventas por Productos</field>
+		  <field name="wiz_name">wizard.sale.x.product.report</field>
+		</record-->
+		<!--
+		=========================================================================
+			Menu de Reportes de Ventas
+		=========================================================================			
+		 -->
+		<menuitem name="Reportes" 
+		parent="base.next_id_64" 
+		id="menu_reporte_sale" 
+		sequence="6"/>
+    
+    	<!--menuitem parent="menu_reporte_sale" 
+    	id="menu_action_wizard_sale_x_product" 
+    	action="action_wizard_sale_x_product" 
+    	type="wizard" 
+    	icon="STOCK_PRINT"/-->
+        
+        <!--
+		=========================================================================
+	    Reporte de Asientos Analiticos  
+		=========================================================================
+	    -->
+	    <report auto="False" 
+			id="analytic_plans"
+			menu="False"
+			model="account.analytic.account"
+			name="analytic.plans"
+			rml="account_report_extend/report/analytic_plans.rml"
+			string="Cuentas Analíticas"/>
+	
+		<!--wizard id="analytic_plans_report"
+			keyword="client_print_multi"
+			model="account.analytic.account"
+			name="analytic.plans.report"
+			string="Cuentas Analíticas"/-->
+		
+          <!--
+		=========================================================================
+	     MENU DE REPORTES DE PROVEEDORES 
+		=========================================================================
+	    -->
+        <menuitem name="Reportes" 
+        parent="base.next_id_73" 
+        id="menu_reporte_supplier" 
+        sequence="6"/>
+        
+        <!--
+		=========================================================================
+	     REPORTE DEL BALANCE DE COMPROBACION 
+		=========================================================================
+	    -->
+		<!--record id="account_report_balance_view" model="ir.ui.view">
+			<field name="name">Balance de Cuenta</field>
+			<field name="model">account.balance.report</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.account_report_balance_view" />
+			<field name="arch" type="xml">
+				<group col="4" position="after">
+					<group col="1" colspan="4" attrs="{'invisible': [('state','!=','done')]}">
+						<field name="state" invisible="1"/>
+						<field name="file" filename="filename" nolabel="1"/>
+						<field name="filename" nolabel="1"/>
+					</group>
+				</group>
+				<group col="4" position="attributes">
+					<attribute name="col">6</attribute>
+					<attribute name="attrs">{'invisible': [('state','!=','draft')]}</attribute>
+				</group>
+				<button name="check_report" position="after">
+					<button icon="gtk-print" name="print_excel_report" string="Imprimir excel" type="object" colspan="2" default_focus="1"/>
+				</button>
+				<page string="Filters" position="after">
+					<page string="Cuentas contables">
+						<label string="Deje en blanco si desea mostrar en el reporte todas las cuentas" colspan="4"/>
+						<field name="accounts_ids" nolabel="1" colspan="4"/>
+					</page>
+				</page>
+			</field>
+		</record-->
+		
+    
+    </data>
+</openerp>

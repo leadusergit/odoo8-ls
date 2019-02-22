@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+
+     <record id="view_wizard_report_supplier_form" model="ir.ui.view">
+		<field name="name">wizard.report.supplier.form</field>
+		<field name="model">wizard.report.invoice.supplier</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<form string="Reporte ">
+				<separator colspan="4" string="Seleccione la Fecha de Factura" />
+				<group col="4" states="ini">
+				    <field name="date_start" />
+				    <field name="date_finish" />
+				</group>
+				<separator colspan="4" string="Seleccione el/los estado(s) de la Factura"/>
+				<group colspan="4" col="2" states="ini">
+				    <field name="draft" />
+				    <field name="open" />
+				    <field name="paid" />
+				    <field name="cancel" />
+				</group>
+				<group col="2" states="res" colspan="4">
+				    <field name="data" />
+				    <field name="name" />
+				</group>
+				<separator colspan="4" />
+				<group col="3" colspan="4">
+				    <field name="state" readonly="1" nolabel="1"/>
+					<button icon="gtk-ok" name="generate_report" string="Generar" type="object" states="ini"/>
+					<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+				</group>
+				<separator colspan="4" />
+			</form>
+		</field>
+		</record>			
+
+
+		<!-- Actions -->
+		<record id="action_wizard_report_supplier" model="ir.actions.act_window">
+			<field name="name">Reporte de Facturas Proveedor</field>
+			<field name="type">ir.actions.act_window</field>
+				<field name="res_model">wizard.report.invoice.supplier</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">form</field>
+				<field name="view_id" ref="view_wizard_report_supplier_form"/>
+				<field name="target">new</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem action="action_wizard_report_supplier" name="Reporte Facturas Proveedor" id="menu_wizard_report_supplier" icon="STOCK_PRINT"  
+				  parent="account.menu_finance_payables" groups="account.group_account_invoice,account.group_account_manager,account.group_account_user" sequence="13"/>
+
+	</data>
+</openerp>

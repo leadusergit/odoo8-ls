@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="0.0" y1="57.0" width="567" height="757"/>
+      <frame id="F1" x1="0.0" y1="0.0" width="100" height="100"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+  
+    <blockTableStyle id="Cheque">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+     <blockTableStyle id="FechaCheque">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="MIDDLE"/>
+    </blockTableStyle>
+  
+    <blockTableStyle id="Encabezado">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Header">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEABOVE" colorName="#000000" start="0,0" stop="5,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="5,0"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="Lineas">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    
+    <blockTableStyle id="H1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,0"/>
+    </blockTableStyle>
+    
+   <blockTableStyle id="Pie">
+      <blockTopPadding length="0" start="0,0" stop="-1,0"/>
+      <blockBottomPadding length="0" start="0,0" stop="-1,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="0,0" stop="0,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="2,0" stop="2,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="4,0" stop="4,0"/>
+      <lineStyle kind="LINEBELOW" colorName="#000000" start="6,0" stop="6,0"/>
+    </blockTableStyle>
+    
+    
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    
+    <!-- Encabezado -->
+    <paraStyle name="P1" fontName="Helvetica" fontSize="9" leading="10" alignment="LEFT"/>
+    <paraStyle name="P3C" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P3L" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="P3R" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    
+    <!-- Lineas-->
+    <paraStyle name="P20" fontName="Helvetica" fontSize="9.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P21" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P22" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="LEFT"/>
+    
+    <!--Titulo-->
+    <paraStyle name="P4" fontName="Helvetica-Bold" fontSize="9" leading="14" alignment="CENTER"/>
+    <paraStyle name="P5" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER"/>
+    
+    <paraStyle name="P6" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT"/>
+    <paraStyle name="P8" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+    <paraStyle name="P9" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+
+    <!--Formato de Cheque-->
+    <paraStyle name="P2" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P11" fontName="Helvetica-Bold" fontSize="10.0" leading="20"/>
+    <paraStyle name="P11A" fontName="Helvetica" fontSize="12.0" leading="15" alignment="LEFT"/>
+    <paraStyle name="P12" fontName="Helvetica" fontSize="6.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="PA" fontName="Helvetica-Bold" fontSize="10.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="PA1" fontName="Helvetica-Bold" fontSize="11.0" leading="8" alignment="LEFT"/>
+    <paraStyle name="P13" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="P13A" fontName="Helvetica" fontSize="2.0" leading="8" alignment="LEFT"/>
+
+    <paraStyle name="P15" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P16" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P17" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT"/>
+    <paraStyle name="P18" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT"/>
+    <paraStyle name="P19" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER"/>
+    
+    <paraStyle name="P24" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER"/>
+    <paraStyle name="P25" fontName="Helvetica" fontSize="9" leading="10" alignment="LEFT"/>
+    
+    <images/>
+  </stylesheet>
+  <story>
+    <para style="P1">[[repeatIn(objects, 'o')]] </para>
+    <spacer length="8"/>
+    <section>
+      <para style="P4">[[ get_company()[0] ]] [[ time.strftime('%Y') ]]</para>
+      <para style="P5">Dirección: [[ get_company()[1] ]]</para>
+      <para style="P5">RUC: [[ get_company()[2] ]]</para>
+      <para style="P4">CAJA/BANCOS</para>
+      <para style="P4">Comprobante de Ingreso: [[ get_secuencial(o) ]]</para>
+      
+      <blockTable colWidths="30,350,230" style="Encabezado">
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Fecha Impresion: [[time.strftime('%d de %B del %Y')]] Hora:  [[ time.strftime('%H:%M:%S') ]]</font> </para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Fecha Generacion: Quito, [[time.strftime('%d de %B del %Y', time.strptime(o.date, '%Y-%m-%d'))]]</font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Extracto: [[ get_name_extra(o) ]]</font> </para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Cliente / Proveedor: [[ ref_empresa(o.move_line_ids) ]]</font> </para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">RUC: [[ get_ruc(o.line_ids) ]]</font></para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">[[ data_deposit(o,'bank') ]]</font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Monto: [[ o.amount_deposit ]]</font></para></td>
+        </tr>
+        <tr>
+          <td><para style="P1"><font color="white"> </font></para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">[[ data_deposit(o,'acc_number') ]]</font> </para></td>
+          <td><para style="P1"><font face="Helvetica-Bold">Cheque Número: [[ get_cheque(o.bank_deposits) ]]</font> </para></td>
+        </tr>
+      </blockTable>
+      <spacer length='5.00'/>
+      
+      <blockTable colWidths="54.0,180.0,170.0,50.0,50.0,50.0" style="Header">
+        <tr>
+          <td><para style="P3R">CODIGO</para></td>
+          <td><para style="P3C">CUENTA</para></td>
+          <td><para style="P3C">CLIENTE</para></td>
+          <td><para style="P3C">FACTURA</para></td>
+          <td><para style="P3C">DEBITOS</para></td>
+          <td><para style="P3C">CREDITOS</para>
+          </td>
+        </tr>
+      </blockTable>
+      
+      <blockTable colWidths="54.0,180.0,170.0,50.0,50.0,50.0" style="Lineas">
+        <tr>
+          <td> <para style="P22">[[ repeatIn(debit(o.move_line_ids),'d') ]] [[ d['code'] ]]</para></td>
+          <td><para style="P22">[[  d['account'] ]]</para></td>
+          <td><para style="P22">[[  d['proveedor'] ]]</para></td>
+          <td><para style="P20">[[ d['factura'] ]]</para></td>
+          <td><para style="P21">[[ formato(d['debit']) ]]</para></td>
+          <td><para style="P21">0.00</para></td>
+        </tr>
+      </blockTable>
+       
+      <blockTable colWidths="54.0,180.0,170.0,50.0,50.0,50.0" style="Lineas">
+        <tr>
+          <td> <para style="P22">[[ repeatIn(credit(o.move_line_ids),'d') ]] [[ d['code'] ]]</para></td>
+          <td><para style="P22">[[  d['account'] ]]</para></td>
+          <td><para style="P22">[[  d['proveedor'] ]]</para></td>
+          <td><para style="P20">[[ d['factura'] ]]</para></td>
+          <td><para style="P21">0.00</para></td>
+          <td><para style="P21">[[ formato(d['credit']) ]]</para></td>
+        </tr>
+      </blockTable>
+      
+      <blockTable colWidths="450,50.0,50.0" style="Header">
+        <tr>
+          <td><para style="P16">TOTALES: </para></td>
+          <td><para style="P16">[[ formato(total()[0]) ]]</para></td>
+          <td><para style="P16">[[ formato(total()[1]) ]]</para></td>
+        </tr>
+      </blockTable>
+      
+      <spacer length='3.00'/>
+      <blockTable colWidths="550" style="H1">
+        <tr>
+          <td>
+            <para style="P25"><font face="Helvetica-Bold">OBSERVACIONES: </font></para>
+          </td>
+        </tr>
+      </blockTable>
+      <spacer length='10'/>
+      <blockTable colWidths="120,10,100.0,10,100,10,150" style="Pie">
+        <tr>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15">[[usuario()]]</para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+        </tr>
+        <tr>
+          <td><para style="P15">Aprobado</para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15">Contador</para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15">Digitado</para></td>
+          <td><para style="P15"><font color="white"> </font></para></td>
+          <td><para style="P15">Recibí Conforme</para></td>
+        </tr>
+      </blockTable>
+      <spacer length='10'/>   
+      <blockTable colWidths="160.0,160.0,140.0" style="Lineas">
+      <tr>
+        <td>
+          <para style="P17">[[ data_deposit(o,'deposit') ]]</para>
+        </td>
+        <td>
+          <para style="P17">[[ data_deposit(o,'num_deposit') ]]</para>
+        </td>
+        <td>
+          <para style="P17">[[ data_deposit(o,'date_deposit') ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+     
+     </section> 
+  </story>
+</document>

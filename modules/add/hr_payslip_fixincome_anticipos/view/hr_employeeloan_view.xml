@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="hr_employee_loan_search_view1" model="ir.ui.view">
+        <field name="name">hr.employee.loan.search_viewsearch1</field>
+        <field name="model">hr.employee.loan</field>
+        <field name="inherit_id" ref="hr_employee_loan.hr_employee_loan_search_view"/>
+        <field name="arch" type="xml">
+            <search>
+            	<group expand="0" string="Group By">
+				    <filter name="tipo" string="Tipo" icon="terp-personal" domain="[]" context="{'group_by':'tipo'}"/> 
+				 	<filter name="employee_id" string="Empleado" icon="terp-personal" domain="[]" context="{'group_by':'employee_id'}"/>				   		
+				 	<filter name="period_from" string="Periodo" icon="terp-personal" domain="[]" context="{'group_by':'period_from'}"/>				   		
+				 </group>
+            </search>
+        </field>
+    	</record>
+    	
+		<record id="view_hr_employeeloan_add" model="ir.ui.view">
+			<field name="name">hr.employeeloan.add</field>
+			<field name="model">hr.employee.loan</field>
+			<field name="inherit_id" ref="hr_employee_loan.hr_employee_loan_form_view" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//field[@name='period_from']" position="before">
+						<field name="tipo"/>
+					</xpath>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>

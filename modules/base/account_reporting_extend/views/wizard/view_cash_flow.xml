@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="wizard_cash_flow_view" model="ir.ui.view">
+            <field name="name">wizard.cash.flow.view</field>
+			<field name="model">wizard.cash.flow</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Reporte del Flujo de Caja">
+					<group col="4" states="init" colspan="4">
+						<separator string="Opciones" colspan="4"/>
+						<field name="period_comparativo_id"/>
+					    <field name="period_base_id"/>
+					    <separator colspan="4" string="Elija las eliminaciones correspondientes" />
+					    <field name="eliminations_ids" colspan="4"/>
+					    <separator colspan="4" string="Detalles del Estado Flujo de Efectivo" />
+					    <field name="details_ids" colspan="4"/>
+					</group>
+					<group col="2" states="done" colspan="4">
+					    <field name="file" />
+					    <field name="file_name" />
+					</group>
+					<separator colspan="4" />
+					<group col="3" colspan="4">
+					    <field name="state" readonly="1" nolabel="1"/>
+						<button icon="gtk-ok" name="generar_flujo_efectivo" string="Generar" type="object" states="init"/>
+						<button icon="gtk-close" name="act_cancel" special="cancel" string="Salir" type="object" />
+					</group>
+					<separator colspan="4" />
+				</form>
+			</field>
+        </record>
+
+        <record id="action_cash_flow_xsl" model="ir.actions.act_window">
+            <field name="name">Flujo de Efectivo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wizard.cash.flow</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_cash_flow_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

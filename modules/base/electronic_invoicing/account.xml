@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ====================
+    Códigos de impuesto
+    ====================
+-->
+	
+		<record model="ir.ui.view" id="view_tax_code_form">
+			<field name="name">account.tax.code.form</field>
+			<field name="model">account.tax.code</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account.view_tax_code_form"/>
+			<field name="arch" type="xml">
+				<field name="company_id" position="before">
+					<field name="electronic_code"/>
+				</field>
+			</field>
+		</record>
+		
+    </data>
+</openerp>

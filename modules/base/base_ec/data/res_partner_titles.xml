@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="res.partner.title" id="base.res_partner_title_pvt_ltd">
+            <field name="name">Sociedad Anónima</field>
+            <field name="shortcut">S.A.</field>
+            <field name="domain">partner</field>
+        </record>
+
+        <record model="res.partner.title" id="base.res_partner_title_ltd">
+            <field name="name">Sociedad Limitada</field>
+            <field name="shortcut">LTDA.</field>
+            <field name="domain">partner</field>
+        </record>
+        
+        <record model="res.partner.title" id="cia_ltda">
+            <field name="name">Compañia Limitada</field>
+            <field name="shortcut">CIA. LTDA.</field>
+            <field name="domain">partner</field>
+        </record>
+        
+        <record model="res.partner.title" id="ep">
+            <field name="name">Empresa Pública</field>
+            <field name="shortcut">E.P.</field>
+            <field name="domain">partner</field>
+        </record>
+
+        <record model="res.partner.title" id="base.res_partner_title_sir">
+            <field name="name">Señor</field>
+            <field name="shortcut">Sr.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="base.res_partner_title_madam">
+            <field name="name">Señora</field>
+            <field name="shortcut">Sra.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="base.res_partner_title_miss">
+            <field name="name">Señorita</field>
+            <field name="shortcut">Srta.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="ing">
+            <field name="name">Ingeniero</field>
+            <field name="shortcut">Ing.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="lic">
+            <field name="name">Licenciado</field>
+            <field name="shortcut">Lic.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="doc">
+            <field name="name">Doctor</field>
+            <field name="shortcut">Doc.</field>
+            <field name="domain">contact</field>
+        </record>
+        
+        <record model="res.partner.title" id="mas">
+            <field name="name">Master</field>
+            <field name="shortcut">Msc.</field>
+            <field name="domain">contact</field>
+        </record>     
+
+        <record model="res.partner.title" id="phd">
+            <field name="name">Ph. Doctor</field>
+            <field name="shortcut">PhD.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="tec">
+            <field name="name">Técnico</field>
+            <field name="shortcut">Tec.</field>
+            <field name="domain">contact</field>
+        </record>
+
+        <record model="res.partner.title" id="coop">
+            <field name="name">Cooperativa</field>
+            <field name="shortcut">Coop.</field>
+            <field name="domain">partner</field>
+        </record>
+        
+        <record model="res.partner.title" id="corp">
+            <field name="name">Corporación</field>
+            <field name="shortcut">Corp.</field>
+            <field name="domain">partner</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+	<record id="wizard_generate_expense" model="ir.ui.view">
+            <field name="name">wizard.generate.expense</field>
+            <field name="model">wizard.generate.expense</field>
+            <field name="arch" type="xml">
+                <form string="Gastos">
+                <group>
+					<group colspan="1">
+						<field name="periodo"/>
+					</group>                  
+                </group>
+                <field name="expense_ids" invisible="1"/>
+					<footer>
+						<button name="crear_expense" string="Generar Gastos" class="oe_highlight" type="object"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+       </record>
+
+       <act_window id="action_wizard_generate_expense"
+            multi="True"
+            key2="client_action_multi" name="Generar Registro Gastos"
+            res_model="wizard.generate.expense" src_model="hr.expense"
+            view_mode="form" target="new" view_type="form" />
+	</data>
+</openerp>

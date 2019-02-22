@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+           
+<!-- 
+   	============================================
+   	Asistente para generar los roles calculados
+   	============================================
+-->
+	
+		<record model="ir.ui.view" id="generate_payslip_form_view">
+			<field name="name">wizard.generate.payslip.form</field>
+			<field name="model">wizard.generate.payslip</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Generar Rol de Pago">
+					Este asistente permite generar el rol de pagos de los empleados seleccionados.
+					Tome en cuenta que solo podrá seleccionar los empleados que estan activos en el sistema.
+					De encontrar un rol de pagos ya generado, se omitirá la generación.
+					<field name="state" invisible="1"/>
+					<group colspan="4" col="2" attrs="{'invisible': [('state','!=','draft')]}">
+						<field name="period_from"/>
+						<field name="period_to"/>
+						<field name="journal_id"/>
+						<field name="employee_ids" nolabel="1" colspan="2" widget="many2many_tags"/>
+					</group>
+					<group colspan="4" col="1" attrs="{'invisible': [('state','!=','done')]}">
+						<label string="Realizado con éxito"/>
+						<separator string="Notas"/>
+						<field name="notes" nolabel="1"/>
+					</group>
+					<footer>
+						<button type="object" name="generate" string="Generar" states="draft" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cerrar" states="done" class="oe_link"/>
+						<button special="cancel" string="Cancelar" states="draft" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<act_window name="Generar Rol de Pago"
+            res_model="wizard.generate.payslip"
+            src_model="hr.employee"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="wizard_generate_payslip"/>
+            
+            <!-- Herencia para modifficar cuando es invisible el boton cargar datos del objeto hr_payslip -->
+          <record id="view_hr_payslip_add1" model="ir.ui.view">
+			<field name="name">hr.payslip.add1</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form" />
+			<field name="arch" type="xml">
+				<data>
+				<button name="load_info" position="replace">
+						<button type="object" name="load_info" string="Cargar Datos" icon="gtk-execute" attrs="{'invisible':[('state','!=','draft')]}"
+						help="Carga de variables y valores ,usar los códigos de las reglas salariales:TRANSPORTE,PRESTEMP,ALIMENTACION,ANTI,
+						      DESAHUCIO,MAT,HORA_EXTRA_REGULAR,
+						      HORA_EXTRA_EXTRAORDINARIA etc"/>
+				</button> 
+				</data>
+			</field>
+		</record>
+		
+		<!-- wizard genera voucher decimos opcion generar Registro pago decimos en payslip//mas wizard employees -->
+         
+        <record id="hr_payments_decimos_desde_employee_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payments.decimos.desde.employee.wizard.form</field>
+            <field name="model">hr.payments.decimos.desde.employee.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Employees">
+                	"Este wizard genera el voucher de pago para los empleados seleccionados
+                   	a los que se les adeudan los decimos."
+                	<group colspan="4" col="2">
+                		<field name="date"/> 
+						<field name="journal_id"/>
+						<field name="ref"/>
+						<field name="pago_dc" attrs="{'invisible': [('pago_dt','=',True)]}"/>
+						<field name="pago_dt" attrs="{'invisible': [('pago_dc','=',True)]}"/>                      		                    			
+						<field name="employee_ids" nolabel="1" colspan="2" widget="many2many_tags"/>	                    		                      		
+					</group>                  
+                	<footer>
+                        <button icon="gtk-execute" string="Generate" name="compute_decimos" type="object" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+
+               </form>
+            </field>
+        </record>
+		
+		<act_window id="action_hr_payments_decimos_desde_employee_wizard"
+            multi="True"
+            key2="client_action_multi" name="Generar Registro Pago Decimos"
+            res_model="hr.payments.decimos.desde.employee.wizard" src_model="hr.employee"
+            view_mode="form" target="new" view_type="form"/>
+	</data>
+</openerp>

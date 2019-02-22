@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+    	<!--
+    ================
+    Cash Management
+    ================
+-->
+		<record id="payment_cash_management_form_add_view" model="ir.ui.view">
+			<field name="name">payment.cash.management.add.form</field>
+			<field name="model">payment.cash.management</field>
+			<field name="inherit_id" ref="payments.payment_cash_management_form_view"/>			
+			<field name="arch" type="xml">
+				<data>
+				<button name="generar_cash_produbanco" position="before">
+				 <button type="object" name="generar_cash_pichincha" string="Cash Pichincha" states="done" class="oe_highlight"/>
+				 </button>	 
+				 <xpath expr="//field[@name='amount']" position="after">
+						<field name="orden_pago" string="Orden Pago"/>
+				 </xpath>
+				 <xpath expr="//field[@name='transfers']" position="before">
+				 	<button type="object" name="get_inputs" string="Cargar Lineas" states="draft" class="oe_highlight"/>
+				 </xpath>
+				</data>
+			</field>
+		</record>   
+    </data>
+</openerp>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Sequences for account.invoice retention--> 
+        <record forcecreate="1" id="seq_type_account_retention" model="ir.sequence.type">
+            <field name="name">Retention Sequence</field>
+            <field name="code">retention.sequence</field>
+        </record>
+        
+        <record forcecreate="1" id="seq_retention_invoice" model="ir.sequence">
+            <field name="name">Retention Invoice</field>
+            <field name="code">retention.sequence</field>
+            <field name="prefix"/>
+            <field eval="7" name="padding"/>
+        </record>
+        
+        <!-- SEQUENCIA QUE SE USARA PARA PONER COMO COMPROBANTE
+        	 DE INGRESO EN LOS EXTRACTOS BANCARIOS.-->       
+        <record forcecreate="1" id="seq_ingreso_caja" model="ir.sequence.type">
+			<field name="name">Ingreso Caja</field>
+			<field name="code">ingreso_caja_seq</field>
+		</record>
+				
+		<record forcecreate="1" id="seq_payment" model="ir.sequence">
+			<field name="name">ingreso_caja</field>
+			<field name="code">ingreso_caja_seq</field>
+			<field name="prefix"/>
+			<field eval="7" name="padding"/>
+		</record>
+				
+		<!--SEQUENCIA QUE SE USARA PARA
+		    PONER COMO COMPROBANTE DE DIARIO -->
+        <record forcecreate="1" id="seq_comprobante_diario" model="ir.sequence.type">
+			<field name="name">Comprobante Diario</field>
+			<field name="code">comprobante_diario_seq</field>
+		</record>
+		
+		<record forcecreate="1" id="seq_comprobante" model="ir.sequence">
+			<field name="name">comprobante_diario</field>
+			<field name="code">comprobante_diario_seq</field>
+			<field name="prefix"/>
+			<field eval="7" name="padding"/>
+		</record>
+		
+		<!--SEQUENCIA QUE SE USARA PARA
+		    PONER COMO COMPROBANTE DE EGRESO -->
+        <record forcecreate="1" id="seq_comprobante_egreso" model="ir.sequence.type">
+			<field name="name">Comprobante Egreso</field>
+			<field name="code">comprobante_egreso_seq</field>
+		</record>
+		
+		<record forcecreate="1" id="seq_egr" model="ir.sequence">
+			<field name="name">comprobante_egreso</field>
+			<field name="code">comprobante_egreso_seq</field>
+			<field name="prefix"/>
+			<field eval="7" name="padding"/>
+		</record>
+		
+		
+		<!--SEQUENCIA QUE SE USARA PARA
+		    PONER COMO ORDEN DE PAGO -->
+        <record forcecreate="1" id="seq_orden_pago" model="ir.sequence.type">
+			<field name="name">Orden de Pago</field>
+			<field name="code">orden_pago_seq</field>
+		</record>
+		
+		<record forcecreate="1" id="seq_ordenp" model="ir.sequence">
+			<field name="name">orden_pago</field>
+			<field name="code">orden_pago_seq</field>
+			<field name="prefix"/>
+			<field eval="7" name="padding"/>
+		</record>
+		
+							
+    </data>
+</openerp>

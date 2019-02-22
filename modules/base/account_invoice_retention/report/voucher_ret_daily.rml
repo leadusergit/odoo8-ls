@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="57.0" y1="100" width="481" height="728"/>
+      
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Standard_Outline">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla4">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla2">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla3">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Tabla5">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P1" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P2" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P3" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P4" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    
+    <paraStyle name="P4L" fontName="Helvetica" fontSize="9.0" leading="0" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P4R" fontName="Helvetica" fontSize="9.0" leading="4" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    
+    <paraStyle name="P5" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P6" fontName="Helvetica" fontSize="9.0" leading="11" alignment="RIGHT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P7" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P8" fontName="Helvetica-Bold" fontSize="9.0" leading="10" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P9" fontName="Helvetica" fontSize="15.0" leading="19" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="7.0" leading="9" alignment="LEFT"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="P12" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Helvetica" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+    <paraStyle name="Table Contents" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Table Heading" fontName="Helvetica" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+    <images/>
+  </stylesheet>
+  <story>
+    <para style="P10">[[repeatIn(objects, 'o')]]</para>
+    <blockTable colWidths="2cm" style="Tabla1">
+    	<tr>
+	    	<td><para style="P8"><font face="Helvetica-Bold">EMPRESA PROVINCIAL DE VIVENDA E.P. [[ time.strftime('%Y')]]</font></para></td>
+	    </tr>
+	    <tr>
+		    <td><para style="P1"><font face="Helvetica-Bold">Dirección: AV. ULPIANO PAEZ N7220 Y AV. PATRIA</font></para></td>
+	    </tr>
+	    <tr>
+	    	<td><para style="P1"><font face="Helvetica-Bold">RUC: 1790881733001</font></para></td>
+	    </tr>
+	    <tr>
+	    	<td><para style="P8"><font face="Helvetica-Bold">COMPROBANTE DE DIARIO Nro: [[ o.move_id.no_comp ]]</font></para></td>
+	    </tr>
+	</blockTable>
+	<spacer length="10"/>
+    <blockTable colWidths="10cm,10cm" style="Tabla1">
+      <tr>
+        <td><para style="P3">Fecha: QUITO, [[ time.strftime('Quito, %d de %B del %Y', time.strptime(o.broadcast_date, '%Y-%m-%d')) ]]</para></td>
+        <td><para style="P3">Monto: [[ o.total]]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P3">Moneda: DOLAR</para></td>
+        <td><para style="P3">Factura: [[ o.numero or '']]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P3">Cliente/Proveedor: [[ o.partner.upper() ]]</para></td>
+        <td><para style="P3">Nro. Retención: [[ o.number ]]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P3">Detalle:[[ detalle(o) ]]</para></td>
+        <td><para style="P3">Asiento: [[ o.move_id.id ]]</para></td>
+      </tr>
+    </blockTable>
+    <blockTable colWidths="1cm,2cm,3cm,4cm,5cm" style="Tabla4">
+      <tr>
+        <td><para style="P5">CUENTA</para></td>
+        <td><para style="P5">NOMBRE CUENTA</para></td>
+        <td><para style="P5">DETALLE</para></td>
+        <td><para style="P5">DEBITO</para></td>
+        <td><para style="P5">CREDITO</para></td>
+      </tr>
+    </blockTable>
+    <section>
+    [[repeatIn(get_lines(o.move_id),'l' )]]
+    <blockTable colWidths="1cm,2cm,3cm,4cm,5cm" style="Tabla4">
+      <tr>
+        <td><para style="P5"><font face="Helvetica-Bold">[[ l.account_id.code ]]</font></para></td>
+        <td><para style="P2"><font face="Helvetica-Bold">[[ l.account_id.name ]]</font></para></td>
+        <td><para style="P2"><font face="Helvetica-Bold">[[ detalle(o) ]]</font></para></td>
+        <td><para style="P6"><font face="Helvetica-Bold">[[ '%.2f' % l.debit or '.00' ]]</font></para></td>
+        <td><para style="P6"><font face="Helvetica-Bold">[[ '%.2f' % l.credit or '.00' ]]</font></para></td>
+      </tr>
+    </blockTable>
+    </section>
+    <blockTable colWidths="1cm,2cm,3cm,4cm,5cm" style="Tabla3">
+      <tr>
+        <td><para style="P2"><font color="white"> </font></para></td>
+        <td><para style="P2"><font color="white"> </font></para></td>
+        <td><para style="P6"><font face="Helvetica-Bold">TOTALES:</font></para></td>
+        <td><para style="P6"><font face="Helvetica-Bold">[[ o.total ]]</font></para></td>
+        <td><para style="P6"><font face="Helvetica-Bold">[[ o.total ]]</font></para></td>
+      </tr>
+    </blockTable>
+	<spacer length="10"/>
+    <blockTable colWidths="161.0,161.0,161.0" style="Tabla5">
+      <tr>
+        <td><para style="P4L"><font color="white"> </font></para>
+        	<para style="P1">____________________________</para>
+        </td>
+        <td><para style="P4L"><font color="white"> </font></para>
+          	<para style="P1">____________________________</para>
+        </td>
+        <td>
+          <para style="P4R"><font face="Helvetica-Bold"></font></para>
+          <para style="P1">____________________________</para>
+        </td>
+      </tr>
+      <tr>
+        <td><para style="P4"><font face="Helvetica-Bold">AUTORIZADO</font></para></td>
+        <td><para style="P4"><font face="Helvetica-Bold">CONTADOR</font></para></td>
+        <td><para style="P4"><font face="Helvetica-Bold">CONTABILIZADO</font></para></td>
+      </tr>
+    </blockTable>
+  </story>
+</document>
+

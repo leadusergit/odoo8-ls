@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+	 	<record id="view_account_invoice_retention_search" model="ir.ui.view">
+        <field name="name">account.account.invoice.retention.search</field>
+        <field name="model">account.invoice.retention</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter domain="[('state','=','draft')]" string="Borrador"/>
+                <filter domain="[('state','=','early')]" string="Anticipada"/>
+                <filter domain="[('state','=','paid')]" string="Realizada"/>
+                <filter domain="[('state','=','cancel')]" string="Anulada"/>
+                <field name="partner_id"/>
+                <field name="autorization"/>
+                <field name="fecha"/>
+                <group expand="0" string="Group By">
+                	<filter name="partner_id" string="Empresa" icon="terp-personal" domain="[]" context="{'group_by':'partner_id'}"/>                        
+                	<filter name="autorization" string="Nº Autorizacion" icon="terp-personal" domain="[]" context="{'group_by':'autorization'}"/>                                         
+                	<filter name="fecha" string="Periodo" icon="terp-personal" domain="[]" context="{'group_by':'fecha'}"/>                                                     
+              </group>
+              </search>
+        </field>
+    	</record>
+	</data>
+</openerp>

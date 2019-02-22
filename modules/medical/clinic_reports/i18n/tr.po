@@ -1,0 +1,188 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * clinic_reports
+# 
+# Translators:
+# faradundamarti <faradundamarti@yandex.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: odoo-clinic (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-02 13:54+0000\n"
+"PO-Revision-Date: 2015-11-07 11:00+0000\n"
+"Last-Translator: faradundamarti <faradundamarti@yandex.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/adhoc/ingadhoc-odoo-clinic-8-0/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: clinic_reports
+#: model:email.template,body_html:clinic_reports.meeting_daily_agenda_email
+msgid ""
+"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"    <p>Hola ${object.name},</p>\n"
+"    <p>Podrá encontrar adjunto a este mail la agenda del día en formato pdf.\n"
+"    <p>Saludos cordiales,</p>\n"
+"    <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: rgb(251, 34, 44); border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
+"        <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: white;\">\n"
+"            <strong style=\"text-transform:uppercase;\">${user.company_id.name}</strong></h3>\n"
+"    </div>\n"
+"    <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: rgb(248, 248, 248);\">\n"
+"        <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
+"        % if user.company_id.street:\n"
+"            ${user.company_id.street}<br>\n"
+"        % endif\n"
+"        % if user.company_id.street2:\n"
+"            ${user.company_id.street2}<br>\n"
+"        % endif\n"
+"        % if user.company_id.city or user.company_id.zip:\n"
+"            ${user.company_id.zip} ${user.company_id.city}<br>\n"
+"        % endif\n"
+"        % if user.company_id.country_id:\n"
+"            ${user.company_id.state_id and ('%s, ' % user.company_id.state_id.name) or ''} ${user.company_id.country_id.name or ''}<br>\n"
+"        % endif\n"
+"        </span>\n"
+"        % if user.company_id.phone:\n"
+"            <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
+"                Teléfono:&nbsp; ${user.company_id.phone}\n"
+"            </div>\n"
+"        % endif\n"
+"        % if user.company_id.website:\n"
+"            <div>\n"
+"                Web :&nbsp;<a href=\"${user.company_id.website}\">${user.company_id.website}</a>\n"
+"            </div>\n"
+"        %endif\n"
+"        <p></p>\n"
+"    </div>\n"
+"    <div style=\"margin-top:20px; padding: 5px 14px; width: 347px; line-height: 16px;\">\n"
+"        Un servicio de <a href=\"http://www.clinicadhoc.com.ar/\" target=\"_blank\">Clinic ADHOC</a><br/>\n"
+"        <a href=\"http://www.clinicadhoc.com.ar/\" target=\"_blank\">\n"
+"            <img style=\"width: 200px; margin-top:10px;\" src=\"data:image/png;base64,${user.company_id.logo}\">\n"
+"        </a>\n"
+"    </div>\n"
+"</div>\n"
+msgstr ""
+
+#. module: clinic_reports
+#: model:email.template,subject:clinic_reports.meeting_daily_agenda_email
+msgid "Agenda del Día"
+msgstr ""
+
+#. module: clinic_reports
+#: selection:res.users,daily_schedule_mail:0
+msgid "All Medics Agenda"
+msgstr "Tüm Doktorların Gündemi"
+
+#. module: clinic_reports
+#: view:clinic_meeting_daily_agenda_wizard:clinic_reports.clinic_meeting_daily_agenda_wizard_form
+msgid "Cancel"
+msgstr "İptal"
+
+#. module: clinic_reports
+#: model:email.template,report_name:clinic_reports.meeting_daily_agenda_email
+msgid "Clinic Agenda"
+msgstr "Klinik Gündemi"
+
+#. module: clinic_reports
+#: model:ir.actions.report.xml,name:clinic_reports.clinic_meeting_daily_agenda
+msgid "Clinic Meeting Daily Agenda"
+msgstr "Klinik Günlük Toplantı Gündemi"
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,create_uid:0
+msgid "Created by"
+msgstr "Oluşturan"
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: clinic_reports
+#: view:clinic_meeting_daily_agenda_wizard:clinic_reports.clinic_meeting_daily_agenda_wizard_form
+#: model:ir.actions.act_window,name:clinic_reports.action_clinic_meeting_daily_agenda_wizard
+#: model:ir.ui.menu,name:clinic_reports.menu_clinic_meeting_daily_agenda_wizard
+msgid "Daily agenda"
+msgstr "Günlük Gündem"
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,date:0
+msgid "Date"
+msgstr "Tarih"
+
+#. module: clinic_reports
+#: report:addons/clinic_reports/report/daily_agenda/clinic_meeting_daily_agenda.mako:67
+msgid "FECHA"
+msgstr ""
+
+#. module: clinic_reports
+#: report:addons/clinic_reports/report/daily_agenda/clinic_meeting_daily_agenda.mako:75
+msgid "HORA"
+msgstr ""
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,id:0
+msgid "ID"
+msgstr "Kimlik"
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "En Son Güncelleyen"
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: clinic_reports
+#: report:addons/clinic_reports/report/daily_agenda/clinic_meeting_daily_agenda.mako:68
+msgid "MEDICO"
+msgstr ""
+
+#. module: clinic_reports
+#: field:clinic_meeting_daily_agenda_wizard,user_ids:0
+msgid "Medics"
+msgstr "Doktorlar"
+
+#. module: clinic_reports
+#: selection:res.users,daily_schedule_mail:0
+msgid "My Agenda"
+msgstr "Benim Gündemim"
+
+#. module: clinic_reports
+#: selection:res.users,daily_schedule_mail:0
+msgid "Never"
+msgstr "Hiçbir zaman"
+
+#. module: clinic_reports
+#: report:addons/clinic_reports/report/daily_agenda/clinic_meeting_daily_agenda.mako:77
+msgid "OBSERVACIONES"
+msgstr ""
+
+#. module: clinic_reports
+#: report:addons/clinic_reports/report/daily_agenda/clinic_meeting_daily_agenda.mako:76
+msgid "PACIENTE"
+msgstr ""
+
+#. module: clinic_reports
+#: view:clinic_meeting_daily_agenda_wizard:clinic_reports.clinic_meeting_daily_agenda_wizard_form
+msgid "Print"
+msgstr "Yazdırma"
+
+#. module: clinic_reports
+#: field:res.users,daily_schedule_mail:0
+msgid "Receive Daily Agenda"
+msgstr "Günlük Gündemi Alma"
+
+#. module: clinic_reports
+#: model:ir.ui.menu,name:clinic_reports.menu_clinic_reports
+msgid "Reports"
+msgstr "Bildirimler"
+
+#. module: clinic_reports
+#: model:ir.model,name:clinic_reports.model_res_users
+msgid "Users"
+msgstr "Kullanıcılar"

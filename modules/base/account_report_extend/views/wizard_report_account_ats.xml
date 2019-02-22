@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+		<record id="view_wizard_generate_ats_form" model="ir.ui.view">
+			<field name="name">wizard.generate.ats.form</field>
+			<field name="model">wizard.generate.ats</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Generacion A.T.S.">
+					<h1>Asistente para generar el Anexo Transaccional</h1>
+					<group colspan="4" col="4">
+						<field name="date_start"/>
+						<field name="date_finish"/>
+						<field name="company_id"/>
+					</group>
+					<footer>
+						<button name="fill_data" string="Generar" type="object" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>			
+
+
+		<!--
+			Actions 
+			PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+		-->
+        <record id="wizard_report_ats_view100" model="ir.ui.view">
+	      	<field name="name">wizard.report.ats.form100</field>
+	      	<field name="model">wizard.report.ats</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Generar Reporte ATS">
+					<h1>Reporte del Anexo Transaccional</h1>
+					<group colspan="4" col="4">
+						<field name="name" invisible="1"/>
+						<field name="data" filename="name" readonly="1"/>
+					</group>
+					<footer>
+						<button special="cancel" string="Salir" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+	 	</record>
+     
+		 <!--
+			Actions 
+			PONER EL ID DEL ACTION PARA LLAMAR AL WIZARD DESDE UN BOTON EN LA VISTA
+		-->
+		<record id="action_wizard_ats_report100" model="ir.actions.act_window">
+			<field name="name">ImprimirATS</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.ats</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_report_ats_view100"/>
+			<field name="target">new</field>
+		</record>
+
+		<!-- Actions -->
+		<record id="action_wizard_generate_ats" model="ir.actions.act_window">
+			<field name="name">Reporte del A.T.S.</field>
+			<field name="type">ir.actions.act_window</field>
+				<field name="res_model">wizard.generate.ats</field>
+				<field name="view_type">form</field>
+				<field name="view_mode">form</field>
+				<field name="view_id" ref="view_wizard_generate_ats_form"/>
+				<field name="target">new</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem action="action_wizard_generate_ats" id="menu_wizard_generate_ats" icon="STOCK_PRINT"  
+				  parent="menu_impuestos_report"/>
+		
+		<!-- Documento ATS cabecera -->
+		<record model="ir.ui.view" id="view_account_document_ats_form">
+			<field name="name">view.account.document.ats.form</field>
+			<field name="model">account.document.ats</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Documento A.T.S.">
+					<header>
+						<button name='%(action_generate_file_ats)d' type='action' class="oe_highlight"
+							string='Generar Archivo XML'/>
+						<button type="object" name="print_report" string="Imprimir A.T.S." icon="gtk-print"/>
+					</header>
+					<sheet>
+						<h1>Anexo Transaccional</h1>
+						<group colspan="4" col="4">
+							<field name="date_start"/>
+							<field name="date_finish"/>
+							<field name="numero_compras"/>
+							<field name="numero_ventas"/>
+						</group>
+						<notebook colspan="4">
+							<page string="Resumen Compras">
+								<separator string="Lineas" colspan="4"/>
+								<field name="document_ats_resumen_ids" colspan="4" nolabel="1"
+									readonly="1"/>
+							</page>
+							<page string="Resumen Importaciones">
+								<separator string="Lineas" colspan="4"/>
+								<field name="document_ats_resumen_import_ids" colspan="4"
+									nolabel="1" readonly="1"/>
+							</page>
+							<page string="Resumen Exportaciones">
+								<separator string="Lineas" colspan="4"/>
+								<field name="document_ats_resumen_export_ids" colspan="4"
+									nolabel="1" readonly="1"/>
+							</page>
+							<page string="Resumen Concepto de Retencion">
+								<separator string="Lineas" colspan="4"/>
+								<field name="document_ats_resumen_concept_retent_ids"
+									colspan="4" nolabel="1" readonly="1">
+									<form string="Resumen">
+										<field name="details_ids" colspan="4" mode="tree"
+											nolabel="1">
+											<tree string="Detalles">
+												<field name="factura"/>
+												<field name="base" sum="Total"/>
+												<field name="amount" sum="Total"/>
+											</tree>
+										</field>
+									</form>
+								</field>
+							</page>
+							<page
+								string="Resumen Concepto de Retenciones - Retencion en la Fuente de IVA">
+								<separator string="Lineas" colspan="4"/>
+								<field name="document_ats_resumen_retent_fuente_ids"
+									colspan="4" nolabel="1" readonly="1">
+									<form string="Resumen">
+										<field name="details_ids" colspan="4" mode="tree"
+											nolabel="1">
+											<tree string="Detalles">
+												<field name="factura"/>
+												<field name="base" sum="Total"/>
+												<field name="amount" sum="Total"/>
+											</tree>
+										</field>
+									</form>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+        
+        <!-- Documento Resumen ATS Form -->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_form">
+                <field name="name">view.account.document.ats.resumen.form</field>
+                <field name="model">account.document.ats.resumen</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                <form string="Documento A.T.S. Resumen">
+                   <group>
+	                  <field name="codigo"/>
+	                  <field name="documento"/>
+	                  <field name="type"/>
+	                  <field name="numero_documento"/>
+	                  <field name="base_imponible_tarifa_cero"/>
+	                  <field name="base_imponible_tarifa_doce"/>
+	                  <field name="valor_iva"/>
+                   </group>
+                     <notebook colspan="4">
+                      <page string="Detalle Compras">
+                        <separator string="Lineas" colspan="4"/>
+                        <field name="document_ats_purchase_ids" nolabel="1" colspan="4" >
+		                     <tree string='Detalle Compras'>           	        
+		                        <field name="codigo_sustento"/>
+		      					<field name="tipo_id_prov"/>
+		      					<field name="ruc_prov"/>
+		      					<field name="tipo"/>
+		      					<field name="fecha_registro"/>
+		      					<field name="autorizacion_establecimiento"/>
+		      					<field name="autorizacion_punto_emision"/>
+		      					<field name="secuencial_factura"/>
+		      					<field name="fecha_emision"/>
+		      					<field name="autorizacion"/>
+		      					<field name="base_no_gravada"/>
+		      					<field name="base_imponible"/>
+		      					<field name="base_imponible_grava"/>
+		      					<field name="monto_ice"/>
+		      					<field name="monto_iva"/>
+		      					<field name="valor_retencion_bien10"/>
+		      					<field name="valor_retencion_serv20"/>
+		      					<field name="valor_retencion_bienes"/>
+		      					<field name="valor_retencion_serv50"/>
+		      					<field name="valor_retencion_servicios"/>
+		      					<field name="valor_retencion_servicios_100"/>
+		      				</tree>
+      				    </field>
+                      </page>
+                      <page string="Detalle Ventas">
+                        <separator string="Lineas" colspan="4"/>
+                        <field name="document_ats_sale_ids" nolabel="1" colspan="4" >
+	                      <tree string='Detalle Ventas'>           	        
+      					    <field name="codigo_sustento"/>
+	      					<field name="tipo_id_prov"/>
+	      					<field name="ruc_prov"/>
+	      					<field name="tipo"/>
+	      					<field name="fecha_registro"/>
+	      					<field name="autorizacion_establecimiento"/>
+	      					<field name="autorizacion_punto_emision"/>
+	      					<field name="secuencial_factura"/>
+	      					<field name="fecha_emision"/>
+	      					<field name="autorizacion"/>
+	      					<field name="base_no_gravada"/>
+	      					<field name="base_imponible"/>
+	      					<field name="base_imponible_grava"/>
+	      					<field name="monto_ice"/>
+	      					<field name="monto_iva"/>
+	      					<field name="valor_ret_iva"/>
+	      					<field name="valor_ret_renta"/>
+	      				  </tree>
+      				    </field>
+                      </page>
+                      
+                      <page string="Detalle Anulados">
+                        <separator string="Lineas" colspan="4"/>
+                        <field name="document_ats_cancel_ids" nolabel="1" colspan="4" >
+	                      <tree string='Detalle Ventas'>
+      					    <field name="tipo"/>
+	      					<field name="establecimiento"/>
+	      					<field name="punto_emision"/>
+	      					<field name="secuencial_inicio"/>
+	      					<field name="secuencial_fin"/>
+	      					<field name="autorizacion"/>
+	      					<field name="base_imponible_tarifa_cero"/>
+	      					<field name="base_imponible_tarifa_doce"/>
+	      					<field name="valor_iva"/>
+	      				  </tree>
+      				    </field>
+                      </page>
+                  	</notebook>
+      			</form>
+               </field>
+        </record>
+        
+        <!-- Documento Resumen ATS Tree-->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_tree">
+           <field name="name">view.account.document.ats.resumen.tree</field>
+           <field name="model">account.document.ats.resumen</field>
+           <field name="type">tree</field>
+           <field name="arch" type="xml">
+	         <tree string="Documento A.T.S. Resumen Compras - Ventas">
+               <field name="codigo"/>
+               <field name="documento"/>
+               <field name="type"/>
+               <field name="numero_documento"/>
+               <field name="base_imponible_tarifa_cero"/>
+               <field name="base_imponible_tarifa_doce"/>
+               <field name="valor_iva"/>
+	         </tree>
+           </field>
+        </record>
+        
+		
+		<!-- Documento Importaciones ATS Tree-->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_import_tree">
+          <field name="name">view.account.document.ats.resumen.import.tree</field>
+          <field name="model">account.document.ats.resumen.import</field>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+          <tree string="Documento A.T.S. Importaciones">
+               <field name="codigo"/>
+               <field name="documento"/>
+               <field name="numero_documento"/>
+               <field name="v_cif_fob"/>
+               <field name="valor_iva"/>
+          </tree>
+          </field>
+        </record>
+        
+        <!-- Documento Exportaciones ATS Tree-->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_export_tree">
+          <field name="name">view.account.document.ats.resumen.export.tree</field>
+          <field name="model">account.document.ats.resumen.export</field>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+	        <tree string="Documento A.T.S. Exportaciones">
+              <field name="codigo"/>
+              <field name="documento"/>
+              <field name="numero_documento"/>
+              <field name="v_cif_fob"/>
+              <field name="valor_iva"/>
+	        </tree>
+          </field>
+        </record>
+        
+        <!-- Documento Concepto de Retencion ATS Tree-->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_concept_retent_tree">
+          <field name="name">view.account.document.ats.resumen.concept_retent.tree</field>
+          <field name="model">account.document.ats.resumen.concept_retent</field>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+	         <tree string="Documento A.T.S. Concepto de Retenciones">
+	              <field name="codigo"/>
+	              <!--field name="porcentaje" / -->
+	              <field name="documento"/>
+	              <field name="numero_documento" sum="No. Reg"/>
+	              <field name="base_imponible_ir" sum="Base Imponible"/>
+	              <field name="retencion_ir" sum="Valor Retenido"/> 
+	         </tree>
+          </field>
+        </record>
+        
+        <!-- Documento Concepto de Retencion ATS Form-->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_concept_retent_form">
+          <field name="name">view.account.document.ats.resumen.concept_retent.form</field>
+          <field name="model">account.document.ats.resumen.concept_retent</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+	         <form string="Documento A.T.S. Concepto de Retenciones">
+	              <field name="codigo"/>
+	              <!--field name="porcentaje" / -->
+	              <field name="documento"/>
+	              <field name="numero_documento" sum="No. Reg"/>
+	              <field name="base_imponible_ir" sum="Base Imponible"/>
+	              <field name="retencion_ir" sum="Valor Retenido"/> 
+	         </form>
+          </field>
+        </record>
+        
+        
+        
+      <!-- Documento Resumen de Retenciones - Retencion en la Fuente de IVA. ATS Tree-->
+        <record model="ir.ui.view" id="view_account_document_ats_resumen_resu_retent_tree">
+          <field name="name">view.account.document.ats.resumen.resu.retent.tree</field>
+          <field name="model">account.document.ats.resumen.resu.retent</field>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+	        <tree string="Documento A.T.S. Concepto de Retenciones IVA">
+	          <!--field name="operacion"/ -->
+              <field name="documento"/>
+              <field name="numero_documento"/>
+              <field name="base_imponible_ir"/>
+              <!--field name="porcentaje_ret" /-->
+              <field name="retencion_ir"/>
+	        </tree>
+         </field>
+        </record>
+        
+        
+        
+        
+        
+	
+		<record model="ir.values" id="ats_report_values">
+		        <field name="model_id" ref="account_report_extend.model_account_document_ats"/>
+		        <field name="object" eval="1"/>
+		        <field name="name"> </field>
+		        <field name="key2">client_action_multi</field>
+		        <field name="value" eval="'ir.actions.act_window,' + str(ref('action_wizard_ats_report100'))"/>
+		        <field name="key">action</field>
+		        <field name="model">account.document.ats</field>
+		</record>
+        
+
+        
+	</data>
+</openerp>

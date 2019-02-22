@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		
+		<!-- 
+   	==========================================
+   	Asistente para enviar emails de los roles
+   	==========================================
+-->
+	
+		<record model="ir.ui.view" id="send_payroll_email_form_view">
+			<field name="name">wizard.send.payroll.mail.form</field>
+			<field name="model">wizard.send.payroll.mail</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Enviar el rol de pagos por email al personal">
+					<h4>
+						Este asistente le permite enviar los roles de pago a sus colaboradores siempre y cuando los roles se encuentren validados.
+						Añada al listado los roles que desea enviar. Recuerde que solamente podrá seleccionar los roles validados.
+					</h4>
+					<group string="Detalle">
+						<field name="include_dispatched"/>
+					</group>
+					<footer>
+						<button type="object" name="send_email" string="Enviar" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		        
+        <act_window name="Enviar rol de pagos por email"
+            res_model="wizard.send.payroll.mail"
+            src_model="hr.payroll"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="wizard_send_payroll"/>
+	
+		<!-- 
+   	============================================
+   	Asistente para generar los roles calculados
+   	============================================
+-->
+	<!--
+		<record model="ir.ui.view" id="generate_calculated_payroll_form_view">
+			<field name="name">wizard.generate.calculated.payroll.form</field>
+			<field name="model">wizard.generate.calculated.payroll</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Generar rol de pagos">
+					Este asistente le permite generar el rol de pagos de sus colaboradores en un periodo específico.
+					Añada al listado a los colaboradores de los cuales desea generar el rol. Tome en cuenta que solo podrá seleccionar los empleados que estan activos en el sistema. De encontrar un rol de pagos ya generado, se omitirá la generación.
+					<field name="state" invisible="1"/>
+					<group colspan="4" col="2" attrs="{'invisible': [('state','!=','draft')]}">
+						<field name="period_id"/>
+						<field name="employee_ids" nolabel="1" colspan="2" widget="many2many_tags"/>
+					</group>
+					<group colspan="4" col="1" attrs="{'invisible': [('state','!=','done')]}">
+						<label string="Realizado con éxito"/>
+						<separator string="Novedades en el proceso"/>
+						<field name="notes" nolabel="1"/>
+					</group>
+					<footer>
+						<button type="object" name="generate" string="Generar" states="draft" class="oe_highlight"/>
+						ó
+						<button special="cancel" string="Cerrar" states="done" class="oe_link"/>
+						<button special="cancel" string="Cancelar" states="draft" class="oe_link"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<act_window name="Generar rol de pagos"
+            res_model="wizard.generate.calculated.payroll"
+            src_model="hr.employee"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="wizard_generate_payroll"/>
+		-->
+		<!-- 
+    	===========================
+    	WIZARD REPORTE ROL DE PAGOS
+    	===========================
+    	-->
+    	<record id='wizard_payroll_form' model='ir.ui.view'>
+    		<field name='name'>wizard.rol.pagos.form</field>
+    		<field name='model'>report.pay.roll</field>
+    		<field name='type'>form</field>
+    		<field name='arch' type='xml'>
+    			<form>
+    				<group colspan="4" col="4" string="Filtros">
+	    				<group colspan="3" col="2">
+			    			<field name='period_id' required="1"/>
+			    			<field name='departament_id'/>
+			    			<field name='category_ids' widget="many2many_tags"/>
+			    			<field name='employee_id'/>
+		    			</group>
+		    			<group colspan="1" col="2">
+		    				<field name="ingresos"/>
+		    				<field name="egresos"/>
+		    				<field name="provisiones"/>
+		    			</group>
+	    			</group>
+	    			<group colspan="4" col="3">
+	    				<group colspan='1' col="1" attrs="{'invisible':[('ingresos','!=',True)]}">
+			    			<separator string='Ingresos'/>
+			    			<field name='ingresos_ids' nolabel='1' widget="many2many_tags"/>
+			    		</group> 
+			    		<group colspan='1' col="1" attrs="{'invisible':[('egresos','!=',True)]}">
+			    			<separator string='Egresos'/>
+			    			<field name='egresos_ids' nolabel='1' widget="many2many_tags"/>
+			    		</group>
+			    		<group colspan='1' col="1" attrs="{'invisible':[('provisiones','!=',True)]}">
+			    			<separator string='Provisiones'/>
+			    			<field name='provisiones_ids' nolabel='1' widget="many2many_tags"/>
+			    		</group>
+	    			</group>
+	    			<group colspan="4" col = "2" attrs="{'invisible': [('file_name', '=', False)]}">
+						<field name="file" filename="file_name" readonly="1"/>
+						<field name="file_name" readonly="1"/>
+					</group>
+					<footer>
+						<button type="object" name="report_payroll" string="Generar Reporte" class="oe_highlight"/>
+						ó
+						<button string="Close" special="cancel" class="oe_link"/>
+					</footer>
+    			</form>
+    		</field>
+    	</record>
+    
+    	<!-- Acción -->
+    	<record id='action_wizard_payroll' model='ir.actions.act_window'>
+    		<field name='name'>Generación de la nómina de los empleados</field>
+    		<field name='type'>ir.actions.act_window</field>
+    		<field name='res_model'>report.pay.roll</field>
+    		<field name='view_type'>form</field>
+    		<field name='view_mode'>form</field>
+    		<field name='view_id' ref='wizard_payroll_form'></field>
+    		<field name='target'>new</field>
+    	</record>
+
+	</data>
+</openerp>

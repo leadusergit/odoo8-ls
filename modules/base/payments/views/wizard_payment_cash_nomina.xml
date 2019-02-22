@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        
+        <!-- Wizard View -->
+        <record id="wizard_payment_cash_nomina_view" model="ir.ui.view">
+            <field name="name">wizard.payment.cash.nomina.view</field>
+            <field name="model">wizard.payment.cash.nomina</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Generar Cash">
+                   <group colspan="4" col="8">
+                        <group colspan="1">
+                            <field name="config_logo" widget="image" width="220" height="130" nolabel="1" colspan="1"/>
+                            <newline/>
+                            <label colspan="4" width="220" string="Generacion de Cash para Pago Nomina."/>
+                            <label colspan="4" width="220"/>
+                            <label colspan="4" width="220" string=""/>
+                            <field name="state" invisible="1"/>
+                        </group>
+                        <separator orientation="vertical" rowspan="12" colspan="1"/>
+                        <group colspan="6">
+                            <field name="type_hr" states="init" attrs="{'invisible': [('state','in',['done'])]}"/>
+                            <field name="data" states="done" attrs="{'invisible': [('state','in',['init'])]}"/>
+                            <field name="name" states="done" attrs="{'invisible': [('state','in',['init'])]}"/>
+                        </group>
+                     </group>
+                    <separator string="" colspan="4"/>
+                    <group colspan="6" col="8" states="init">
+                        <label colspan="6" width="220"/>
+                        <button special="cancel" string="_Cancelar" icon="gtk-cancel" colspan="1"/>
+                        <button name="crear_cash" string="_Generar Cash" type="object" icon="gtk-apply" colspan="1"/>
+                    </group>
+                    <group colspan="6" col="8" states="done">
+                        <label colspan="6" width="220"/>
+                        <button special="cancel" string="_Cerrar" icon="gtk-ok"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        
+    </data>
+</openerp>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- eInvoice offline Form -->
+		<record id="view_account_einvoice_offline_form" model="ir.ui.view">
+			<field name="name">account.einvoice.offline.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+				<button name="action_generate_einvoice" position="replace">
+					<button name="action_generate_einvoice" type="object"
+						string="Facturación Online" class="oe_highlight" groups="base.group_user"
+						attrs="{'invisible':['|',('is_offline','=',True),('state', 'in',('draft','cancel','paid'))]}"
+						help="Genera factura online y la envía al SRI"/>
+				</button>
+				<button name="action_generate_einvoice" position="before">
+					<button name="action_generate_einvoice_offline" type="object"
+						string="Generar Factura(Offline)" class="oe_highlight" groups="base.group_user"
+						attrs="{'invisible':['|',('is_offline','=',False),('state', 'in',('draft','cancel','paid'))]}"
+						help="Genera factura offline con clave de acceso igual numero de autorización,esta factura puede ser enviada al cliente"/>
+					<button name="action_send_einvoice_offline" type="object"
+						string="Autorización(Offline)" class="oe_highlight" groups="base.group_user"
+						attrs="{'invisible':['|',('is_offline','=',False),('state', 'in',('draft','cancel','paid'))]}"
+						help="Envía factura offline para que sea recibida y autorizada por el SRI"/>				
+				</button>
+				<xpath expr="//field[@name='numero_autorizacion']" position="replace">
+					<field name="numero_autorizacion" attrs="{'invisible':[('state', 'in', ('draft','cancel','open','paid')),('is_offline','=',True)]}"/>
+				</xpath>
+				<xpath expr="//field[@name='numero_autorizacion']" position="after">
+				    <field name="is_offline" invisible="1"/>				    				    
+					<field name="numero_autorizacion_offline" attrs="{'invisible':[('state', 'in', ('draft','cancel','open','paid')),('is_offline','=',False)]}"
+							help="Envía factura offline para que sea recibida y autorizada por el SRI"/>
+				</xpath>
+			</field>
+		</record>	
+
+	</data>
+</openerp>

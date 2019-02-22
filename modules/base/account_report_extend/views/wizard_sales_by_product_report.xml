@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <openerp>
+    <data>
+      <record id="wizard_sales_by_product" model="ir.ui.view">
+        <field name="name">Reporte de Ventas</field>
+		<field name="model">wizard.report.sales</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+		<form string="Reporte de Ventas">
+		    <separator colspan="2" string="Seleccione el tipo de Reporte." />
+		    <field name="date_start" invisible="1"/>
+		    <group colspan="4" col="2">
+		    	<field name="type" colspan="3" />
+		    	<field name="group_by" colspan="1" />
+		    </group>
+		    <separator string="Seleccione el producto. (Dejar vacio para mostrar todos)" colspan="4" />
+			<field name="product_ids" colspan="4" widget="many2many"/>
+			<group col="2" colspan="4" attrs="{'invisible':[('type','in',['by_product'])]}">
+			    <separator string="Seleccione el Vendedor. (Dejar vacio para mostrar todos)" colspan="4"/>
+			    <field name="seller_ids" colspan="4" widget="many2many"/>
+			</group>
+			<group col="6" colspan="4">
+				<field name="filter"/>
+				<group col="4" colspan="2" attrs="{'invisible':[('filter','in',['by_period'])]}">
+					<field name="date_from" attrs="{'required':[('filter','in',['by_date'])]}"/>
+					<field name="date_to" attrs="{'required':[('filter','in',['by_date'])]}"/>
+				</group>
+				<group colspan="2" attrs="{'invisible':[('filter','in',['by_date'])]}">
+					<field name="period_id" attrs="{'required':[('filter','in',['by_period'])]}"/>
+				</group>
+			</group>
+			<group col="2" colspan="4">
+			    <button icon="gtk-cancel" special="cancel" string="Salir" type="object" />
+			    <button icon="gtk-ok" name="action_excel" string="Exportar Excel" type="object"/>
+			</group>
+			<separator colspan="4" />
+			<field name="name" readonly='1'/>
+			<field name="data" readonly='1'/>
+		</form>
+	    </field>
+	  </record>
+		
+		<!-- Actions -->
+		
+		<record id="action_wizard_sales_by_product" model="ir.actions.act_window">
+			<field name="name">Reporte de Ventas</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">wizard.report.sales</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="wizard_sales_by_product"/>
+			<field name="target">new</field>
+		</record>
+		
+		<!-- Menu -->
+		<menuitem parent="menu_reporte_sale"
+		          id="menu_action_wizard_sales_by_product"
+		          action="action_wizard_sales_by_product"
+		          icon="STOCK_PRINT" />
+		          <!--groups="sale.group_sale_report"/-->
+	</data>
+</openerp>

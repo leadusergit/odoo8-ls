@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>    
+    	
+    	<!--
+	=================
+	Reglas de acceso
+	=================
+-->
+		<!-- En los permisos -->
+    	<record id="property_rule_permissions_employee" model="ir.rule">
+	        <field name="name">Employee Permission</field>
+	        <field name="model_id" ref="model_hr_permission"/>
+	        <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+	        <field name="groups" eval="[(6,0,[ref('base.group_user')])]"/>
+	    </record>
+	    <record id="property_rule_permissions_coach" model="ir.rule">
+	        <field name="name">Coach Permission</field>
+	        <field name="model_id" ref="model_hr_permission"/>
+	        <field name="domain_force">[('employee_id.coach_id.user_id','=',user.id)]</field>
+	        <field name="groups" eval="[(6,0,[ref('hr_ec.group_hr_employee_jefe')])]"/>
+	    </record>
+	    <record id="property_rule_permissions_manager" model="ir.rule">
+	        <field name="name">Manager Permission</field>
+	        <field name="model_id" ref="model_hr_permission"/>
+	        <field name="domain_force">[(1,'=',1)]</field>
+	        <field name="groups" eval="[(6,0,[ref('base.group_hr_manager')])]"/>
+	    </record>
+    	
+    </data>
+</openerp>

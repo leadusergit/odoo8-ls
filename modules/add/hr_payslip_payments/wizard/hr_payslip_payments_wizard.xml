@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    <!-- wizard pago masivo de Rol //confirmacion de voucher en objeto account_voucher-->
+        <record id="hr_payslip_paid_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payslip.paid.wizard.form</field>
+            <field name="model">hr.payslip.paid.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Confirmar">
+                    <p class="oe_grey">
+                        Validar Pagos Seleccionados
+                    </p>
+                    <footer>
+                        <button string="Confirmar" name="confirm_paid" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_hr_payslip_paid_wizard"
+            multi="True"
+            key2="client_action_multi" name="Validar"
+            res_model="hr.payslip.paid.wizard" src_model="account.voucher"
+            view_mode="form" target="new" view_type="form" />
+            
+  
+            <!-- wizard crea vouchers nomina desde objeto hr_payslip-->
+     	<record id="hr_payments_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payments.wizard.form</field>
+            <field name="model">hr.payments.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Crea Voucher">
+                <group>
+                	<group colspan="1">
+						<field name="journal_id"/>
+						<field name="ref"/>
+					</group>
+					<group colspan="1">
+						<field name="date"/>
+						<field name="period_id"/>
+						<field name="paid_rol"/>						
+					</group>                  
+                </group>
+                <field name="payslip_ids" invisible="1"/>
+					<footer>
+						<button name="pay" string="Register Payment" class="oe_highlight" type="object"/>
+						<!--  <button name="pay" string="Confirmar" type="object" class="oe_highlight"/>-->
+						ó
+						<button special="cancel" string="Cancelar" class="oe_link"/>
+					</footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_hr_payments_wizard"
+            multi="True"
+            key2="client_action_multi" name="Generar Registro Pago Roles"
+            res_model="hr.payments.wizard" src_model="hr.payslip"
+            view_mode="form" target="new" view_type="form" />
+   
+    </data>
+</openerp>

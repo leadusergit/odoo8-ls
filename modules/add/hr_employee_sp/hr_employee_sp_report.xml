@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="employee_sp"
+            model="hr.payslip"
+            string="Detalle de Cuentas Bancarias"
+            report_type="qweb-pdf"
+            name="hr_employee_sp.report_employee_sp" 
+            file="hr_employee_sp.report_employee_sp"
+        />
+         
+         <report 
+         	id="payslip_individual"
+            model="hr.payslip" 
+            string="Rol Individual"
+            report_type="qweb-pdf"
+            name="hr_employee_sp.report_payslip_individual" 
+            file="hr_employee_sp.report_payslip_individual"
+        />
+        
+         <report 
+         	id="payslip_detalles"
+            model="hr.payslip" 
+            string="Detalle Rol(Certificado)"
+            report_type="qweb-pdf"
+            name="hr_employee_sp.report_payslip_details" 
+            file="hr_employee_sp.report_payslip_details"
+        />
+        
+        <report
+            id="contract_report"
+            model="hr.contract"
+            string="Imprimir Contrato Empleado"
+            report_type="qweb-pdf"
+            name="hr_employee_sp.report_contract" 
+            file="hr_employee_sp.report_contract"
+        />
+    </data>
+</openerp>

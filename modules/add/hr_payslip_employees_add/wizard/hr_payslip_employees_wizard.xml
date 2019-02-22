@@ -1,0 +1,62 @@
+<openerp>
+    <data>
+
+        <record id="hr_payslip_wizard_view" model="ir.ui.view">
+            <field name="name">hr.payslip.wizard.form</field>
+            <field name="model">hr.payslip.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Invoices SRI">
+                    <p class="oe_grey">
+                        Se creará el asiento contable correspondiente a cada Rol
+                    </p>
+                    <footer>
+                        <button string="Confirmar" name="confirm_payslip" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_hr_payslip_wizard"
+            multi="True"
+            key2="client_action_multi" name="Contabilizar Rol"
+            res_model="hr.payslip.wizard" src_model="hr.payslip"
+            view_mode="form" target="new" view_type="form" />
+		
+		<!-- Herencia para modificar el nombre del boton cerrar del objeto hr_payslip_run -->
+            
+         <record id="view_hr_payslip_run_add" model="ir.ui.view">
+			<field name="name">hr.payslip.run.add</field>
+			<field name="model">hr.payslip.run</field>
+			<field name="inherit_id" ref="hr_payroll.hr_payslip_run_form" />
+			<field name="arch" type="xml">
+				<data>
+				<button name="close_payslip_run" position="replace">
+						<button type="object" name="close_payslip_run" class="oe_highlight" string="Contabilizar Rol" 
+						help="Validar Roles y generar asientos contables"/>
+				</button>
+				</data>
+			</field>
+		</record>
+		
+		
+		 <!-- Herencia para modificar el nombre del boton Confirmar del objeto hr_payslip-->
+            
+         <record id="view_hr_payslip_modif" model="ir.ui.view">
+			<field name="name">hr.payslip.modif</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form" />
+			<field name="arch" type="xml">
+				<data>
+				<button name="hr_verify_sheet" position="replace">
+					  <button string="Contabilizar Rol " name="hr_verify_sheet" states="draft" class="oe_highlight"
+						help="Validar y generar asiento contable"/>
+				</button>
+				</data>
+			</field>
+		</record>
+   
+    </data>
+</openerp>
+

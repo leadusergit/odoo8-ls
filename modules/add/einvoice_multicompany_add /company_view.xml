@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- Compania -->
+		<record id="view_res_multicompany_einvoice_form" model="ir.ui.view">
+			<field name="name">account.res.multicompany.einvoice.form</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='fee_view']" position="after">
+					<field name="factura_parent"/>
+					<group>					
+						<field name="parent_name" attrs="{'invisible':[('factura_parent', '=', False)]}"/>
+						<field name="parent_num" attrs="{'invisible':[('factura_parent', '=', False)]}"/>						
+						<field name="parent_street" attrs="{'invisible':[('factura_parent', '=', False)]}"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>

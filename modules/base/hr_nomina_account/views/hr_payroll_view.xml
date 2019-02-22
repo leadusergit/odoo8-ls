@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+	===============
+	Provision Type
+	===============
+-->
+            
+            <record model="ir.ui.view" id="hr_provision_type_tree_view">
+                <field name="name">hr.provision.type.tree</field>
+                <field name="model">hr.provision.type</field>
+                <field name="type">tree</field>
+                <field name="inherit_id" ref="hr_nomina.hr_provision_type_tree_view"/>
+                <field name="arch" type="xml">
+                    <field name="field_name" position="after">
+                        <field name="debit_account_id"/>
+                        <field name="credit_account_id"/>
+                    </field>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="hr_provision_type_form_view">
+                <field name="name">hr.provision.type.form</field>
+                <field name="model">hr.provision.type</field>
+                <field name="type">form</field>
+                <field name="inherit_id" ref="hr_nomina.hr_provision_type_form_view"/>
+                <field name="arch" type="xml">
+                    <field name="field_name" position="after">
+                        <group colspan="4">
+	                        <separator string="Contabilidad" colspan="4"/>
+	                        <field name="debit_account_id" required="1"/>
+	                        <field name="credit_account_id" required="1"/>
+						</group>
+                    </field>
+                </field>
+            </record>
+
+		<!--
+	==============
+	Expense Type
+	============== 
+	 -->
+
+		<record model="ir.ui.view" id="hr_expense_type_form_view">
+			<field name="name">hr.expense.type.form</field>
+			<field name="model">hr.expense.type</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_nomina.hr_expense_type_form_view"/>
+			<field name="arch" type="xml">
+				<group position="after">
+					<notebook colspan="4">
+						<page string="Contabilidad">
+							<group colspan="1" col="1">
+								<separator string="Cuenta contable al Debe" />
+								<field name="debit_account" select="1" nolabel="1" />
+							</group>
+							<group colspan="1" col="1">
+								<separator string="Cuenta contable al Haber" />
+								<field name="credit_account" select="1" nolabel="1"
+									required="1" />
+							</group>
+						</page>
+					</notebook>
+				</group>
+			</field>
+		</record>
+
+		<!--
+  =================
+   HR Income Admin
+  =================
+  -->
+
+		<record model="ir.ui.view" id="view_hr_adm_incomes_form">
+			<field name="name">hr.adm.incomes.form</field>
+			<field name="model">hr.adm.incomes</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_nomina.view_hr_adm_incomes_form"/>
+			<field name="arch" type="xml">
+				<notebook position="inside">
+					<page string="Contabilidad">
+						<group colspan="1" col="1">
+							<separator string="Cuenta contable al Debe" />
+							<field name="debit_account" nolabel="1" />
+						</group>
+						<group colspan="1" col="1">
+							<separator string="Cuenta contable al Haber" />
+							<field name="credit_account" nolabel="1" />
+						</group>
+						<group colspan="4" col="1">
+						    <field name="income_account_ids" nolabel="1">
+						    <tree editable="bottom" string="Cuentas Contables">
+							    <field name="name" />
+							    <field name="debit_account_id" />
+							    <field name="credit_account_id" />
+							    <field name="category_id" />
+						    </tree>
+						   </field>
+						</group>
+					</page>
+				</notebook>
+			</field>
+		</record>
+
+		<!--
+	=================
+	 Payroll
+	=================
+ -->
+		<record model="ir.ui.view" id="view_hr_payroll_search">
+			<field name="name">hr.payroll.view.search</field>
+			<field name="model">hr.payroll</field>
+			<field name="type">search</field>
+			<field name="inherit_id" ref="hr_nomina.view_hr_payroll_search"/>
+			<field name="arch" type="xml">
+				<filter string="Validado" position="after">
+					<filter string="Pagados" domain="[('state', '=', 'paid')]"/>
+				</filter>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_hr_payroll_form">
+			<field name="name">hr.payroll.view.form</field>
+			<field name="model">hr.payroll</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_nomina.view_hr_payroll_form"/>
+			<field name="arch" type="xml">
+				<button name="validar_registro" position="replace">
+					<button type="object" name="action_pay" string="Pagar" states="calculated" class="oe_highlight"/>
+					<button type="object" name="validar_registro" string="Contabilizar" states="paid" class="oe_highlight"/>
+					<button type="object" name="from_paid_to" string="Cambiar a calculado" states="paid"/>
+				</button>
+				<button name="from_validated_to" position="attributes">
+					<attribute name="string">Cambiar a pagado</attribute>
+				</button>
+				<notebook position="inside">
+					<page string="Contabilidad" states="validate,paid">
+						<group colspan="4">
+							<field name="account_move_id"/>
+							<field name="account_move_provisions_id"/>
+							<field name="analitic_move_id"/>
+							<field name="pay_move_id"/>
+						</group>
+					</page>
+				</notebook>
+			</field>
+		</record>
+		
+		<!--
+	=======================
+	Categoría de empleados
+	=======================
+ -->
+ 		<record model="ir.ui.view" id="view_employee_category_form">
+			<field name="name">hr.employee.category.form</field>
+			<field name="model">hr.employee.category</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr.view_employee_category_form"/>
+			<field name="arch" type="xml">
+				<form position="inside">
+					<group colspan="4" col="4" string="Mapeo de cuentas">
+						<field name="account_valuation_ids" nolabel="1" colspan="4">
+							<tree string="Mapeo de cuentas" editable="top">
+								<field name="account_id"/>
+								<field name="account_dest_id"/>
+								<field name="company_id" groups="base.group_multi_company"/>
+							</tree>
+						</field>
+					</group>
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>

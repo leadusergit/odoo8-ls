@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       
+         <record model="ir.ui.view" id="view_payslip_finish_contract_form">
+            <field name="name">hr.payslip.finish.contract.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <form string="Liquidación de Contrato">
+                <header>
+                    <button string="Confirm" name="hr_verify_sheet" states="draft" class="oe_highlight"/>
+                    <button string="Refund" name="refund_sheet" states="confirm,done" type='object' />
+                    <button string="Set to Draft" name="draft" states="cancel"/>
+                    <button string="Compute Sheet" name="compute_sheet" type="object" states="draft" class="oe_highlight"/>
+                    <button string="Cancel Payslip" name="cancel_sheet" states="draft,done,confirm,verify"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                </header>
+                <sheet>
+                    <div class="oe_right oe_button_box">
+                        <button name="%(hr_payroll.act_payslip_lines)d" 
+                            class="oe_stat_button" 
+                            icon="fa-money" 
+                            type="action">
+                            <field name="payslip_count" widget="statinfo" string="Payslip" help="Payslip Computation Details"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="employee_id" class="oe_edit_only"/>
+                        <h1><field name="employee_id" on_change="onchange_employee_liquid_id(date_from, date_to, employee_id, contract_id)"/></h1>
+                    </div>
+                    <group col="4">
+                    <label for="date_from" string="Period"/>
+                        <div>
+                            <field name="date_from" on_change="onchange_employee_liquid_id(date_from, date_to, employee_id, contract_id)" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                        </div>
+                        <field name="period_end"/>
+                        <field name="contract_id" domain="[('employee_id','=',employee_id),('date_start','&lt;=',date_to),'|',('date_end','&gt;=',date_from),('date_end','=',False)]" on_change="onchange_contract_id(date_from, date_to, employee_id, contract_id)" context="{'default_employee_id': employee_id}"/>
+                        <field name="struct_id" attrs="{'required':[('contract_id','&lt;&gt;',False)]}"/>
+                        <field name="number"/>
+                        <field name="name"/>
+                        <field name="liquidacion"/>
+                        <field name="tipo_liquidacion"/>                      
+                    </group>
+                    <notebook>
+                        <page string="Valores a Liquidar">   
+                         <separator string="Dias"/>
+                            <field name="worked_days_line_ids">
+                                <tree string="Worked Days" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="number_of_days" sum="Total Working Days"/>
+                                    <field name="number_of_hours"/>
+                                    <field name="contract_id"/>
+                                    <field name="sequence" invisible="True"/>
+                                </tree>
+                                <form string="Worked Day">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="payslip_id"/>
+                                        <field name="sequence"/>
+                                        <field name="number_of_days"/>
+                                        <field name="number_of_hours"/>
+                                        <field name="contract_id"/>
+                                    </group>
+                                </form>
+                            </field>                         
+                            <separator string="Descripcion/Valor"/>
+                            <button type="object" name="load_info1" string="Ingresar Valores a Liquidar" icon="gtk-execute" attrs="{'invisible':[('state','!=','draft')]}"/>
+                            <field name="input_line_ids" colspan="4" nolabel="1">
+                                <tree string="Datos de Entrada" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="amount"/>
+                                    <field name="employee_id" invisible="True"/>
+                                    <field name="contract_id" invisible="True"/>
+                                    <field name="sequence" invisible="True"/>
+                                </tree>
+                                <form string="Lineas de Rol">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="payslip_id"/>
+                                        <field name="sequence"/>
+                                        <field name="amount"/>
+                                        <field name="contract_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Calculo de Valores" >
+                            <field name="line_ids" colspan="4" nolabel="1">
+                                <tree string="Salary Structure" editable="bottom" colors="blue:total == 0">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="category_id"/>
+                                    <field name="sequence" invisible="1"/>
+                                    <field name="quantity"/>
+                                    <field name="rate"/>
+                                    <field name="amount"/>
+                                    <field name="total"/>
+                                </tree>
+                                <form string="Lineas de Rol">
+                                    <group col="4">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="category_id"/>
+                                        <field name="sequence"/>
+                                        <field name="quantity"/>
+                                        <field name="rate"/>
+                                        <field name="amount"/>
+                                        <field name="total"/>
+                                        <field name="salary_rule_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Detalle Regla y Categoria">
+                            <field name="details_by_salary_rule_category" context="{'group_by':'category_id'}" domain="[('appears_on_payslip', '=', True)]">
+                                <tree string="Payslip Lines" colors="blue:total == 0">
+                                    <field name="category_id"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="total"/>
+                                </tree>
+                            </field>
+                       </page>
+                       <page string="Informacion Contable">
+                            <group>
+                                <group string="Miscellaneous">
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                    <field name="payslip_run_id" domain="[('state','=','draft')]"/>
+                                    <field name="journal_id"/>
+                                </group>
+                                <group name="accounting" string="Accounting">
+                                    <field name="paid" readonly="1"/>
+                                </group>
+                            </group>
+                            <div colspan="4">
+                                <field name="note" placeholder="Add an internal note..."/>
+                            </div>
+                       </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<record id="action_finish_contract" model="ir.actions.act_window">
+            <field name="name">Liquidación Empleado</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('liquidacion','=',1)]</field>
+            <field name="context">{'liquidacion':1}</field>
+            <field name="view_id" eval="False"/>
+            <field name="target">current</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para crear una Liquidación.
+              </p><p>
+              Odoo helps you easily to create the employee liquidation.
+              </p>
+            </field>
+        </record>
+        <record id="action_finish_contract_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_finish_contract"/>
+        </record>
+        <record id="action_finish_contract_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_payslip_finish_contract_form"/>
+            <field name="act_window_id" ref="action_finish_contract"/>                        
+        </record>
+		
+		
+		<!--  -->
+		<menuitem id="menu_finish_contract" name="Liquidación de Contrato" parent="hr.menu_hr_root" groups="base.group_hr_user" sequence="30"/>
+		
+        <menuitem action="action_finish_contract" id="menu_action_finish_contract"  parent="menu_finish_contract"/>
+  		
+  		
+  	<record id="view_hr_payslip_paid_bt" model="ir.ui.view">
+			<field name="name">hr.pàyslip.paid.bt</field>
+			<field name="model">hr.payslip</field>
+			<field name="inherit_id" ref="hr_payslip_finish_contract.view_payslip_finish_contract_form"/>
+			<field name="arch" type="xml">
+			<data>
+				<button name="compute_sheet" position="before">
+	             <button name="view_payslip" string="Pago Liquidación" type="object" class="oe_highlight"
+	             		 attrs="{'invisible':[('state', 'in', ('draft','verify','cancel','paid'))]}"/>
+                </button>	
+			</data>
+			</field>
+	</record>
+	<record id="view_paid_payslip_lc_form" model="ir.ui.view">
+                <field name="name">view.paid.payslip.lc.form</field>
+                <field name="model">hr.payslip</field>     
+                <field name="inherit_id" ref="hr_payslip_finish_contract.view_payslip_finish_contract_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='state']" position="attributes">
+                        <attribute name="statusbar_visible">draft,done,paid</attribute>
+                    </xpath>
+                    <xpath expr="//page[@string='Informacion Contable']" position="after">
+                        <page string="Pagos">
+                            <field name="reconciled" invisible="1"/>
+                            <field name="payment_ids">
+                                <tree string="Payments">
+                                    <field name="date" string="Payment Date"/>
+                                    <field name="move_id"/>
+                                    <field name="ref"/>
+                                    <field name="name"/>
+                                    <field name="journal_id"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="amount_currency"/>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                </tree>
+                            </field>
+                       </page>
+                    </xpath>
+                </field>
+        </record> 
+   
+   </data>
+</openerp>

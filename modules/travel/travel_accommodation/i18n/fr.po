@@ -1,0 +1,258 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* travel_accommodation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-21 16:27+0000\n"
+"PO-Revision-Date: 2015-01-21 11:29-0500\n"
+"Last-Translator: EL Hadji DEM <elhadji.dem@savoirfairelinux.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
+
+#. module: travel_accommodation
+#: help:travel.accommodation,passenger_id:0
+msgid "Passenger on this accommodation."
+msgstr "Voyageurs hébergés."
+
+#. module: travel_accommodation
+#: code:addons/travel_accommodation/travel_accommodation.py:70
+#, python-format
+msgid "Arrival after Departure"
+msgstr "Arrivée après Départ"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,nights:0
+msgid "Nights"
+msgstr "Nuitées"
+
+#. module: travel_accommodation
+#: help:travel.accommodation,budget:0
+msgid "Budget to allocate per night spent at Accommodations."
+msgstr "Budget approximatif à allouer par nuit pour l'hébergement."
+
+#. module: travel_accommodation
+#: field:travel.accommodation,budget:0
+msgid "Budget per Night"
+msgstr "Budget approximatif par nuit"
+
+#. module: travel_accommodation
+#: code:addons/travel_accommodation/travel_accommodation.py:71
+#, python-format
+msgid "Departure (%s) cannot be before Arrival (%s)."
+msgstr "Le départ (% s) ne peut pas être avant l'arrivée (% s)."
+
+#. module: travel_accommodation
+#: view:res.partner:0
+msgid "Travel"
+msgstr "Déplacement"
+
+#. module: travel_accommodation
+#: help:travel.accommodation,departure:0
+msgid "Date and Time of departure from Accommodations."
+msgstr "Date et heure de départ de l'hébergement."
+
+#. module: travel_accommodation
+#: view:travel.accommodation:0 field:travel.accommodation,location:0
+msgid "Location"
+msgstr "Lieu"
+
+#. module: travel_accommodation
+#: view:travel.accommodation.import:0
+msgid "Import"
+msgstr "Importer"
+
+#. module: travel_accommodation
+#: model:ir.model,name:travel_accommodation.model_travel_accommodation_import
+msgid "Accommodation information import"
+msgstr "Import de données d'hébergement"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,budget_currency:0
+msgid "Currency of budget"
+msgstr "Devise du budget"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,arrival:0
+msgid "Arrival"
+msgstr "Arrivée"
+
+#. module: travel_accommodation
+#: field:travel.accommodation.import,passenger_id:0
+msgid "Import Accommodation information from"
+msgstr "Formulaire d'importation de données d'hébergement"
+
+#. module: travel_accommodation
+#: help:travel.accommodation,breakfast:0
+msgid "Is breakfast included?"
+msgstr "Si le petit déjeuner est inclus."
+
+#. module: travel_accommodation
+#: field:travel.accommodation.import,cur_passenger_id:0
+#: field:travel.accommodation.import,travel_id:0
+msgid "unknown"
+msgstr "inconnue"
+
+#. module: travel_accommodation
+#: model:ir.model,name:travel_accommodation.model_travel_accommodation
+msgid "Accommodation of travel"
+msgstr "Hébergement du déplacement"
+
+#. module: travel_accommodation
+#: model:ir.model,name:travel_accommodation.model_travel_passenger
+msgid "Passenger on travel"
+msgstr "Voyageur en déplacement"
+
+#. module: travel_accommodation
+#: help:travel.accommodation,dinner:0
+msgid "Is dinner included?"
+msgstr "Si le déjeuner est inclus."
+
+#. module: travel_accommodation
+#: field:travel.accommodation,lunch:0
+msgid "Lunch"
+msgstr "Déjeuner"
+
+#. module: travel_accommodation
+#: help:travel.accommodation,close_to:0
+msgid "Location in proximity to Accommodations."
+msgstr "Un emplacement à proximité de l'hébergement."
+
+#. module: travel_accommodation
+#: help:travel.accommodation,budget_currency:0
+msgid "Currency of budget."
+msgstr "Devise du budget."
+
+#. module: travel_accommodation
+#: help:travel.accommodation,location:0
+msgid "Location of Accommodation."
+msgstr "Emplacement de l'hébergement"
+
+#. module: travel_accommodation
+#: view:res.partner:0 field:res.partner,is_accommodation:0
+#: view:travel.accommodation:0 view:travel.passenger:0
+msgid "Accommodation"
+msgstr "Hébergement"
+
+#. module: travel_accommodation
+#: model:ir.actions.act_window,name:travel_accommodation.action_travel_accommodation_import
+#: view:travel.accommodation.import:0
+msgid "Import from other passengers"
+msgstr "Importer les données d'autre voyageurs"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,passenger_id:0
+msgid "Passenger"
+msgstr "Voyageur"
+
+#. module: travel_accommodation
+#: code:addons/travel_accommodation/travel_accommodation.py:131
+#: constraint:travel.accommodation:0
+#, python-format
+msgid "Currency not specified for budget."
+msgstr "Aucune devise n'est spécifiée pour le budget."
+
+#. module: travel_accommodation
+#: field:travel.accommodation,departure:0
+msgid "Departure"
+msgstr "Départ"
+
+#. module: travel_accommodation
+#: view:travel.accommodation:0
+msgid "Times"
+msgstr "Heures et dates"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,dinner:0
+msgid "Dinner"
+msgstr "Dîner"
+
+#. module: travel_accommodation
+#: code:addons/travel_accommodation/wizard/travel_accommodation_import.py:52
+#, python-format
+msgid "Error"
+msgstr "Erreur"
+
+#. module: travel_accommodation
+#: code:addons/travel_accommodation/travel_accommodation.py:128
+#: constraint:travel.accommodation:0
+#, python-format
+msgid "Arrival date cannot be after departure date."
+msgstr "La date d'arrivée ne peut être postérieure à la date de départ."
+
+#. module: travel_accommodation
+#: help:travel.accommodation.import,passenger_id:0
+msgid "Other passengers on the same journey."
+msgstr "Autre voyageurs du déplacement."
+
+#. module: travel_accommodation
+#: help:travel.accommodation,lunch:0
+msgid "Is lunch included?"
+msgstr "Si le dîner est inclus."
+
+#. module: travel_accommodation
+#: code:addons/travel_accommodation/wizard/travel_accommodation_import.py:53
+#, python-format
+msgid "No source passenger selected."
+msgstr "Aucun passager sélectionné."
+
+#. module: travel_accommodation
+#: help:travel.accommodation,arrival:0
+msgid "Date and Time of arrival at Accommodations."
+msgstr "Date et heure d'arrivée à l'hébergement."
+
+#. module: travel_accommodation
+#: view:travel.passenger:0
+msgid "Copy Accommodation from other Passengers"
+msgstr "Copier les hébergements d'autres voyageurs"
+
+#. module: travel_accommodation
+#: field:travel.passenger,accommodation_ids:0
+msgid "Accommodations"
+msgstr "Hébergement"
+
+#. module: travel_accommodation
+#: view:travel.accommodation:0
+msgid "Meals"
+msgstr "Repas"
+
+#. module: travel_accommodation
+#: help:travel.passenger,accommodation_ids:0
+msgid "List of accommodations."
+msgstr "Liste d'hébergements."
+
+#. module: travel_accommodation
+#: view:travel.accommodation.import:0
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: travel_accommodation
+#: model:ir.model,name:travel_accommodation.model_res_partner
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,breakfast:0
+msgid "Breakfast"
+msgstr "Petit déjeuner"
+
+#. module: travel_accommodation
+#: view:travel.accommodation:0
+msgid "Passenger Accommodation"
+msgstr "Hébergement du voyageur"
+
+#. module: travel_accommodation
+#: view:travel.accommodation.import:0
+msgid "or"
+msgstr "ou"
+
+#. module: travel_accommodation
+#: field:travel.accommodation,close_to:0
+msgid "Close to"
+msgstr "À proximité de"

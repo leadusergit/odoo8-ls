@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<!-- Flujo para Solicitudes de Permiso -->
+		<record id="hr_permission_wkf" model="workflow">
+			<field name="name">Flujo de solicitud de Permisos</field>
+			<field name="osv">hr.permission</field>
+			<field name="on_create">True</field>
+		</record>
+
+		<!-- Actividades -->
+		<record id="act_draft" model="workflow.activity">
+			<field name="wkf_id" ref="hr_permission_wkf" />
+			<field name="name">draft</field>
+			<field name="kind">dummy</field>
+			<field name="flow_start">True</field>
+		</record>
+
+		<record id="act_request" model="workflow.activity">
+			<field name="wkf_id" ref="hr_permission_wkf" />
+			<field name="name">requested</field>
+			<field name="kind">function</field>
+			<field name="action">request_permission()</field>
+		</record>
+
+		<record id="act_approve" model="workflow.activity">
+			<field name="wkf_id" ref="hr_permission_wkf" />
+			<field name="name">approved</field>
+			<field name="kind">function</field>
+			<field name="action">approve_permission()</field>
+		</record>
+
+		<record id="act_deny" model="workflow.activity">
+			<field name="wkf_id" ref="hr_permission_wkf" />
+			<field name="name">deny</field>
+			<field name="kind">function</field>
+			<field name="action">deny_permission()</field>
+			<field name="flow_stop">True</field>
+		</record>
+
+		<record id="act_validate" model="workflow.activity">
+			<field name="wkf_id" ref="hr_permission_wkf" />
+			<field name="name">validate</field>
+			<field name="kind">function</field>
+			<field name="action">validate_permission()</field>
+			<field name="flow_stop">True</field>
+		</record>
+		
+		<record id="act_no_validate" model="workflow.activity">
+			<field name="wkf_id" ref="hr_permission_wkf" />
+			<field name="name">no_validate</field>
+			<field name="kind">function</field>
+			<field name="action">no_validate_permission()</field>
+			<field name="flow_stop">True</field>
+		</record>
+
+		<!-- Transiciones -->
+		<record id="t0" model="workflow.transition">
+			<field name="act_from" ref="act_draft" />
+			<field name="act_to" ref="act_request" />
+			<field name="signal">permission_request</field>
+<!--			<field name="group_id" ref="hr_rol_employee"/>-->
+			<field name="group_id" ref="base.group_user"/>
+		</record>
+
+		<record id="t1" model="workflow.transition">
+			<field name="act_from" ref="act_request" />
+			<field name="act_to" ref="act_approve" />
+			<field name="condition">check_coach()</field>
+			<field name="signal">permission_approve</field>
+			<field name="group_id" ref="hr_ec.group_hr_employee_jefe"/>
+		</record>
+
+		<record id="t2" model="workflow.transition">
+			<field name="act_from" ref="act_approve" />
+			<field name="act_to" ref="act_validate" />
+			<field name="signal">permission_validate</field>
+			<field name="group_id" ref="base.group_hr_user"/>
+		</record>
+		<record id="t3" model="workflow.transition">
+			<field name="act_from" ref="act_request" />
+			<field name="act_to" ref="act_deny" />
+			<field name="condition">check_coach()</field>
+			<field name="signal">permission_deny</field>
+			<field name="group_id" ref="hr_ec.group_hr_employee_jefe"/>
+		</record>
+		<record id="t4" model="workflow.transition">
+			<field name="act_from" ref="act_approve" />
+			<field name="act_to" ref="act_no_validate" />
+			<field name="signal">permission_no_validate</field>
+			<field name="group_id" ref="base.group_hr_user"/>
+		</record>
+		
+	</data>
+</openerp>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+  
+  	<record id="view_account_tax_fechas_add" model="ir.ui.view">
+		<field name="name">account.tax.fechas.add</field>
+		<field name="model">account.tax.fechas</field>
+		<field name="inherit_id" ref="account_report_extend.view_account_tax_fechas_form"/>
+		<field name="arch" type="xml">
+		<button name="llamar_reporte" position="replace">
+			<button class="oe_highlight" name="llamar_reporte" string="Impuestos(Compras)" type="object"/>
+			<button class="oe_highlight" name="llamar_reporte1" string="Impuestos(Ventas)" type="object"/>
+		</button>
+		</field>
+	</record>
+ 			
+	</data>
+</openerp>

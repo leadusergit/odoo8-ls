@@ -1,0 +1,18 @@
+BZR merge-modified list format 1
+file_id: ir.model.access.csv-20141006185059-8kgj7cv1tgyrdi7h-11
+hash: fcb237023358ac94c057bdd48325c94917637faf
+
+file_id: __openerp__.py-20141006185059-8kgj7cv1tgyrdi7h-3
+hash: a15a07d38f0eb8d967c58276050601d952c163d2
+
+file_id: hr_employee.py-20150401223033-fx6hnwwan12lfnvu-2
+hash: 6ba1b28f786ba97b2692c6911c1287992086a2a6
+
+file_id: __init__.py-20141006185059-8kgj7cv1tgyrdi7h-7
+hash: 4b10aa78cb5da62f14213a6c64564ff92ef4adf6
+
+file_id: hr_employee_view.xml-20150401223033-fx6hnwwan12lfnvu-1
+hash: c83e4a4aa5df9635b1928b118c362503ecfff8ce
+
+file_id: groups.xml-20141006185059-8kgj7cv1tgyrdi7h-10
+hash: 539cfe2eeda1fc99b46e8d24d67015aa8518c740

@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+  <template pageSize="(595.0,842.0)" title="Test" author="Martin Simon" allowSplitting="20">
+    <pageTemplate id="first">
+      <frame id="first" x1="57.0" y1="57.0" width="481" height="728"/>
+      <frame id="L1" x1="57.0" y1="57.0" width="481" height="728"/>
+      <frame id="L2" x1="57.0" y1="57.0" width="481" height="528"/>
+      <frame id="L3" x1="57.0" y1="57.0" width="481" height="458"/>
+      <frame id="L4" x1="57.0" y1="57.0" width="481" height="408"/>
+      <frame id="L5" x1="57.0" y1="57.0" width="481" height="118"/>
+    </pageTemplate>
+  </template>
+  <stylesheet>
+    <blockTableStyle id="Standard_Outline">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table1">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <blockTableStyle id="Table2">
+      <blockAlignment value="LEFT"/>
+      <blockValign value="TOP"/>
+    </blockTableStyle>
+    <initialize>
+      <paraStyle name="all" alignment="justify"/>
+    </initialize>
+    <paraStyle name="P1" fontName="Times-Roman" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P2" fontName="Times-Roman" fontSize="9.0" leading="11" alignment="RIGHT"/>
+    <paraStyle name="P3" fontName="Times-Roman" fontSize="9.0" leading="11" alignment="CENTER"/>
+    <paraStyle name="P4" fontName="Times-Roman" fontSize="16.0" leading="20" alignment="CENTER"/>
+    <paraStyle name="P5" fontName="Times-Roman" fontSize="9.0" leading="11" alignment="CENTER"/>
+    <paraStyle name="P6" fontName="Times-Roman" fontSize="9.0" leading="11" alignment="LEFT"/>
+    <paraStyle name="P7" fontName="Times-Roman" fontSize="14.0" leading="17" alignment="CENTER"/>
+    <paraStyle name="P8" fontName="Times-Roman" fontSize="10.0" leading="13" alignment="CENTER"/>
+    <paraStyle name="P9" fontName="Times-Roman" fontSize="10.0" leading="13" alignment="LEFT"/>
+    <paraStyle name="P10" fontName="Times-Roman" fontSize="10.0" leading="13" alignment="CENTER"/>
+    <paraStyle name="P11" fontName="Times-Roman" fontSize="10.0" leading="13" alignment="LEFT"/>
+    <paraStyle name="Standard" fontName="Times-Roman"/>
+    <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Text body" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Times-Roman" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Times-Roman" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Times-Roman"/>
+    <paraStyle name="Table Contents" fontName="Times-Roman"/>
+    <paraStyle name="Table Heading" fontName="Times-Roman" alignment="CENTER"/>
+    <images/>
+  </stylesheet>
+  <story>
+    <currentFrame name="L1"/>
+    <para style="P6">[[ repeatIn(objects,'o') ]]</para>
+    
+    <blockTable colWidths="400" style="Table1">
+      <tr>
+        <td><para style="P6"> [[ time.strftime('QUITO, %d de %B del %Y') ]]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P6">CLIENTE: [[ o.partner_id.title or '' ]]  [[ o.partner_id.name ]] </para></td>
+      </tr>
+      <tr>
+        <td><para style="P6">RUC O CÉDULA: [[ o.partner_id.ident_num or '' ]]<font color="white">  </font></para></td>
+      </tr>
+      <tr>
+        <td><para style="P6">PRÉSTAMO/INMUEBLE: [[ doc(o.ref) and doc().funding_id.name or removeParentNode('tr') ]]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P6">BANCO: [[ doc().bank_id.name or '' ]]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P6">FECHA DEPÓSITO: [[ doc() and doc().deposit_date or removeParentNode('tr') ]]</para></td>
+      </tr>
+      <tr>
+        <td><para style="P6">COMPROBANTE: [[ doc() and doc().deposit_number or o.no_comp ]] <font color="white"> </font></para></td>
+      </tr>
+      <tr>
+      	<td><para style="P1">[[ amount_to_text(doc() and doc().valor or sum_debit(o, data)).upper() ]]</para></td> 
+      </tr>
+    </blockTable>
+    <currentFrame name="L2"/>
+    <blockTable colWidths="20.0,200,80.0,200.0" style="Table2">
+    <tr>
+        <td><para style="P8"><font color="white"> </font></para></td>
+        <td><para style="P3">Asiento: [[ str(o.id).zfill(7) or '']]</para></td>
+        <td><para style="P8"><font color="white"> </font></para></td>
+        <td><para style="P8"><font color="white"> </font></para></td>
+    </tr>
+    <tr>
+    	<td><para style="P8"><font color="white"> </font></para></td>
+    	<td><para style="P8"><font color="white"> </font></para></td>
+    	<td><para style="P8"><font color="white"> </font></para></td>
+    	<td><para style="P8">[[ o.no_comp or '' ]]</para></td>
+    </tr>
+    </blockTable>
+    
+    <currentFrame name="L3"/>
+    <para style="P6">Detalle: [[ o.other_info ]]</para>    
+    
+    <currentFrame name="L4"/>
+    <blockTable colWidths="80.0,200,80.0,80.0" style="Table2">
+      <tr>
+        <td>
+          <para style="P3">[[ repeatIn(lines(o.line_id),'move') ]][[move.account_id.code]]</para>
+        </td>
+        <td>
+          <para style="P3">[[move.account_id.name]]</para>
+        </td>
+        <td>        
+          <para style="P2">[[ '%.2f' % move.debit ]]</para>
+        </td>
+        <td>
+          <para style="P2">[[ '%.2f' % move.credit ]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    
+    <currentFrame name="L5"/>
+    <blockTable colWidths="96.0,96.0,96.0,96.0,96.0" style="Table2">
+      <tr>
+        <td><para style="P3"><font color="white"> </font></para></td>
+        <td>
+          <para style="P3">
+            <font color="white"> </font>
+          </para>
+        </td>
+        <td>
+          <para style="P2"><font color="white"> </font></para>
+        </td>
+        <td>
+          <para style="P2">[[ '%.2f' % sum_debit(o, data) ]]</para>
+        </td>
+        <td>
+          <para style="P2">[[ '%.2f' % sum_credit(o, data)]]</para>
+        </td>
+      </tr>
+    </blockTable>
+    
+  </story>
+</document>
+
